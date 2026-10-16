@@ -28,22 +28,32 @@
 [platformio]
 default_envs = esp32usb
 
-[env]
+[env:default]
 platform = espressif32
 board = esp32dev
 framework = arduino
 monitor_speed = 115200
 
+; 공통 라이브러리는 이후 단계에서 여기에 추가
+; lib_deps =
+
 [env:esp32usb]
+extends = env:default
 upload_protocol = esptool
 
+; OTA는 Step 08 이후 Wi-Fi 및 ArduinoOTA 구현 후 사용
 [env:esp32ota]
+extends = env:default
 upload_protocol = espota
 upload_port = 192.168.0.100
 ```
 
+
 - `default_envs`: 기본으로 사용할 환경. Step 01에서는 `esp32usb` 지정
-- `[env]`: 두 환경에 공통 적용되는 설정
+- `[env:default]`: 보드, 프레임워크, 공통 라이브러리를 모아두는 기본 설정 프로필
+- `extends = env:default`: USB/OTA 환경이 공통 설정을 상속
+- `lib_deps`: 외부 라이브러리 목록. Step 01에서는 필요하지 않으므로 주석 처리, 이후 단계에서 추가
+- `[platformio] default_envs`: 기본 빌드 환경 선택. `esp32usb`만 기본 실행
 - `platform`: ESP32 개발 플랫폼
 - `board`: 실제 ESP32 보드에 맞는 ID로 수정
 - `framework`: Arduino Framework 사용
@@ -57,6 +67,8 @@ upload_port = 192.168.0.100
 ### 학생 설정 실습
 - [ ] 실제 보드의 모델과 `board` 값 확인
 - [ ] `default_envs = esp32usb` 확인
+- [ ] `esp32usb`, `esp32ota`에 `extends = env:default`가 있는지 확인
+- [ ] 라이브러리 추가가 필요할 때 `env:default`의 `lib_deps`에 작성한다는 점 이해
 - [ ] USB 연결 후 `esp32usb` 환경에서 Build 및 Upload 실행
 - [ ] `esp32ota`는 향후 사용할 환경임을 이해하고 Step 01에서는 실행하지 않기
 
