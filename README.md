@@ -18,7 +18,9 @@ PlatformIO + Arduino Framework 기반 단계별 ESP32 실습 저장소입니다.
 12. `step-12-aws-iot-connect` — AWS IoT Core TLS 인증서 연결
 13. `step-13-aws-iot-control` — AWS IoT Core 제어
 
-각 브랜치는 이전 단계를 기반으로 누적 확장합니다. `setupApplication()`, `loopApplication()` 인터페이스를 유지합니다.
+각 브랜치는 이전 단계의 기능을 기반으로 누적 확장합니다. Step 01~07은 `setup()`과 `loop()`를 직접 사용하며, Step 08부터 `setupApplication()`과 `loopApplication()`으로 로컬 기능을 분리합니다.
+
+각 단계의 `README.md`는 해당 브랜치 실습을 설명하고, `docs/step-XX.md`는 단계별 실습 안내서입니다. `platformio.ini`는 `[env:default]` 공통 설정을 `esp32usb`/`esp32ota`가 상속합니다. Step 08 이전에는 USB 업로드를 사용합니다.
 
 ### 시작하기
 
