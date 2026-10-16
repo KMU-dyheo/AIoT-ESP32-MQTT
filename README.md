@@ -1,7 +1,7 @@
-# Step 04 — LED 비차단 Dimming
+# Step 05 — 버튼 상태 읽기
 
 ## 실습 목적
-- 비차단 주기 처리 이해
+- digitalRead와 풀업 입력 이해
 - 이전 단계의 LED/버튼 실습과 새로운 기능 연결
 
 ## 준비물
@@ -14,8 +14,8 @@
 - Step 01~07은 Arduino 기본 `setup()`과 `loop()` 직접 사용
 
 ## 학생 수행 과제
-- [ ] `git switch step-04-led-nonblocking` 실행
-- [ ] delay()를 제거하고 millis()로 밝기 변화 주기 제어
+- [ ] `git switch step-05-button` 실행
+- [ ] GPIO19 버튼을 GND로 연결, INPUT_PULLUP에서 LOW가 눌림임을 확인
 - [ ] `src/main.cpp`의 `#define` 설정 확인
 - [ ] Build 및 USB Upload 실행
 - [ ] 이전 단계와 달라진 동작을 관찰하고 설명
@@ -30,11 +30,11 @@
 
 ## 검증 기준
 - 오류 없이 USB 업로드 완료
-- delay()를 제거하고 millis()로 밝기 변화 주기 제어
+- GPIO19 버튼을 GND로 연결, INPUT_PULLUP에서 LOW가 눌림임을 확인
 - 동작 결과를 실습 기록에 정리
 
 ## 주의사항
-- 시간 계산에 unsigned long 사용
+- delay(100)은 버튼 관찰용이며 다음 단계에서 제거
 - LED에는 반드시 전류 제한 저항 사용
 - 버튼은 INPUT_PULLUP 기준 GPIO와 GND 사이에 연결
 - 보드와 실제 GPIO 핀 번호 확인
