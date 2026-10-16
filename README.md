@@ -1,40 +1,43 @@
-# Step 10 — MQTT 버튼/LED 상태 발행
+# Step 12 — AWS IoT Core TLS 연결
 
 ## 실습 목적
-- 버튼 눌림은 button/event, LED 상태는 led/state 토픽에 발행. mosquitto_sub로 수신 확인.
-- 이전 단계 LED Dimming, 버튼 디바운싱, Wi-Fi/OTA 동작 유지
-- 네트워크 연결 실패 시에도 로컬 LED/버튼 동작 유지
+- AWS IoT Core 엔드포인트에 X.509 인증서로 TLS MQTT 연결
+- 로컬 LED Dimming/버튼, Wi-Fi 및 OTA 기능 유지
+- 네트워크 오류가 발생해도 로컬 기능은 계속 실행
 
 ## 준비물
-- ESP32 DevKit, LED(저항 포함), 버튼, Wi-Fi, VS Code + PlatformIO
-- 학생 PC에 설치한 Mosquitto 브로커 및 MQTT 클라이언트
+- ESP32 DevKit, LED, 저항, 버튼, PlatformIO
+- AWS IoT Core 사물, X.509 인증서, 정책, MQTT 테스트 클라이언트
 
 ## 핵심 개념
-- `setupApplication()`, `loopApplication()`: 로컬 애플리케이션 로직
-- MQTT 연결과 수신 콜백은 별도 함수로 관리
-- `mqtt.loop()` 호출과 주기적 재접속으로 메시지 처리
-- 버튼 눌림은 button/event, LED 상태는 led/state 토픽에 발행. mosquitto_sub로 수신 확인.
+- `setupApplication()` / `loopApplication()`에서 로컬 기능 유지
+- `WiFiClientSecure`로 TLS 연결
+- NTP 시간 동기화 후 서버 인증서 검증
+- MQTT subscribe/publish와 LED 명령 콜백
+- AWS IoT Core의 인증서 활성화 및 IoT 정책 권한 필요
 
 ## 학생 수행 과제
-- [ ] `git switch step-10-mqtt-publish` 실행
-- [ ] `include/wifi_config.example.h`를 `include/wifi_config.h`로 복사하고 설정
-- [ ] `include/mqtt_config.example.h`를 `include/mqtt_config.h`로 복사하고 브로커 IP 설정
-- [ ] USB 업로드 후 시리얼 모니터에서 연결 상태 확인
-- [ ] 버튼 눌림은 button/event, LED 상태는 led/state 토픽에 발행. mosquitto_sub로 수신 확인.
-- [ ] Wi-Fi/MQTT 연결을 끊어도 버튼과 LED가 동작하는지 확인
+- [ ] `git switch step-12-aws-iot-connect` 실행
+- [ ] `include/wifi_config.example.h` → `include/wifi_config.h` 복사 후 설정
+- [ ] `include/mqtt_config.example.h` → `include/mqtt_config.h` 복사 후 토픽/Client ID 설정
+- [ ] `include/aws_certificates.example.h` → `include/aws_certificates.h` 복사 후 엔드포인트, Root CA, 디바이스 인증서, 개인키 입력
+- [ ] AWS IoT Core에 사물, 인증서, IoT 정책 설정
+- [ ] USB 업로드 및 시리얼 모니터 확인
+- [ ] AWS IoT Core 엔드포인트에 X.509 인증서로 TLS MQTT 연결
+- [ ] Wi-Fi가 끊겨도 로컬 LED/버튼 동작하는지 확인
 
 ## PlatformIO 설정
-- `[env:default]`: 공통 `platform`, `board`, `framework`, `monitor_speed`, `lib_deps` 관리
-- `lib_deps = knolleary/PubSubClient @ ^2.8`: MQTT 클라이언트 라이브러리
-- `[env:esp32usb]`, `[env:esp32ota]`는 `extends = env:default`로 상속
-- OTA IP는 실제 장치 주소로 변경, 비밀번호는 공개 저장소에 기록하지 않음
+- `[env:default]`: 공통 `platform`, `board`, `framework`, `monitor_speed`, `lib_deps`
+- `lib_deps = knolleary/PubSubClient @ ^2.8`
+- `[env:esp32usb]`와 `[env:esp32ota]`는 `extends = env:default` 상속
+- OTA의 `upload_port`는 실제 ESP32 IP로 변경
 
 ## 검증 기준
-- 정상 빌드 및 업로드
-- 버튼 눌림은 button/event, LED 상태는 led/state 토픽에 발행. mosquitto_sub로 수신 확인.
-- 네트워크 장애에도 로컬 동작 유지
+- 빌드 및 업로드 성공
+- AWS IoT Core 엔드포인트에 X.509 인증서로 TLS MQTT 연결
+- 연결 실패 시 로컬 동작 유지
 
 ## 주의사항
-- 비밀번호·인증서·개인키는 공개 저장소에 커밋하지 않음
-- MQTT 토픽의 장치 ID가 학생별로 충돌하지 않도록 변경
-- 브로커 포트 1883의 PC 방화벽 및 접속 허용 범위 확인
+- 인증서, 개인키, 비밀번호를 공개 Git 저장소에 등록하지 않음
+- AWS IoT 정책의 Connect, Publish, Subscribe, Receive 권한 확인
+- 인증서 검증을 위해 네트워크 시간 동기화 필요
