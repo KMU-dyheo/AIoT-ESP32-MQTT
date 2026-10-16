@@ -33,13 +33,24 @@ unsigned long lastMqttAttempt = 0;
 
 void setupApplication();
 void handleMqttMessage(char* topic, byte* payload, unsigned int length) {
-  // Step 11에서 LED 원격 제어 구현
+  if (strcmp(topic, MQTT_LED_SET_TOPIC) != 0) return;
+  char command[8];
+  if (length >= sizeof(command)) return;
+  for (unsigned int i = 0; i < length; i++) command[i] = (char)payload[i];
+  command[length] = '\0';
+  if (strcmp(command, "ON") == 0) ledEnabled = true;
+  else if (strcmp(command, "OFF") == 0) ledEnabled = false;
+  else return;
+  ledStatePending = true;
 }
 void serviceMqtt() {
   if (WiFi.status() != WL_CONNECTED) return;
   if (!mqtt.connected() && millis() - lastMqttAttempt >= 5000) {
     lastMqttAttempt = millis();
-    if (mqtt.connect(MQTT_CLIENT_ID)) ledStatePending = true;
+    if (mqtt.connect(MQTT_CLIENT_ID)) {
+      ledStatePending = true;
+      mqtt.subscribe(MQTT_LED_SET_TOPIC);
+    }
   }
   if (mqtt.connected()) {
     mqtt.loop();
