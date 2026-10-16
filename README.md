@@ -1,7 +1,7 @@
-# Step 03 — LED PWM Dimming
+# Step 04 — LED 비차단 Dimming
 
 ## 실습 목적
-- PWM과 듀티비 개념 이해
+- 비차단 주기 처리 이해
 - 이전 단계의 LED/버튼 실습과 새로운 기능 연결
 
 ## 준비물
@@ -14,8 +14,8 @@
 - Step 01~07은 Arduino 기본 `setup()`과 `loop()` 직접 사용
 
 ## 학생 수행 과제
-- [ ] `git switch step-03-led-pwm` 실행
-- [ ] PWM 듀티비를 0~255로 변경하며 밝기 관찰
+- [ ] `git switch step-04-led-nonblocking` 실행
+- [ ] delay()를 제거하고 millis()로 밝기 변화 주기 제어
 - [ ] `src/main.cpp`의 `#define` 설정 확인
 - [ ] Build 및 USB Upload 실행
 - [ ] 이전 단계와 달라진 동작을 관찰하고 설명
@@ -30,11 +30,11 @@
 
 ## 검증 기준
 - 오류 없이 USB 업로드 완료
-- PWM 듀티비를 0~255로 변경하며 밝기 관찰
+- delay()를 제거하고 millis()로 밝기 변화 주기 제어
 - 동작 결과를 실습 기록에 정리
 
 ## 주의사항
-- ESP32 Arduino Core 3.x의 ledcAttach/ledcWrite API 사용
+- 시간 계산에 unsigned long 사용
 - LED에는 반드시 전류 제한 저항 사용
 - 버튼은 INPUT_PULLUP 기준 GPIO와 GND 사이에 연결
 - 보드와 실제 GPIO 핀 번호 확인
