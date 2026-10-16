@@ -1,30 +1,31 @@
 # Step 01 — ESP32 내장 LED 제어
 
 ## 실습 목적
-- ESP32 개발 환경인 PlatformIO의 기본 사용법을 익힌다.
-- GPIO 출력의 개념을 이해한다.
-- Arduino Framework의 `setup()`, `loop()` 실행 구조를 확인한다.
-- 내장 LED를 주기적으로 켜고 끄는 프로그램을 작성한다.
+- PlatformIO에서 ESP32 프로그램을 작성하고 업로드하는 과정을 익힘
+- Arduino의 `setup()`, `loop()` 구조 이해
+- `pinMode()`, `digitalWrite()`, `delay()`로 LED 제어
+- 변수와 함수 호출의 가장 기초적인 형태 확인
 
 ## 준비물
 - ESP32 개발 보드, USB 데이터 케이블, PC
 - VS Code 및 PlatformIO 확장 프로그램
-- 내장 사용자 LED가 없는 보드라면 외부 LED 실습은 Step 02에서 진행한다.
 
 ## 핵심 개념
-- `setup()`: 부팅 후 한 번 실행되는 초기화 함수
-- `loop()`: 초기화 이후 반복 실행되는 함수
-- `pinMode()`: GPIO 입출력 모드 지정
-- `digitalWrite()`: 디지털 출력 HIGH/LOW 설정
-- `millis()`: 부팅 이후 경과 시간(ms) 확인
+- `int ledPin = 2;`: LED 핀 번호를 변수에 저장
+- `setup()`: 시작할 때 한 번 실행
+- `loop()`: 계속 반복 실행
+- `pinMode(ledPin, OUTPUT)`: LED 핀을 출력으로 설정
+- `digitalWrite(ledPin, HIGH)`: LED 켜기(일반적인 액티브 HIGH 회로 기준)
+- `digitalWrite(ledPin, LOW)`: LED 끄기
+- `delay(1000)`: 1000ms(1초) 기다리기
 
 ## 학생 수행 과제
-- [ ] 저장소를 복제하고 `step-01-onboard-led` 브랜치로 이동한다.
-- [ ] `platformio.ini`의 보드 설정이 실제 보드와 일치하는지 확인한다.
-- [ ] 보드의 내장 LED GPIO를 확인하고 `Config::LED_PIN`을 수정한다.
-- [ ] 프로그램을 업로드하고 시리얼 모니터(115200)를 실행한다.
-- [ ] LED가 0.5초 간격으로 점멸하는지 확인한다.
-- [ ] 점멸 주기를 1초로 변경하고 결과를 비교한다.
+- [ ] 저장소를 복제하고 `step-01-onboard-led` 브랜치로 이동
+- [ ] `platformio.ini`에서 실제 보드 종류 확인
+- [ ] 보드 문서를 보고 `ledPin`을 내장 LED 핀 번호로 수정
+- [ ] Build 및 Upload 실행
+- [ ] LED가 1초 켜지고 1초 꺼지는지 확인
+- [ ] `delay(1000)`을 `delay(500)`으로 바꿔 점멸 속도 비교
 
 ## 실행 방법
 ```bash
@@ -32,23 +33,25 @@ git clone https://github.com/KMU-dyheo/AIoT-ESP32-MQTT.git
 cd AIoT-ESP32-MQTT
 git switch step-01-onboard-led
 ```
-- PlatformIO에서 프로젝트를 연다.
-- Build, Upload를 실행한다.
-- Serial Monitor에서 LED 상태 메시지를 확인한다.
+- PlatformIO에서 프로젝트 열기
+- Build 및 Upload 실행
+- 보드의 LED 점멸 확인
 
 ## 검증 기준
-- 빌드 및 업로드가 완료된다.
-- 내장 LED가 설정한 주기로 ON/OFF 된다.
-- 시리얼 모니터에 LED 상태가 출력된다.
+- 오류 없이 빌드 및 업로드 완료
+- LED가 지정한 시간 간격으로 켜지고 꺼짐
+- 지연 시간을 바꾸면 점멸 속도도 변경됨
 
 ## 주의사항
-- ESP32 DevKit 종류에 따라 내장 사용자 LED가 없을 수 있다.
-- GPIO 2는 모든 보드의 내장 LED 핀이 아니다. 반드시 보드 문서를 확인한다.
-- USB 케이블 중 충전 전용 케이블은 업로드에 사용할 수 없다.
-- 이 단계에서는 `setupApplication()`과 `loopApplication()`을 사용하지 않는다.
-- Wi-Fi 연결 및 MQTT 통신은 이후 단계에서 구현한다.
+- 보드에 내장 사용자 LED가 없을 수 있음
+- GPIO 2가 모든 ESP32 보드의 LED 핀은 아님
+- 일부 보드는 LED의 켜짐/꺼짐 논리가 반대일 수 있음
+- USB 충전 전용 케이블로는 업로드할 수 없음
+- Step 01~07에서는 `setup()`, `loop()`를 직접 사용
+- `millis()`를 이용한 비차단 처리 방식은 Step 04에서 학습
+- `namespace`, `constexpr`, `static` 등은 기초 단계에서 사용하지 않음
 
 ## 생각해 볼 문제
-- `setup()`과 `loop()`의 역할은 어떻게 다른가?
-- `digitalWrite()`의 HIGH와 LOW는 어떤 차이가 있는가?
-- `delay()` 없이 시간을 비교하는 방식은 어떤 장점이 있는가?
+- `setup()`과 `loop()`의 차이는?
+- `HIGH`와 `LOW`의 의미는?
+- `delay(1000)`을 두 번 호출하면 LED 한 주기에 걸리는 시간은?
