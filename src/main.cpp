@@ -8,6 +8,7 @@
 
 int brightness = 0;
 int changeAmount = 5;
+bool ledEnabled = true;
 unsigned long previousMillis = 0;
 unsigned long lastChangeMillis = 0;
 int lastReading = HIGH;
@@ -24,7 +25,10 @@ void loop() {
   if (reading != lastReading) lastChangeMillis = now;
   if (now - lastChangeMillis >= DEBOUNCE_MS && reading != stableButtonState) {
     stableButtonState = reading;
-    Serial.println(stableButtonState == LOW ? "PRESSED" : "RELEASED");
+    if (stableButtonState == LOW) {
+      ledEnabled = !ledEnabled;
+      Serial.println(ledEnabled ? "LED ENABLED" : "LED DISABLED");
+    }
   }
   lastReading = reading;
   if (now - previousMillis >= DIM_INTERVAL) {
@@ -32,6 +36,6 @@ void loop() {
     brightness += changeAmount;
     if (brightness >= 255) { brightness = 255; changeAmount = -5; }
     if (brightness <= 0) { brightness = 0; changeAmount = 5; }
-    ledcWrite(LED_PIN, brightness);
+    ledcWrite(LED_PIN, ledEnabled ? brightness : 0);
   }
 }
