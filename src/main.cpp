@@ -25,6 +25,8 @@ int lastReading = HIGH;
 int stableButtonState = HIGH;
 unsigned long lastWifiAttempt = 0;
 bool otaStarted = false;
+bool buttonEventPending = false;
+bool ledStatePending = true;
 WiFiClient mqttNetwork;
 PubSubClient mqtt(mqttNetwork);
 unsigned long lastMqttAttempt = 0;
@@ -37,9 +39,17 @@ void serviceMqtt() {
   if (WiFi.status() != WL_CONNECTED) return;
   if (!mqtt.connected() && millis() - lastMqttAttempt >= 5000) {
     lastMqttAttempt = millis();
-    mqtt.connect(MQTT_CLIENT_ID);
+    if (mqtt.connect(MQTT_CLIENT_ID)) ledStatePending = true;
   }
-  if (mqtt.connected()) mqtt.loop();
+  if (mqtt.connected()) {
+    mqtt.loop();
+    if (buttonEventPending) {
+      if (mqtt.publish(MQTT_BUTTON_TOPIC, "PRESSED")) buttonEventPending = false;
+    }
+    if (ledStatePending) {
+      if (mqtt.publish(MQTT_LED_STATE_TOPIC, ledEnabled ? "ON" : "OFF", true)) ledStatePending = false;
+    }
+  }
 }
 
 void loopApplication();
@@ -98,6 +108,8 @@ void loopApplication() {
     stableButtonState = reading;
     if (stableButtonState == LOW) {
       ledEnabled = !ledEnabled;
+      buttonEventPending = true;
+      ledStatePending = true;
       Serial.println(ledEnabled ? "LED ENABLED" : "LED DISABLED");
     }
   }
