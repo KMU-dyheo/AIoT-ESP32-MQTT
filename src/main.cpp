@@ -1,27 +1,17 @@
 #include <Arduino.h>
 
-// Step 01: ESP32 보드의 내장 LED를 점멸한다.
-// 보드에 따라 내장 LED가 없거나 핀 번호가 다를 수 있다.
-namespace Config {
-constexpr uint8_t LED_PIN = 2;
-constexpr unsigned long BLINK_INTERVAL_MS = 500;
-}
+// Step 01: ESP32 내장 LED 켜고 끄기
+// 보드에 따라 내장 LED 핀이 다르거나 LED가 없을 수 있음
+int ledPin = 2;
 
 void setup() {
-  Serial.begin(115200);
-  pinMode(Config::LED_PIN, OUTPUT);
-  digitalWrite(Config::LED_PIN, LOW);
+  pinMode(ledPin, OUTPUT);
 }
 
 void loop() {
-  static unsigned long previousMs = 0;
-  static bool ledOn = false;
-  const unsigned long now = millis();
+  digitalWrite(ledPin, HIGH);  // LED 켜기
+  delay(1000);                 // 1초 기다리기
 
-  if (now - previousMs >= Config::BLINK_INTERVAL_MS) {
-    previousMs = now;
-    ledOn = !ledOn;
-    digitalWrite(Config::LED_PIN, ledOn ? HIGH : LOW);
-    Serial.printf("Onboard LED: %s\n", ledOn ? "ON" : "OFF");
-  }
+  digitalWrite(ledPin, LOW);   // LED 끄기
+  delay(1000);                 // 1초 기다리기
 }
