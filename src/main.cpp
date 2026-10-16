@@ -6,6 +6,9 @@
 #include <esp_wifi.h>
 #include <cstring>
 #include <PubSubClient.h>
+#include <WiFiClientSecure.h>
+#include <time.h>
+#include "aws_certificates.h"
 #include "mqtt_config.h"
 
 #define LED_PIN 18
@@ -27,7 +30,7 @@ unsigned long lastWifiAttempt = 0;
 bool otaStarted = false;
 bool buttonEventPending = false;
 bool ledStatePending = true;
-WiFiClient mqttNetwork;
+WiFiClientSecure mqttNetwork;
 PubSubClient mqtt(mqttNetwork);
 unsigned long lastMqttAttempt = 0;
 
@@ -44,7 +47,7 @@ void handleMqttMessage(char* topic, byte* payload, unsigned int length) {
   ledStatePending = true;
 }
 void serviceMqtt() {
-  if (WiFi.status() != WL_CONNECTED) return;
+  if (WiFi.status() != WL_CONNECTED || time(nullptr) < 1700000000) return;
   if (!mqtt.connected() && millis() - lastMqttAttempt >= 5000) {
     lastMqttAttempt = millis();
     if (mqtt.connect(MQTT_CLIENT_ID)) {
@@ -85,8 +88,12 @@ void connectWifi() {
 void setup() {
   Serial.begin(115200);
   setupApplication();
-  mqtt.setServer(MQTT_HOST, MQTT_PORT);
+  mqttNetwork.setCACert(AWS_ROOT_CA);
+  mqttNetwork.setCertificate(AWS_DEVICE_CERT);
+  mqttNetwork.setPrivateKey(AWS_PRIVATE_KEY);
+  mqtt.setServer(AWS_IOT_ENDPOINT, 8883);
   mqtt.setCallback(handleMqttMessage);
+  configTime(0, 0, "pool.ntp.org", "time.google.com");
   WiFi.mode(WIFI_STA);
   connectWifi();
 }
