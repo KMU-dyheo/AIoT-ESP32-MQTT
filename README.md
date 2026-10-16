@@ -20,33 +20,50 @@
 - `delay(1000)`: 1000ms(1초) 기다리기
 
 ## PlatformIO 설정 파일 수정 (`platformio.ini`)
-- 프로젝트 루트의 `platformio.ini` 파일을 열어 다음 항목을 확인
+- `esp32usb`: USB 케이블로 프로그램 업로드
+- `esp32ota`: Wi-Fi를 통해 OTA 업로드. **Step 08 이후 ArduinoOTA 기능을 구현한 다음 사용**
+- Step 01~07에서는 `esp32usb`를 사용
 
 ```ini
-[env:esp32dev]
+[platformio]
+default_envs = esp32usb
+
+[env]
 platform = espressif32
 board = esp32dev
 framework = arduino
 monitor_speed = 115200
+
+[env:esp32usb]
+upload_protocol = esptool
+
+[env:esp32ota]
+upload_protocol = espota
+upload_port = 192.168.0.100
 ```
 
-- `[env:esp32dev]`: 빌드 환경 이름. 다른 이름으로 변경해도 되지만 `board`와 혼동하지 않기
-- `platform = espressif32`: ESP32 개발 플랫폼 사용
-- `board = esp32dev`: 현재 설정된 보드 ID. **실제 보드에 맞는 ID로 변경**
-- `framework = arduino`: Arduino Framework 사용
-- `monitor_speed = 115200`: 시리얼 모니터 통신 속도. `Serial.begin(115200)`을 사용하는 단계에서는 같은 값으로 설정
-- `upload_port`, `monitor_port`: 자동 인식이 안 될 때만 포트 지정. Windows 예: `COM3`, Linux 예: `/dev/ttyUSB0`, macOS 예: `/dev/cu.usbserial-xxxx`
-- 보드 ID는 PlatformIO Boards 목록 또는 실제 보드의 공식 문서에서 확인. 외형이 비슷해도 보드 ID가 다를 수 있음
+- `default_envs`: 기본으로 사용할 환경. Step 01에서는 `esp32usb` 지정
+- `[env]`: 두 환경에 공통 적용되는 설정
+- `platform`: ESP32 개발 플랫폼
+- `board`: 실제 ESP32 보드에 맞는 ID로 수정
+- `framework`: Arduino Framework 사용
+- `monitor_speed`: 시리얼 모니터 속도. 시리얼 출력을 사용하는 단계에서 `Serial.begin()`과 일치시킴
+- `upload_protocol = esptool`: USB 시리얼 업로드
+- `upload_protocol = espota`: OTA 업로드
+- `upload_port`: OTA 대상 ESP32의 IP 주소. 위 주소는 예시이므로 실제 주소로 변경
+- USB 업로드 포트 자동 감지 실패 시 `esp32usb` 환경에 `upload_port = COM3` 등 실제 포트 지정
+- OTA 프로필만 추가해도 OTA가 작동하는 것은 아님. ESP32 코드에서 Wi-Fi 연결과 ArduinoOTA 초기화 및 반복 처리가 필요
 
 ### 학생 설정 실습
-- [ ] 실제 보드 모델 확인 후 `board` 항목 점검 및 필요 시 수정
-- [ ] PC에서 USB 포트가 인식되는지 확인
-- [ ] 업로드 실패 시 포트 및 USB 케이블 확인
-- [ ] `platformio.ini`를 수정한 뒤 다시 Build 및 Upload 실행
+- [ ] 실제 보드의 모델과 `board` 값 확인
+- [ ] `default_envs = esp32usb` 확인
+- [ ] USB 연결 후 `esp32usb` 환경에서 Build 및 Upload 실행
+- [ ] `esp32ota`는 향후 사용할 환경임을 이해하고 Step 01에서는 실행하지 않기
 
 ## 학생 수행 과제
 - [ ] 저장소를 복제하고 `step-01-onboard-led` 브랜치로 이동
 - [ ] 위 설명을 참고하여 `platformio.ini`의 `board` 설정 확인 및 필요 시 변경
+- [ ] `esp32usb` 프로필로 업로드
 - [ ] 보드 문서를 보고 `LED_PIN`을 내장 LED 핀 번호로 수정
 - [ ] Build 및 Upload 실행
 - [ ] LED가 1초 켜지고 1초 꺼지는지 확인
