@@ -37,7 +37,7 @@ void connectWifi() {
   esp_eap_client_set_identity((const unsigned char*)EAP_IDENTITY, strlen(EAP_IDENTITY));
   esp_eap_client_set_username((const unsigned char*)EAP_USERNAME, strlen(EAP_USERNAME));
   esp_eap_client_set_password((const unsigned char*)EAP_PASSWORD, strlen(EAP_PASSWORD));
-  esp_wifi_sta_enterprise_enable();
+  esp_eap_client_enable();
   WiFi.begin(WIFI_SSID);
 #else
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
