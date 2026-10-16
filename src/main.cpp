@@ -45,6 +45,7 @@ void handleMqttMessage(char* topic, byte* payload, unsigned int length) {
   else if (strcmp(command, "OFF") == 0) ledEnabled = false;
   else return;
   ledStatePending = true;
+  Serial.println("AWS LED command applied");
 }
 void serviceMqtt() {
   if (WiFi.status() != WL_CONNECTED || time(nullptr) < 1700000000) return;
