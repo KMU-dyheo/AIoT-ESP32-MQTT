@@ -9,3 +9,7 @@ secrets.h
 certs/
 *.pem
 *.key
+
+include/wifi_config.h
+include/aws_config.h
+include/aws_certificates.h
