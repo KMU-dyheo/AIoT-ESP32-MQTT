@@ -1,0 +1,47 @@
+# Step 08 실습 — Wi-Fi 및 OTA
+
+## 실습 목적
+- 개인용/기업용 Wi-Fi 연결 및 로컬 기능 독립 실행
+- 이전 단계 기능과 새 기능의 차이 이해
+
+## 준비물
+- ESP32 DevKit, USB 데이터 케이블, PlatformIO
+- LED, 220~330Ω 저항, 버튼, 브레드보드, 점퍼선(해당 단계에서 필요한 부품)
+- 개인용 또는 기업용 Wi-Fi 접속 정보
+
+## 회로 및 환경 구성
+- LED와 버튼 회로 유지, Wi-Fi 사용
+- 사용 보드의 GPIO 핀 배치 확인
+
+## 실습 진행
+1. `git switch step-08-wifi` 실행
+2. `src/main.cpp`에서 핀 번호와 설정값 확인
+3. `platformio.ini`의 `[env:default]`에서 실제 보드 ID 확인
+4. `[env:esp32usb]`가 `extends = env:default`로 공통 설정을 참조하는지 확인
+5. PlatformIO에서 USB Build 및 Upload 실행
+6. 개인용/기업용 Wi-Fi 연결 및 로컬 기능 독립 실행
+7. 동작 결과 기록 및 이전 단계와 비교
+8. `include/wifi_config.example.h`를 `include/wifi_config.h`로 복사하고 실제 네트워크 설정 입력
+9. IP 주소 확인 후 OTA 설정 및 업로드 시험
+
+## platformio.ini 설명
+- `[env:default]`: `platform`, `board`, `framework`, `monitor_speed`, 공통 `lib_deps` 설정
+- `[env:esp32usb]`: USB 업로드, `upload_protocol = esptool`
+- `[env:esp32ota]`: 무선 업로드, `upload_protocol = espota`
+- `extends = env:default`: 두 프로필의 공통 설정 상속
+- Step 01~07은 USB 업로드 사용, Step 08부터 OTA 사용 가능
+- 실제 보드에 맞춰 `board` 수정, OTA 시 `upload_port`를 실제 ESP32 IP로 수정
+
+## 확인할 결과
+- 빌드 및 업로드 성공
+- 개인용/기업용 Wi-Fi 연결 및 로컬 기능 독립 실행
+- 기존 기능 유지
+
+## 주의사항
+- 실제 Wi-Fi 비밀번호를 Git에 등록하지 않음
+- LED에는 전류 제한 저항 사용
+- ESP32 GPIO에 5V 직접 입력 금지
+
+## 추가 실습
+- 코드의 주기 또는 설정값을 변경하여 동작 비교
+- 이전 단계와 변경된 코드 구간을 찾아 설명
