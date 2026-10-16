@@ -103,8 +103,6 @@ git switch step-01-onboard-led
 - USB 충전 전용 케이블로는 업로드할 수 없음
 - Step 01~07에서는 `setup()`, `loop()`를 직접 사용
 - `millis()`를 이용한 비차단 처리 방식은 Step 04에서 학습
-- 핀 번호 및 고정 설정값은 `#define`으로 작성
-- `namespace`, `constexpr`, `static` 등은 기초 단계에서 사용하지 않음
 
 ## 생각해 볼 문제
 - `setup()`과 `loop()`의 차이는?
