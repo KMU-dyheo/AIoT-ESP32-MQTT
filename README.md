@@ -1,7 +1,7 @@
-# Step 9 — 로컬 MQTT 연결
+# Step 10 — MQTT 버튼/LED 상태 발행
 
 ## 실습 목적
-- 학생 PC에서 Mosquitto 실행. ESP32와 PC가 같은 네트워크에서 접근 가능한지 확인. MQTT_HOST는 localhost가 아니라 PC의 실제 IP.
+- 버튼 눌림은 button/event, LED 상태는 led/state 토픽에 발행. mosquitto_sub로 수신 확인.
 - 이전 단계 LED Dimming, 버튼 디바운싱, Wi-Fi/OTA 동작 유지
 - 네트워크 연결 실패 시에도 로컬 LED/버튼 동작 유지
 
@@ -13,14 +13,14 @@
 - `setupApplication()`, `loopApplication()`: 로컬 애플리케이션 로직
 - MQTT 연결과 수신 콜백은 별도 함수로 관리
 - `mqtt.loop()` 호출과 주기적 재접속으로 메시지 처리
-- 학생 PC에서 Mosquitto 실행. ESP32와 PC가 같은 네트워크에서 접근 가능한지 확인. MQTT_HOST는 localhost가 아니라 PC의 실제 IP.
+- 버튼 눌림은 button/event, LED 상태는 led/state 토픽에 발행. mosquitto_sub로 수신 확인.
 
 ## 학생 수행 과제
-- [ ] `git switch step-09-mqtt-connect` 실행
+- [ ] `git switch step-10-mqtt-publish` 실행
 - [ ] `include/wifi_config.example.h`를 `include/wifi_config.h`로 복사하고 설정
 - [ ] `include/mqtt_config.example.h`를 `include/mqtt_config.h`로 복사하고 브로커 IP 설정
 - [ ] USB 업로드 후 시리얼 모니터에서 연결 상태 확인
-- [ ] 학생 PC에서 Mosquitto 실행. ESP32와 PC가 같은 네트워크에서 접근 가능한지 확인. MQTT_HOST는 localhost가 아니라 PC의 실제 IP.
+- [ ] 버튼 눌림은 button/event, LED 상태는 led/state 토픽에 발행. mosquitto_sub로 수신 확인.
 - [ ] Wi-Fi/MQTT 연결을 끊어도 버튼과 LED가 동작하는지 확인
 
 ## PlatformIO 설정
@@ -31,7 +31,7 @@
 
 ## 검증 기준
 - 정상 빌드 및 업로드
-- 학생 PC에서 Mosquitto 실행. ESP32와 PC가 같은 네트워크에서 접근 가능한지 확인. MQTT_HOST는 localhost가 아니라 PC의 실제 IP.
+- 버튼 눌림은 button/event, LED 상태는 led/state 토픽에 발행. mosquitto_sub로 수신 확인.
 - 네트워크 장애에도 로컬 동작 유지
 
 ## 주의사항
