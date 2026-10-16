@@ -5,6 +5,8 @@
 #include <esp_eap_client.h>
 #include <esp_wifi.h>
 #include <cstring>
+#include <PubSubClient.h>
+#include "mqtt_config.h"
 
 #define LED_PIN 18
 #define BUTTON_PIN 19
@@ -23,8 +25,23 @@ int lastReading = HIGH;
 int stableButtonState = HIGH;
 unsigned long lastWifiAttempt = 0;
 bool otaStarted = false;
+WiFiClient mqttNetwork;
+PubSubClient mqtt(mqttNetwork);
+unsigned long lastMqttAttempt = 0;
 
 void setupApplication();
+void handleMqttMessage(char* topic, byte* payload, unsigned int length) {
+  // Step 11에서 LED 원격 제어 구현
+}
+void serviceMqtt() {
+  if (WiFi.status() != WL_CONNECTED) return;
+  if (!mqtt.connected() && millis() - lastMqttAttempt >= 5000) {
+    lastMqttAttempt = millis();
+    mqtt.connect(MQTT_CLIENT_ID);
+  }
+  if (mqtt.connected()) mqtt.loop();
+}
+
 void loopApplication();
 
 void connectWifi() {
@@ -47,11 +64,14 @@ void connectWifi() {
 void setup() {
   Serial.begin(115200);
   setupApplication();
+  mqtt.setServer(MQTT_HOST, MQTT_PORT);
+  mqtt.setCallback(handleMqttMessage);
   WiFi.mode(WIFI_STA);
   connectWifi();
 }
 void loop() {
   loopApplication();
+  serviceMqtt();
   if (WiFi.status() == WL_CONNECTED) {
     if (!otaStarted) {
       ArduinoOTA.setHostname(OTA_HOSTNAME);
