@@ -1,45 +1,46 @@
-# Step 05 — 버튼 상태 읽기
+# Step 6 — 버튼 비차단 읽기
 
 ## 실습 목적
-- digitalRead와 풀업 입력 이해
-- 이전 단계의 LED/버튼 실습과 새로운 기능 연결
+- millis() 기반 디바운싱
+- 이전 단계에서 작성한 LED Dimming과 버튼 입력 기능을 유지하며 확장
 
 ## 준비물
 - ESP32 DevKit, USB 데이터 케이블, VS Code + PlatformIO
-- 외부 LED, 220~330Ω 저항, 버튼, 브레드보드, 점퍼선
+- LED, 220~330Ω 저항, 버튼, 브레드보드, 점퍼선
 
 ## 핵심 개념
-- 새 단계에서 추가되는 함수와 조건문을 `src/main.cpp`에서 확인
-- `#define`은 핀 번호와 변경하지 않는 설정값에 사용
-- Step 01~07은 Arduino 기본 `setup()`과 `loop()` 직접 사용
+- `millis()`: 현재 시간 확인
+- `INPUT_PULLUP`: 버튼을 누르면 LOW 입력
+- `DEBOUNCE_MS`: 버튼 접점의 흔들림을 걸러내는 시간
+- `#define`: GPIO 및 고정 설정값 정의
+- `setup()` / `loop()`: Arduino 기본 실행 구조
 
 ## 학생 수행 과제
-- [ ] `git switch step-05-button` 실행
-- [ ] GPIO19 버튼을 GND로 연결, INPUT_PULLUP에서 LOW가 눌림임을 확인
-- [ ] `src/main.cpp`의 `#define` 설정 확인
-- [ ] Build 및 USB Upload 실행
-- [ ] 이전 단계와 달라진 동작을 관찰하고 설명
+- [ ] `git switch step-06-button-nonblocking` 실행
+- [ ] GPIO18 LED 및 GPIO19 버튼 회로 구성
+- [ ] 버튼을 눌렀을 때 상태 변경 로그가 한 번만 출력되는지 확인
+- [ ] `DEBOUNCE_MS` 값을 변경해 결과 비교
+- [ ] USB 업로드 및 시리얼 모니터(115200) 확인
 
 ## PlatformIO 설정 (`platformio.ini`)
-- `[env:default]`에 `platform`, `board`, `framework`, `monitor_speed`, 공통 `lib_deps` 설정
+- `[env:default]`: `platform = espressif32`, `board = esp32dev`, `framework = arduino`, `monitor_speed = 115200`
 - `[env:esp32usb]`: `extends = env:default`, `upload_protocol = esptool`
-- `[env:esp32ota]`: `extends = env:default`, `upload_protocol = espota`
-- 현재 단계에서는 `default_envs = esp32usb` 사용
-- `board = esp32dev`는 실제 보드 모델에 맞게 변경
-- OTA 업로드는 Step 08에서 ArduinoOTA를 구현한 뒤 사용
+- `[env:esp32ota]`: `extends = env:default`, `upload_protocol = espota`, `upload_port`는 실제 IP로 변경
+- 현재는 `default_envs = esp32usb` 사용
+- 외부 라이브러리 필요 시 `env:default`의 `lib_deps`에 추가
+- OTA는 Step 08 이후 사용
 
 ## 검증 기준
-- 오류 없이 USB 업로드 완료
-- GPIO19 버튼을 GND로 연결, INPUT_PULLUP에서 LOW가 눌림임을 확인
-- 동작 결과를 실습 기록에 정리
+- USB 업로드 성공
+- 버튼을 눌렀을 때 상태 변경 로그가 한 번만 출력되는지 확인
+- LED Dimming 기능 유지
 
 ## 주의사항
-- delay(100)은 버튼 관찰용이며 다음 단계에서 제거
-- LED에는 반드시 전류 제한 저항 사용
-- 버튼은 INPUT_PULLUP 기준 GPIO와 GND 사이에 연결
-- 보드와 실제 GPIO 핀 번호 확인
-- 기초 단계에서는 고급 C++ 문법 대신 Arduino 기본 문법 사용
+- 버튼 채터링과 중복 이벤트 주의
+- LED에 전류 제한 저항 연결
+- 버튼은 GPIO19와 GND 사이 연결
+- ESP32 보드의 GPIO 배치 확인
 
 ## 생각해 볼 문제
-- 이번 단계에서 이전 단계와 비교해 추가된 동작은?
-- `delay()` 사용 여부가 버튼 입력 응답에 미치는 영향은?
+- 디바운싱이 없을 때 어떤 문제가 생기는가?
+- `delay()`를 사용하지 않는 이유는 무엇인가?
