@@ -1,0 +1,49 @@
+name: ESP32 Step Build Check
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/platformio-build.yml'
+      - 'README.md'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        branch:
+          - step-01-onboard-led
+          - step-02-external-led
+          - step-03-led-pwm
+          - step-04-led-nonblocking
+          - step-05-button
+          - step-06-button-nonblocking
+          - step-07-button-led
+          - step-08-wifi
+          - step-09-mqtt-connect
+          - step-10-mqtt-publish
+          - step-11-mqtt-control
+          - step-12-aws-iot-connect
+          - step-13-aws-iot-control
+    steps:
+      - name: Check out step branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.branch }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install PlatformIO
+        run: python -m pip install --upgrade platformio
+      - name: Prepare non-secret lab configuration for compilation
+        shell: bash
+        run: |
+          if [ -f include/wifi_config.example.h ]; then cp include/wifi_config.example.h include/wifi_config.h; fi
+          if [ -f include/mqtt_config.example.h ]; then cp include/mqtt_config.example.h include/mqtt_config.h; fi
+          if [ -f include/aws_certificates.example.h ]; then cp include/aws_certificates.example.h include/aws_certificates.h; fi
+      - name: Build USB firmware
+        run: pio run -e esp32usb
