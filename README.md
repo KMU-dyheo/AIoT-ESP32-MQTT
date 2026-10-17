@@ -1,25 +1,20 @@
-# Step 05 — 버튼 상태 읽기 (수업 시작)
+# Step 05 — GPIO23 버튼 상태 입력 (수업 시작)
 
-## 제공되는 코드
-- 이전 Step 완성 코드 제공
-- 이번 단계 기능은 아직 구현되지 않음
+## 브랜치 사용
+- 시작: `git switch step-05-button`
+- 완료: `git switch step-05-button-done`
+- `git diff step-05-button..step-05-button-done -- src/main.cpp`
 
-## 수업 중 구현할 항목
-- [ ] GPIO19에 버튼을 연결하고 INPUT_PULLUP 설정
-- [ ] digitalRead 값을 시리얼 모니터에 출력
+## 이번 강의에서 추가하는 기능
+- updateButton()을 도입하고 원시 눌림/해제 변화를 시리얼로 확인
+- 버튼: GPIO23 ↔ GND, INPUT_PULLUP. 눌림=LOW / 놓임=HIGH
+- LED: GPIO25 (220~330Ω 저항 직렬), PWM Fade 유지
+- `updateButton()`과 `updateBrightness()`를 유지하면서 각각 변경
+- 수업 시작 브랜치에는 이번 기능이 아직 구현되지 않음
 
-## 진행 방법
-- `pio run -e esp32usb` 실행
-- `src/main.cpp`의 TODO를 확인하고 단계별 구현
-- [완성 코드](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-05-button-done)와 차이 비교
+## 확인 방법
+- `pio run -e esp32usb`, USB Upload, Serial Monitor 115200
+- 누름/해제 시 pressed/released 출력 확인(채터링 가능)
+- MQTT 관련 라이브러리 및 통신 코드는 아직 사용하지 않음
 
-## PlatformIO 및 실습 자료
-- `[env]`에 공통 DOIT ESP32 DevKit V1/240MHz 설정
-- `esp32usb`로 진행; `esp32ota`는 Step 08부터 사용
-- `docs/step-05.md` 참고
-
-## 강의 진행 브랜치
-- **수업 시작**: [`step-05-button`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-05-button)
-- **수업 완료**: [`step-05-button-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-05-button-done)
-- 현재 브랜치: **수업 시작 코드**
-- 현재 실습 문서: `docs/step-05.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
+[Step 05 실습 문서](docs/step-05.md) · [강의 흐름 대응표](docs/lecture-alignment.md)
