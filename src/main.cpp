@@ -1,3 +1,8 @@
+/* Step 09 시작 코드
+ TODO 1: 공통 lib_deps에 ESP32MQTTClient 1.1.3과 ArduinoJson 추가
+ TODO 2: PC Mosquitto 브로커에 백그라운드 MQTT 연결 구현
+ 아래는 이전 Step의 완성 코드. 이번 단계 기능을 직접 구현한다.
+*/
 #include <Arduino.h>
 #include <WiFi.h>
 #include <ArduinoOTA.h>
