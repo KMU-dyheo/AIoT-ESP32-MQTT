@@ -9,3 +9,5 @@ secrets.h
 certs/
 *.pem
 *.key
+
+include/wifi_config.h
