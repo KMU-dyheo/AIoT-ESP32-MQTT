@@ -1,19 +1,19 @@
-# Step 07 — 버튼으로 PWM Fade 토글 (수업 종료)
+# Step 07 — 버튼으로 LED 제어
 
-## 브랜치 및 누적 코드
-- 시작: `step-07-button-led` (이전 단계 완료 코드 + 새 TODO)
-- 완료: `step-07-button-led-done` (새 기능 추가)
-- `git diff step-07-button-led..step-07-button-led-done -- src/main.cpp platformio.ini include/`
+**완료 예제**입니다.
 
-## 이 수업의 목표
-- 디바운싱된 pressed일 때 ledEnabled를 토글하고 LED Fade 실행/정지
-- GPIO25 LED PWM, GPIO23 INPUT_PULLUP 버튼 유지
-- `updateButton()`과 `updateBrightness()`의 동작을 삭제하거나 이름을 바꾸지 않음
-- 버튼 해제 시 Fade 상태를 토글하지 않음
-- MQTT 라이브러리는 아직 추가하지 않음. MQTT 연결은 Step 09부터 실습
+## 실습 목표
+- 버튼을 누를 때마다 LED Fade 실행 상태가 전환되는지 확인
+- 기존 GPIO25 LED 및 GPIO23 버튼 기능을 확인합니다.
 
-## 검증
-- `pio run -e esp32usb`로 빌드·업로드
-- 버튼 누를 때 Fade 실행과 정지가 번갈아 발생
-- 실제 강의: [docs/step-07.md](docs/step-07.md)
-- [강의노트 연계](docs/lecture-alignment.md)
+## 진행
+1. `git switch step-07-button-led`로 코드를 확인합니다.
+2. [실습 방법](docs/step-07.md)을 보고 연결과 함수를 구현합니다.
+3. `pio run -e esp32usb` 실행 후 업로드합니다.
+4. `pio device monitor -b 115200`로 출력과 동작을 확인합니다.
+5. `git diff step-07-button-led..step-07-button-led-done -- src/main.cpp`로 구현을 비교합니다.
+
+## 주의
+- GPIO23의 `INPUT_PULLUP` 입력은 눌림이 LOW입니다.
+
+[전체 단계 목록](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/blob/main/README.md)
