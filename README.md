@@ -1,7 +1,7 @@
-# Step 03-02 — 1초 Fade
+# Step 03-03 — fadeInterval 변수
 
-실습 완료 코드
+실습 시작 코드
 
-- `analogWrite(PIN_LED, brightness)`로 LED 밝기를 변경합니다.
-- 밝기 변화 간격을 확인합니다.
+- 밝기 변화 간격을 변수 `fadeInterval`로 지정합니다.
+- `analogWrite(PIN_LED, brightness)`를 유지합니다.
 - 빌드: `pio run -e esp32usb`
