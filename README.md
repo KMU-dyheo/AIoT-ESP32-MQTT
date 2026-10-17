@@ -1,8 +1,17 @@
-# Step 01-01 — LED 출력 핀 설정 (시작 코드)
+# Step 01 — ESP32 내장 LED 점멸
 
-`src/main.cpp`에서 `LED` 핀 정의와 `setup()`의 `pinMode()`를 직접 구현하세요.
+**시작 코드:** GPIO2 LED 출력 설정과 점멸을 구현하세요.
 
-- [실습 안내](docs/step-01-01.md)
+## 순서
+1. [시리얼 모니터](docs/step-01-01.md): `step-01-01-serial`
+2. [LED 출력 설정](docs/step-01-02.md): `step-01-02-led-output`
+3. [내장 LED 500ms 점멸](docs/step-01-03.md): `step-01-03-led-blink`
+
+- [Step 01 안내](docs/step-01.md)
 - 빌드: `pio run -e esp32dev_usb`
-- 완료 코드: `step-01-01-led-output-done`
-- 다음 실습: `step-01-02-led-blink`
+- 시작 브랜치: `step-01-onboard-led`
+- 완성 브랜치: `step-01-onboard-led-done`
+
+```bash
+git diff step-01-onboard-led..step-01-onboard-led-done -- src/main.cpp
+```
