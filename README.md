@@ -46,6 +46,6 @@
 ## 주의사항
 - `wifi_config.h`는 Git에 등록하지 않음
 - 기업용 Wi-Fi는 PEAP 외 EAP-TLS 등을 요구할 수 있어 본 예제로 연결되지 않을 수 있음
-- ESP32 Arduino Core 버전에 따라 기업용 Wi-Fi API가 다름. 본 코드는 Core 3.x 기준
+- ESP32 Arduino Core 버전에 따라 기업용 Wi-Fi API가 다름. 본 코드는 Core 2.0.17 기준
 - OTA 인증 비밀번호와 실제 계정 정보를 공개 저장소에 기록하지 않음
 - OTA 업로드 시 PC와 ESP32 사이 네트워크 경로 및 방화벽 확인
