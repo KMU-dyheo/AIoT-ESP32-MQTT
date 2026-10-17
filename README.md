@@ -1,58 +1,19 @@
-# Step 03 — PWM Dimming (수업 완료)
+# Step 03 — PWM으로 LED 밝기 조절 (완료 코드)
 
-## 실습 목적
-- PWM과 듀티비 개념 이해
-- 이전 단계의 LED/버튼 실습과 새로운 기능 연결
+## 시작과 완료
+- 수업 시작: `step-03-led-pwm`
+- 수업 완료: `step-03-led-pwm-done`
+- 현재 브랜치: 이번 실습을 구현한 기준 코드
+- 코드 변경 비교: `git diff step-03-led-pwm..step-03-led-pwm-done -- src/main.cpp`
 
-## 준비물
-- ESP32 DevKit, USB 데이터 케이블, VS Code + PlatformIO
-- 외부 LED, 220~330Ω 저항, 버튼, 브레드보드, 점퍼선
+## 실습 핵심
+- GPIO25 외부 LED, 220~330Ω 직렬 저항
+- PWM 채널과 8비트 해상도 및 delay를 통한 밝기 증가/감소
+- LED 밝기를 0~255 범위로 변화시키며 시리얼/육안으로 확인
+- `pio run -e esp32usb`로 빌드
+- MQTT 라이브러리는 이 단계에 포함되지 않음
 
-## 핵심 개념
-- 새 단계에서 추가되는 함수와 조건문을 `src/main.cpp`에서 확인
-- `#define`은 핀 번호와 변경하지 않는 설정값에 사용
-- Step 01~07은 Arduino 기본 `setup()`과 `loop()` 직접 사용
-
-## 학생 수행 과제
-- [ ] `git switch step-03-led-pwm-done` 실행
-- [ ] PWM 듀티비를 0~255로 변경하며 밝기 관찰
-- [ ] `src/main.cpp`의 `#define` 설정 확인
-- [ ] Build 및 USB Upload 실행
-- [ ] 이전 단계와 달라진 동작을 관찰하고 설명
-
-## PlatformIO 설정 (`platformio.ini`)
-- `[env]`에 `platform`, `board`, `framework`, `monitor_speed`, 공통 `lib_deps` 설정
-- `[env:esp32usb]`: 공통 `[env]` 자동 상속, `upload_protocol = esptool`
-- `[env:esp32ota]`: 공통 `[env]` 자동 상속, `upload_protocol = espota`
-- 현재 단계에서는 `default_envs = esp32usb` 사용
-- `board = esp32doit-devkit-v1`는 실제 보드 모델에 맞게 변경
-- OTA 업로드는 Step 08에서 ArduinoOTA를 구현한 뒤 사용
-
-## 검증 기준
-- 오류 없이 USB 업로드 완료
-- PWM 듀티비를 0~255로 변경하며 밝기 관찰
-- 동작 결과를 실습 기록에 정리
-
-## 주의사항
-- ESP32 Arduino Core 2.0.17의 ledcSetup/ledcAttachPin/ledcWrite API 사용
-- LED에는 반드시 전류 제한 저항 사용
-- 버튼은 INPUT_PULLUP 기준 GPIO와 GND 사이에 연결
-- 보드와 실제 GPIO 핀 번호 확인
-
-## 생각해 볼 문제
-- 이번 단계에서 이전 단계와 비교해 추가된 동작은?
-- `delay()` 사용 여부가 버튼 입력 응답에 미치는 영향은?
-
-## 브랜치 활용
-- [수업 시작 코드](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-03-led-pwm): 직전 단계의 완성 코드와 이번 단계 TODO
-- 현재 브랜치: Step 03 실습 완료 상태
-- 실습 문서: `docs/step-03.md`
-- 플랫폼 설정: `[env]` 공통, `esp32usb` / `esp32ota` 프로필
-- 실제 보드: `esp32doit-devkit-v1`, CPU 240MHz, ESP32 Core 2.0.17
-- `lib_deps`는 MQTT 도입 전까지 추가하지 않음
-
-## 강의 진행 브랜치
-- **수업 시작**: [`step-03-led-pwm`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-03-led-pwm)
-- **수업 완료**: [`step-03-led-pwm-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-03-led-pwm-done)
-- 현재 브랜치: **수업 완료 코드**
-- 현재 실습 문서: `docs/step-03.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
+## 실습 자료
+- [현재 단계 강의](docs/step-03.md)
+- [전체 강의노트–실습 연결](docs/lecture-alignment.md)
+- `docs/`에는 단계별 전체 문서가 포함될 수 있지만 `src/`는 현재 단계까지만 구현
