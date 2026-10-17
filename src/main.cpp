@@ -1,3 +1,4 @@
+// TODO: 밝기 계산과 analogWrite()를 updateBrightness()로 옮깁니다.
 #include <Arduino.h>
 #define PIN_LED 25
 int brightness = 0;
