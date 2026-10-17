@@ -9,9 +9,15 @@
 - ESP32 DevKit, LED, 저항, 버튼, PlatformIO
 - AWS IoT Core 사물, X.509 인증서, 정책, MQTT 테스트 클라이언트
 
+## 이번 단계에서 새로 추가한 기능
+- `#include <ArduinoJson.h>` 도입
+- `led/set`의 기존 `ON` / `OFF` 명령과 `{"state":"ON"}` / `{"state":"OFF"}` JSON 명령 동시 지원
+- `led/state`를 `device`, `led`, `brightness`, `uptime_ms`를 포함한 JSON으로 발행
+- Step 12의 AWS TLS 연결과 Step 11의 원격 제어를 그대로 유지
+
 ## 핵심 개념
 - `setupApplication()` / `loopApplication()`에서 로컬 기능 유지
-- `WiFiClientSecure`로 TLS 연결
+- `ESP32MQTTClient`의 인증서 API를 이용한 TLS 연결
 - NTP 시간 동기화 후 서버 인증서 검증
 - MQTT subscribe/publish와 LED 명령 콜백
 - AWS IoT Core의 인증서 활성화 및 IoT 정책 권한 필요
@@ -29,10 +35,12 @@
 ## PlatformIO 설정
 - `[env]`: 공통 `platform`, `board`, `framework`, `monitor_speed`, `lib_deps`
 - `lib_deps = cyijun/ESP32MQTTClient@^1.1.3`
-- `[env:esp32usb]`와 `[env:esp32ota]`는 공통 `[env]` 자동 상속 상속
+- `[env:esp32usb]`와 `[env:esp32ota]`는 공통 `[env]` 설정 자동 공유
 - OTA의 `upload_port`는 실제 ESP32 IP로 변경
 
 ## 검증 기준
+- JSON 명령 수신, JSON 상태 발행을 검증
+- 과거의 일반 문자열 `ON`/`OFF` 명령도 처리
 - 빌드 및 업로드 성공
 - AWS IoT MQTT 테스트 클라이언트에서 LED 명령 ON/OFF 전송 및 상태 확인
 - 연결 실패 시 로컬 동작 유지
@@ -56,3 +64,7 @@
 - **수업 완료**: [`step-13-aws-iot-control-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-13-aws-iot-control-done)
 - 현재 브랜치: **수업 완료 코드**
 - 현재 실습 문서: `docs/step-13.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
+
+## 강의노트 연계
+- 11쪽 반정형 데이터의 예로 JSON을 활용
+- 45~46쪽 브로커 기반 MQTT Publish/Subscribe를 유지하며 데이터 메시지 확장
