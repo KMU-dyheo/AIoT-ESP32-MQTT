@@ -1,6 +1,6 @@
 # Step 07-05 — updateButton() 분리
 
-시작 코드
+완성 코드
 
 - 버튼 읽기·30ms 디바운싱·토글을 `updateButton()`으로 분리합니다.
 - `loop()`는 PWM 시간 확인 후 `updateButton()`을 호출합니다.

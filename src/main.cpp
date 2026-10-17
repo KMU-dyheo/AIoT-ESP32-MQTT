@@ -24,21 +24,7 @@ void updateBrightness() {
   analogWrite(PIN_LED, brightness);
 }
 
-void setup() {
-  pinMode(PIN_LED, OUTPUT);
-  pinMode(PIN_BUTTON, INPUT_PULLUP);
-  Serial.begin(115200);
-  analogWrite(PIN_LED, brightness);
-}
-
-void loop() {
-  unsigned long currentTime = micros();
-  if (currentTime - previousTime >= interval) {
-    previousTime = currentTime;
-    if (fadeEnabled) {
-      updateBrightness();
-    }
-  }
+void updateButton() {
   int reading = digitalRead(PIN_BUTTON);
   if (reading != lastReading) {
     lastDebounceTime = millis();
@@ -56,4 +42,22 @@ void loop() {
     }
   }
   lastReading = reading;
+}
+
+void setup() {
+  pinMode(PIN_LED, OUTPUT);
+  pinMode(PIN_BUTTON, INPUT_PULLUP);
+  Serial.begin(115200);
+  analogWrite(PIN_LED, brightness);
+}
+
+void loop() {
+  unsigned long currentTime = micros();
+  if (currentTime - previousTime >= interval) {
+    previousTime = currentTime;
+    if (fadeEnabled) {
+      updateBrightness();
+    }
+  }
+  updateButton();
 }
