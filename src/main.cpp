@@ -1,6 +1,7 @@
 #include <Arduino.h>
-#define LED_PIN 18
-#define BUTTON_PIN 19
+
+#define LED_PIN 25
+#define BUTTON_PIN 23
 #define PWM_FREQUENCY 5000
 #define PWM_RESOLUTION 8
 #define PWM_CHANNEL 0
@@ -8,12 +9,37 @@
 #define DEBOUNCE_MS 40
 
 int brightness = 0;
-int changeAmount = 5;
-bool ledEnabled = true;
-unsigned long previousMillis = 0;
-unsigned long lastChangeMillis = 0;
+int fadeAmount = 5;
+unsigned long lastBrightnessMs = 0;
 int lastReading = HIGH;
 int stableButtonState = HIGH;
+bool ledEnabled = true;
+unsigned long lastButtonChangeMs = 0;
+
+void updateButton() {
+  unsigned long now = millis();
+  int reading = digitalRead(BUTTON_PIN);
+  if (reading != lastReading) lastButtonChangeMs = now;
+  if (now - lastButtonChangeMs >= DEBOUNCE_MS && reading != stableButtonState) {
+    stableButtonState = reading;
+    Serial.println(stableButtonState == LOW ? "pressed" : "released");
+    if (stableButtonState == LOW) {
+      ledEnabled = !ledEnabled;
+      Serial.println(ledEnabled ? "LED on" : "LED off");
+    }
+  }
+  lastReading = reading;
+}
+
+void updateBrightness() {
+  unsigned long now = millis();
+  if (now - lastBrightnessMs < DIM_INTERVAL) return;
+  lastBrightnessMs = now;
+  brightness += fadeAmount;
+  if (brightness >= 255) { brightness = 255; fadeAmount = -5; }
+  if (brightness <= 0) { brightness = 0; fadeAmount = 5; }
+  ledcWrite(PWM_CHANNEL, ledEnabled ? brightness : 0);
+}
 
 void setup() {
   Serial.begin(115200);
@@ -21,23 +47,8 @@ void setup() {
   ledcSetup(PWM_CHANNEL, PWM_FREQUENCY, PWM_RESOLUTION);
   ledcAttachPin(LED_PIN, PWM_CHANNEL);
 }
+
 void loop() {
-  unsigned long now = millis();
-  int reading = digitalRead(BUTTON_PIN);
-  if (reading != lastReading) lastChangeMillis = now;
-  if (now - lastChangeMillis >= DEBOUNCE_MS && reading != stableButtonState) {
-    stableButtonState = reading;
-    if (stableButtonState == LOW) {
-      ledEnabled = !ledEnabled;
-      Serial.println(ledEnabled ? "LED ENABLED" : "LED DISABLED");
-    }
-  }
-  lastReading = reading;
-  if (now - previousMillis >= DIM_INTERVAL) {
-    previousMillis = now;
-    brightness += changeAmount;
-    if (brightness >= 255) { brightness = 255; changeAmount = -5; }
-    if (brightness <= 0) { brightness = 0; changeAmount = 5; }
-    ledcWrite(PWM_CHANNEL, ledEnabled ? brightness : 0);
-  }
+  updateButton();
+  updateBrightness();
 }
