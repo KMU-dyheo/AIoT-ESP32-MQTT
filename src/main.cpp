@@ -3,21 +3,30 @@
 
 int brightness = 0;
 int fadeAmount = 5;
-int fadeInterval = 5000;
-unsigned long time = 0;
+unsigned long previousTime = 0;
+const unsigned long interval = 20000;
+
+void updateBrightness() {
+  brightness += fadeAmount;
+  if (brightness >= 255) {
+    brightness = 255;
+    fadeAmount = -5;
+  } else if (brightness <= 0) {
+    brightness = 0;
+    fadeAmount = 5;
+  }
+  analogWrite(PIN_LED, brightness);
+}
 
 void setup() {
   pinMode(PIN_LED, OUTPUT);
+  analogWrite(PIN_LED, brightness);
 }
 
 void loop() {
-  unsigned long now = micros();
-  analogWrite(PIN_LED, brightness);
-  if (now - time > fadeInterval) {
-    time = now;
-    brightness = brightness + fadeAmount;
-    if (brightness <= 0 || brightness >= 250) {
-      fadeAmount = -fadeAmount;
-    }
+  unsigned long currentTime = micros();
+  if (currentTime - previousTime >= interval) {
+    previousTime = currentTime;
+    updateBrightness();
   }
 }
