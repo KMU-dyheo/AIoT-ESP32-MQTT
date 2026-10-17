@@ -1,17 +1,8 @@
-# Step 04 — 비차단 PWM 제어
+# Step 04 — 비차단 Fade 완료
 
-**실습 완료 코드**입니다.
+완성 코드
 
-## 진행 방법
-1. 시작 코드 확인: `git switch step-04-led-nonblocking`
-2. [실습 설명](docs/step-04.md)에서 구현 목표와 연결 방법 확인
-3. 소스 작성 후 `pio run -e esp32usb`로 컴파일 및 업로드
-4. 시리얼 모니터(`115200`)와 LED·버튼 동작 확인
-5. 코드 비교: `git diff step-04-led-nonblocking..step-04-led-nonblocking-done -- src/main.cpp`
-
-## 연결
-- LED: GPIO25, 직렬 저항 220~330Ω
-
-## 참고
-- 사용 보드: DOIT ESP32 DevKit V1, Arduino Framework
-- [전체 Step 목록](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/blob/main/README.md)
+- 5주차의 `updateBrightness()` 추출 및 `micros()` 간격 검사 실습
+- `setup()`와 `loop()`를 그대로 사용합니다.
+- `analogWrite(PIN_LED, brightness)` 출력
+- `pio run -e esp32usb`
