@@ -1,6 +1,6 @@
 # Step 06-01 — 30ms 디바운싱
 
-시작 코드
+완성 코드
 
 - 입력의 마지막 변화로부터 `DEBOUNCE_DELAY = 30` ms가 지나야 상태를 확정합니다.
 - `buttonState`, `lastReading`, `lastDebounceTime` 사용
