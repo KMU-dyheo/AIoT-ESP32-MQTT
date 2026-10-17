@@ -1,4 +1,4 @@
-# Step 04 — 비차단 Dimming (완성 코드)
+# Step 04 — 비차단 Dimming (수업 완료)
 
 ## 실습 목적
 - 비차단 주기 처리 이해
@@ -14,7 +14,7 @@
 - Step 01~07은 Arduino 기본 `setup()`과 `loop()` 직접 사용
 
 ## 학생 수행 과제
-- [ ] `git switch step-04-led-nonblocking` 실행
+- [ ] `git switch step-04-led-nonblocking-done` 실행
 - [ ] delay()를 제거하고 millis()로 밝기 변화 주기 제어
 - [ ] `src/main.cpp`의 `#define` 설정 확인
 - [ ] Build 및 USB Upload 실행
@@ -44,9 +44,15 @@
 - `delay()` 사용 여부가 버튼 입력 응답에 미치는 영향은?
 
 ## 브랜치 활용
-- [수업 시작 코드](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-04-led-nonblocking-start): 직전 단계의 완성 코드와 이번 단계 TODO
+- [수업 시작 코드](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-04-led-nonblocking): 직전 단계의 완성 코드와 이번 단계 TODO
 - 현재 브랜치: Step 04 실습 완료 상태
 - 실습 문서: `docs/step-04.md`
 - 플랫폼 설정: `[env]` 공통, `esp32usb` / `esp32ota` 프로필
 - 실제 보드: `esp32doit-devkit-v1`, CPU 240MHz, ESP32 Core 2.0.17
 - `lib_deps`는 MQTT 도입 전까지 추가하지 않음
+
+## 강의 진행 브랜치
+- **수업 시작**: [`step-04-led-nonblocking`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-04-led-nonblocking)
+- **수업 완료**: [`step-04-led-nonblocking-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-04-led-nonblocking-done)
+- 현재 브랜치: **수업 완료 코드**
+- 현재 실습 문서: `docs/step-04.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
