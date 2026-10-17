@@ -1,4 +1,4 @@
-# Step 07 — 버튼 LED 제어 (완성 코드)
+# Step 07 — 버튼 LED 제어 (수업 완료)
 
 ## 실습 목적
 - 버튼 눌림 이벤트와 LED 상태 연결
@@ -16,7 +16,7 @@
 - `setup()` / `loop()`: Arduino 기본 실행 구조
 
 ## 학생 수행 과제
-- [ ] `git switch step-07-button-led` 실행
+- [ ] `git switch step-07-button-led-done` 실행
 - [ ] GPIO18 LED 및 GPIO19 버튼 회로 구성
 - [ ] 버튼을 한 번 누를 때마다 LED 밝기 변화 활성/비활성 전환 확인
 - [ ] `DEBOUNCE_MS` 값을 변경해 결과 비교
@@ -46,9 +46,15 @@
 - `delay()`를 사용하지 않는 이유는 무엇인가?
 
 ## 브랜치 활용
-- [수업 시작 코드](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-07-button-led-start): 직전 단계의 완성 코드와 이번 단계 TODO
+- [수업 시작 코드](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-07-button-led): 직전 단계의 완성 코드와 이번 단계 TODO
 - 현재 브랜치: Step 07 실습 완료 상태
 - 실습 문서: `docs/step-07.md`
 - 플랫폼 설정: `[env]` 공통, `esp32usb` / `esp32ota` 프로필
 - 실제 보드: `esp32doit-devkit-v1`, CPU 240MHz, ESP32 Core 2.0.17
 - `lib_deps`는 MQTT 도입 전까지 추가하지 않음
+
+## 강의 진행 브랜치
+- **수업 시작**: [`step-07-button-led`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-07-button-led)
+- **수업 완료**: [`step-07-button-led-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-07-button-led-done)
+- 현재 브랜치: **수업 완료 코드**
+- 현재 실습 문서: `docs/step-07.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
