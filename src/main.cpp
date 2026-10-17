@@ -1,3 +1,8 @@
+/* Step 07 시작 코드
+ TODO 1: 디바운싱된 버튼 눌림 이벤트 검출
+ TODO 2: 버튼 한 번 누를 때마다 LED Dimming 켜기/끄기 전환
+ 아래는 이전 Step의 완성 코드. 이번 단계 기능을 직접 구현한다.
+*/
 #include <Arduino.h>
 #define LED_PIN 18
 #define BUTTON_PIN 19
