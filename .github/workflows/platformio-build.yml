@@ -1,11 +1,10 @@
-name: ESP32 Step Build and Curriculum Check
+name: ESP32 Step Build
 
 on:
   push:
     branches: [main]
     paths:
       - '.github/workflows/platformio-build.yml'
-      - 'tools/check_curriculum.py'
       - 'README.md'
       - 'docs/**'
   workflow_dispatch:
@@ -52,13 +51,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ matrix.branch }}
-      - name: Check out validator from main
-        uses: actions/checkout@v4
-        with:
-          ref: main
-          path: .course-validation
-      - name: Check step progression against existing lecture
-        run: python .course-validation/tools/check_curriculum.py --branch ${{ matrix.branch }} --root .
       - name: Set up Python
         uses: actions/setup-python@v5
         with:

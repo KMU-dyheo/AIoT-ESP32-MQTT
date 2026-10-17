@@ -1,6 +1,6 @@
 # AIoT ESP32 강의 실습 (GPIO / PWM / Wi-Fi / MQTT)
 
-업로드한 실습 자료의 **GPIO25 LED + GPIO23 버튼, 디바운싱, PWM Fade, updateButton()/updateBrightness()** 구조를 기반으로 단계별 구현.
+ESP32와 PlatformIO를 이용해 GPIO, PWM, 버튼 입력, Wi-Fi, MQTT, AWS IoT 기능을 단계별로 실습하는 프로젝트입니다.
 
 ## 브랜치 사용
 - `step-XX-...` = 수업 시작 코드 (전 단계 완료 + 현재 TODO)
@@ -42,16 +42,14 @@ git diff step-05-button..step-05-button-done -- src/main.cpp
 - DOIT ESP32 DevKit V1 / CPU 240MHz / Arduino Core 2.x.
 - `platformio.ini`: `[env]` 공통값, `esp32usb` 기본 업로드 및 `esp32ota` (Step 08~).
 
-## MQTT 100분 강의
+## MQTT 실습
 - 브로커 연결: Step 09
 - 버튼 상태(눌림/해제) 발행: Step 10-01
 - LED Fade 실행/정지 발행: Step 10-02
 - Subscribe/Callback/원격 제어: Step 11
 - Topic 예시: `aiot/esp32-01/button/state`, `aiot/esp32-01/led/state`, `aiot/esp32-01/led/set`
-- Step 12~13 AWS IoT TLS·JSON은 이후 심화 확장으로 구분.
+- Step 12~13에서는 AWS IoT Core TLS 연결과 JSON 메시지를 실습합니다.
 
 ## 참고
-- [강의노트–코드 연계](docs/lecture-alignment.md)
 - [Step 10-01 버튼 이벤트](docs/step-10-01.md) / [Step 10-02 LED 상태](docs/step-10-02.md)
-- `docs/step-01.md`~`docs/step-13.md`는 각 Step의 수업 과제·검증 기준·확장 설명을 수록.
-- 학생은 C++ 코드 표현 방식을 자유롭게 선택하며 강사는 예제에서 단순한 Arduino API 중심 구현을 제시.
+- `docs/step-01.md`~`docs/step-13.md`에서 단계별 실습 방법과 동작 확인 항목을 볼 수 있습니다.
