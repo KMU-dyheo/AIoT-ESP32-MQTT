@@ -2,6 +2,8 @@
 
 #define PIN_LED 25
 #define PIN_BUTTON 23
+unsigned long previousButtonMillis = 0;
+const unsigned long BUTTON_INTERVAL = 200;
 int brightness = 0;
 int fadeAmount = 5;
 unsigned long previousTime = 0;
@@ -32,6 +34,10 @@ void loop() {
     previousTime = currentTime;
     updateBrightness();
   }
-  int buttonState = digitalRead(PIN_BUTTON);
-  Serial.println(buttonState);
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousButtonMillis >= BUTTON_INTERVAL) {
+    previousButtonMillis = currentMillis;
+    int buttonState = digitalRead(PIN_BUTTON);
+    Serial.println(buttonState);
+  }
 }
