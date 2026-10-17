@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <WiFi.h>
 #define PIN_LED 25
 #define PIN_BUTTON 23
 
@@ -62,10 +63,20 @@ void loopApplication() {
   updateButton();
 }
 
+void setupWiFi() {
+  // Wi-Fi 연결 코드는 다음 실습에서 작성
+}
+
+void handleWiFi() {
+  // Wi-Fi 상태 처리 코드는 다음 실습에서 작성
+}
+
 void setup() {
   setupApplication();
+  setupWiFi();
 }
 
 void loop() {
   loopApplication();
+  handleWiFi();
 }

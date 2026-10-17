@@ -1,6 +1,6 @@
 # Step 08-03 — setup / loop Wi-Fi 코드 준비
 
-시작 코드
+완성 코드
 
 ## 실행 구조
 - `setupApplication()` / `loopApplication()`: 기존 버튼 및 LED 코드
