@@ -1,9 +1,9 @@
-# Step 02-01 — 외부 LED 점멸
+# Step 02-02 — 1초 점등 후 5회 점멸
 
-완성 코드
+시작 코드
 
 ## 실습
-- GPIO25 외부 LED와 220~330Ω 저항을 연결합니다.
-- `setup()` / `loop()`에서 `pinMode()`, `digitalWrite()`, `delay()` 사용
-- `pio run -e esp32usb`로 빌드 및 USB 업로드
-- [전체 실습 목록](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/blob/main/README.md)
+- GPIO25 외부 LED를 1초 켜고 다음 1초 동안 5회 점멸합니다.
+- 마지막에 `while(1) {}`로 프로그램을 대기 상태로 둡니다.
+- `setup()` / `loop()`에서 학습한 함수만 사용합니다.
+- `pio run -e esp32usb` 빌드, USB 업로드
