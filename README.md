@@ -11,9 +11,15 @@
 
 ## 실행과 비교
 - `pio run -e esp32usb` 실행
-- [완성 코드 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-12-aws-iot-connect-complete)와 코드 비교
+- [완성 코드 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-12-aws-iot-connect-done)와 코드 비교
 - 실습 문서: `docs/step-12.md`
 
 ## PlatformIO
 - `[env]`에 DOIT ESP32 DevKit V1 보드·240MHz·MQTT/JSON 라이브러리 설정
 - `esp32usb` / `esp32ota` 공통 설정 자동 상속
+
+## 강의 진행 브랜치
+- **수업 시작**: [`step-12-aws-iot-connect`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-12-aws-iot-connect)
+- **수업 완료**: [`step-12-aws-iot-connect-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-12-aws-iot-connect-done)
+- 현재 브랜치: **수업 시작 코드**
+- 현재 실습 문서: `docs/step-12.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
