@@ -5,7 +5,7 @@
 #include <esp_wpa2.h>
 #include <esp_wifi.h>
 #include <cstring>
-#include <PubSubClient.h>
+#include <ESP32MQTTClient.h>
 #include "mqtt_config.h"
 
 #define LED_PIN 18
@@ -26,25 +26,29 @@ int lastReading = HIGH;
 int stableButtonState = HIGH;
 unsigned long lastWifiAttempt = 0;
 bool otaStarted = false;
-WiFiClient mqttNetwork;
-PubSubClient mqtt(mqttNetwork);
-unsigned long lastMqttAttempt = 0;
+ESP32MQTTClient mqttClient;
+bool mqttStarted = false;
 
 void setupApplication();
-void handleMqttMessage(char* topic, byte* payload, unsigned int length) {
-  // Step 11에서 LED 원격 제어 구현
-}
-void serviceMqtt() {
-  if (WiFi.status() != WL_CONNECTED) return;
-  if (!mqtt.connected() && millis() - lastMqttAttempt >= 5000) {
-    lastMqttAttempt = millis();
-    mqtt.connect(MQTT_CLIENT_ID);
-  }
-  if (mqtt.connected()) mqtt.loop();
-}
-
 void loopApplication();
 
+void onMqttConnect(esp_mqtt_client_handle_t client) {
+  if (!mqttClient.isMyTurn(client)) return;
+  Serial.println("MQTT connected");
+}
+
+esp_err_t handleMQTT(esp_mqtt_event_handle_t event) {
+  mqttClient.onEventCallback(event);
+  return ESP_OK;
+}
+
+void serviceMqtt() {
+  if (WiFi.status() != WL_CONNECTED) return;
+  if (!mqttStarted) {
+    mqttStarted = mqttClient.loopStart();
+  }
+}
+ 
 void connectWifi() {
   if (WiFi.status() == WL_CONNECTED) return;
   WiFi.disconnect();
@@ -65,8 +69,8 @@ void connectWifi() {
 void setup() {
   Serial.begin(115200);
   setupApplication();
-  mqtt.setServer(MQTT_HOST, MQTT_PORT);
-  mqtt.setCallback(handleMqttMessage);
+  mqttClient.setURL(MQTT_HOST, MQTT_PORT);
+  mqttClient.setMqttClientName(MQTT_CLIENT_ID);
   WiFi.mode(WIFI_STA);
   connectWifi();
 }
