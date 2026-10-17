@@ -10,9 +10,15 @@
 
 ## 실행과 비교
 - `pio run -e esp32usb` 실행
-- 과제 코드 구현 후 [완성 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-07-button-led-complete)와 비교
+- 과제 코드 구현 후 [완성 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-07-button-led-done)와 비교
 - 실습 자료: `docs/step-07.md`
 
 ## PlatformIO
 - 공통 `[env]` 설정: DOIT ESP32 DevKit V1 / 240MHz / Arduino
 - `esp32usb` 기본 사용, Step 08에서 OTA 업로드 도입
+
+## 강의 진행 브랜치
+- **수업 시작**: [`step-07-button-led`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-07-button-led)
+- **수업 완료**: [`step-07-button-led-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-07-button-led-done)
+- 현재 브랜치: **수업 시작 코드**
+- 현재 실습 문서: `docs/step-07.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
