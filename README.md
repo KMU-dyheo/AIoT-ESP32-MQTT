@@ -1,20 +1,18 @@
-# Step 05 — GPIO23 버튼 상태 입력 (수업 시작)
+# Step 05 — GPIO23 버튼 입력
 
-## 브랜치 사용
-- 시작: `git switch step-05-button`
-- 완료: `git switch step-05-button-done`
-- `git diff step-05-button..step-05-button-done -- src/main.cpp`
+**실습 시작 코드**입니다. `src/main.cpp`의 TODO를 직접 작성하세요.
 
-## 이번 강의에서 추가하는 기능
-- updateButton()을 도입하고 원시 눌림/해제 변화를 시리얼로 확인
-- 버튼: GPIO23 ↔ GND, INPUT_PULLUP. 눌림=LOW / 놓임=HIGH
-- LED: GPIO25 (220~330Ω 저항 직렬), PWM Fade 유지
-- `updateButton()`과 `updateBrightness()`를 유지하면서 각각 변경
-- 수업 시작 브랜치에는 이번 기능이 아직 구현되지 않음
+## 진행 방법
+1. 시작 코드 확인: `git switch step-05-button`
+2. [실습 설명](docs/step-05.md)에서 구현 목표와 연결 방법 확인
+3. 소스 작성 후 `pio run -e esp32usb`로 컴파일 및 업로드
+4. 시리얼 모니터(`115200`)와 LED·버튼 동작 확인
+5. 코드 비교: `git diff step-05-button..step-05-button-done -- src/main.cpp`
 
-## 확인 방법
-- `pio run -e esp32usb`, USB Upload, Serial Monitor 115200
-- 누름/해제 시 pressed/released 출력 확인(채터링 가능)
-- MQTT 관련 라이브러리 및 통신 코드는 아직 사용하지 않음
+## 연결
+- LED: GPIO25, 직렬 저항 220~330Ω
+- 버튼: GPIO23 ↔ GND, `INPUT_PULLUP`; 누르면 LOW
 
-[Step 05 실습 문서](docs/step-05.md) · [강의 흐름 대응표](docs/lecture-alignment.md)
+## 참고
+- 사용 보드: DOIT ESP32 DevKit V1, Arduino Framework
+- [전체 Step 목록](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/blob/main/README.md)
