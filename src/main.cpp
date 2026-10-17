@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <WiFi.h>
 #define PIN_LED 25
 #define PIN_BUTTON 23
 
