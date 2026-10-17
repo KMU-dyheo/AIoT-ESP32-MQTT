@@ -1,7 +1,12 @@
-# Step 01-01 — LED 출력 핀 설정 (완성 코드)
+# Step 01-02 — LED 출력 핀 설정
 
-`#define LED 2`와 `pinMode(LED, OUTPUT)` 설정을 확인하세요. 아직 점멸 코드는 없습니다.
+**완성 코드**입니다. `#define LED 2`와 `pinMode(LED, OUTPUT)`을 확인합니다.
 
-- [실습 안내](docs/step-01-01.md)
+- [실습 방법](docs/step-01-02.md)
+- 시작: `step-01-02-led-output`
+- 완료: `step-01-02-led-output-done`
 - 빌드: `pio run -e esp32dev_usb`
-- 다음 단계: `step-01-02-led-blink`
+
+```bash
+git diff step-01-02-led-output..step-01-02-led-output-done -- src/main.cpp
+```
