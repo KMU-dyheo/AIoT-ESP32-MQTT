@@ -1,8 +1,8 @@
 # Step 02 — 외부 LED 점멸
 
-## 시작/완성 코드
-- 시작: `step-02-external-led-start` (이전 단계 완성 코드 + TODO)
-- 완성: `step-02-external-led-complete` (이번 단계 구현 결과)
+## 시작/완료 브랜치
+- 시작: `step-02-external-led` (이전 단계 완성 코드 + TODO)
+- 완성: `step-02-external-led-done` (이번 단계 구현 결과)
 
 ## 실습 목표
 - GPIO18에 직렬 저항과 외부 LED를 연결하여 GPIO 출력으로 점멸
@@ -11,7 +11,7 @@
 ## 실습 준비
 - ESP32 DevKit, USB 데이터 케이블, PlatformIO/VS Code
 - GPIO18 외부 LED + 220~330Ω 저항 + 브레드보드
-- 시작 브랜치: `git switch step-02-external-led-start`
+- 시작 브랜치: `git switch step-02-external-led`
 
 ## 회로 및 설정
 - GPIO18 → 저항 → LED 애노드(+), LED 캐소드(-) → GND
@@ -20,7 +20,7 @@
 ## 이번 단계에서 변경되는 코드
 - LED_PIN을 GPIO18로 변경, LED+저항 회로 추가
 - 전체 코드: `src/main.cpp`
-- 변경 결과를 이전 브랜치와 비교: `git diff step-02-external-led-start..step-02-external-led-complete -- src/main.cpp`
+- 변경 결과를 이전 브랜치와 비교: `git diff step-02-external-led..step-02-external-led-done -- src/main.cpp`
 
 ## PlatformIO 설정
 - `platformio.ini`에서 `[env]`에 공통 설정(`platform`, `board`, `board_build.mcu = esp32`, `board_build.f_cpu = 240000000L`, `framework`, `monitor_speed`; 외부 라이브러리는 필요한 단계에서 `lib_deps`) 배치
@@ -52,3 +52,7 @@
 - LED 긴 다리 애노드, 짧은 다리 GND; 220~330Ω 직렬 저항
 - 사용자 계정, OTA 비밀번호, 개인키 등 비밀 정보는 공개 저장소에 커밋하지 않기
 - 코드의 시간/핀 설정을 변경해 동작 비교
+
+## 강의노트 연계
+- 강의노트 51~58쪽의 에지 처리·피드백 개념과 로컬 장치 제어를 연결. LED·PWM 구현 자체는 강의노트에 없는 별도 실습.
+- [전체 강의노트–실습 대응표](lecture-alignment.md) 참고
