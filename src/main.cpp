@@ -1,34 +1,18 @@
 #include <Arduino.h>
 #define PIN_LED 25
 
+int brightness = 0;
+int fadeAmount = 5;
+
 void setup() {
-  Serial.begin(115200);
   pinMode(PIN_LED, OUTPUT);
 }
 
 void loop() {
-  digitalWrite(PIN_LED, HIGH);
-  delay(1000);
-  digitalWrite(PIN_LED, HIGH);
-  delay(100);
-  digitalWrite(PIN_LED, LOW);
-  delay(100);
-  digitalWrite(PIN_LED, HIGH);
-  delay(100);
-  digitalWrite(PIN_LED, LOW);
-  delay(100);
-  digitalWrite(PIN_LED, HIGH);
-  delay(100);
-  digitalWrite(PIN_LED, LOW);
-  delay(100);
-  digitalWrite(PIN_LED, HIGH);
-  delay(100);
-  digitalWrite(PIN_LED, LOW);
-  delay(100);
-  digitalWrite(PIN_LED, HIGH);
-  delay(100);
-  digitalWrite(PIN_LED, LOW);
-  delay(100);
-  digitalWrite(PIN_LED, LOW);
-  while (1) {}
+  analogWrite(PIN_LED, brightness);
+  brightness = brightness + fadeAmount;
+  if (brightness <= 0 || brightness >= 255) {
+    fadeAmount = -fadeAmount;
+  }
+  delay(30);
 }
