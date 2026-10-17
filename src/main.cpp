@@ -1,5 +1,7 @@
 #include <Arduino.h>
 #include <WiFi.h>
+#include <ESP32MQTTClient.h>
+#include "mqtt_config.h"
 #include "wifi_config.h"
 #include <esp_wpa2.h>
 #include <esp_wifi.h>
@@ -20,6 +22,20 @@ const unsigned long DEBOUNCE_DELAY = 30;
 bool fadeEnabled = true;
 
 unsigned long lastWifiAttempt = 0;
+
+ESP32MQTTClient mqttClient;
+bool mqttStarted = false;
+
+// 6주차 35쪽: MQTT 이벤트 처리
+void onMqttConnect(esp_mqtt_client_handle_t client) {
+  if (!mqttClient.isMyTurn(client)) return;
+  Serial.println("MQTT connected");
+}
+
+esp_err_t handleMQTT(esp_mqtt_event_handle_t event) {
+  mqttClient.onEventCallback(event);
+  return ESP_OK;
+}
 
 void setupApplication();
 void loopApplication();
