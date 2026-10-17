@@ -1,18 +1,17 @@
-# Step 02 — 외부 LED GPIO25 제어 (수업 완료)
+# Step 02 — 외부 LED 제어
 
-## 브랜치
-- 수업 시작: `step-02-external-led`
-- 수업 완료: `step-02-external-led-done`
-- 현재 상태: **이번 단계 실습 구현 결과**
-- 변경 비교: `git diff step-02-external-led..step-02-external-led-done -- src/main.cpp platformio.ini include/`
+**완성 코드:** 이번 단계의 실습 결과입니다.
 
-## 학습 목표 및 검증
-- 상세 과제·배선·검증 기준: [docs/step-02.md](docs/step-02.md)
-- GPIO25 LED(직렬 저항 220~330Ω), GPIO23 버튼은 Step05 이후
-- ESP32 DOIT DevKit V1, 240MHz, USB 업로드: `pio run -e esp32usb`
-- MQTT 통신은 Step09부터만 추가. 로컬 버튼/Fade는 네트워크 장애와 무관하게 실행.
-- GPIO를 설정할 때 `#define` 예제를 사용하며 학생의 C++ 문법 선택은 제한하지 않음.
+## 실습
+1. `git switch step-02-external-led`로 시작합니다.
+2. [Step 02 실습 안내](docs/step-02.md)를 참고해 회로와 코드를 작성합니다.
+3. `pio run -e esp32usb`로 빌드한 뒤 보드에 업로드합니다.
+4. GPIO25 외부 LED가 점멸하는지 확인합니다.
+5. 결과를 `git diff step-02-external-led..step-02-external-led-done -- src/main.cpp`로 비교합니다.
 
-## 강의 자료
-- `docs/step-01.md` ~ `docs/step-13.md`, 서브스텝 `docs/step-10-01.md`·`step-10-02.md`
-- `docs/lecture-alignment.md` — 기존 버튼 입력 수업 자료와 MQTT 강의 흐름 대조
+## 준비물
+- ESP32 DOIT DevKit V1, USB 케이블
+- GPIO25 LED, 220~330Ω 저항, 브레드보드
+- Step 05부터는 GPIO23 버튼을 추가합니다.
+
+[전체 실습 목록](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/blob/main/README.md)
