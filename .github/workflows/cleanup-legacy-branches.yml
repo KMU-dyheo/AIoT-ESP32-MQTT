@@ -1,0 +1,50 @@
+name: Remove obsolete step branches
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/cleanup-legacy-branches.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    if: github.repository == 'KMU-dyheo/AIoT-ESP32-MQTT'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify new branches and delete legacy suffixes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          bases=(
+            step-01-onboard-led
+            step-02-external-led
+            step-03-led-pwm
+            step-04-led-nonblocking
+            step-05-button
+            step-06-button-nonblocking
+            step-07-button-led
+            step-08-wifi
+            step-09-mqtt-connect
+            step-10-mqtt-publish
+            step-11-mqtt-control
+            step-12-aws-iot-connect
+            step-13-aws-iot-control
+          )
+          for base in "${bases[@]}"; do
+            gh api "repos/${GITHUB_REPOSITORY}/git/ref/heads/${base}" >/dev/null
+            gh api "repos/${GITHUB_REPOSITORY}/git/ref/heads/${base}-done" >/dev/null
+          done
+          for base in "${bases[@]}"; do
+            for suffix in start complete; do
+              old="${base}-${suffix}"
+              echo "Deleting ${old}"
+              gh api --method DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/${old}"
+            done
+          done
+          echo "Deleted all 26 obsolete -start and -complete branches."
