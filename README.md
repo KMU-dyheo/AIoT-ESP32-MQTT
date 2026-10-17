@@ -35,6 +35,8 @@ ESP32 DOIT DevKit V1 · PlatformIO · Arduino.
 | 08-01 | [Wi-Fi 라이브러리 설정](docs/step-08-01.md) | `step-08-01-wifi-library` | `step-08-01-wifi-library-done` |
 | 08-02 | [애플리케이션 코드 분리](docs/step-08-02.md) | `step-08-02-application-split` | `step-08-02-application-split-done` |
 | 08-03 | [setup/loop Wi-Fi 호출 위치 준비](docs/step-08-03.md) | `step-08-03-wifi-structure` | `step-08-03-wifi-structure-done` |
+| 08-04 | [Wi-Fi 연결](docs/step-08-04.md) | `step-08-04-wifi-connect` | `step-08-04-wifi-connect-done` |
+| 08-05 | [OTA 업로드 준비](docs/step-08-05.md) | `step-08-05-ota` | `step-08-05-ota-done` |
 
 ## 환경
 - 보드: `esp32doit-devkit-v1`
@@ -46,6 +48,6 @@ ESP32 DOIT DevKit V1 · PlatformIO · Arduino.
 - 버튼 회로는 외부 Pull-up → 외부 Pull-down → 내부 Pull-down → 내부 Pull-up 순서로 실습합니다.
 
 ## Wi-Fi 및 MQTT
-Wi-Fi 관련 실습은 라이브러리 설정 → 애플리케이션 함수 분리 → Wi-Fi 처리 코드 준비 순서로 진행합니다. MQTT 메시지 전송과 수신은 그 이후 실습입니다. 강의에서 배우지 않은 네트워크 처리 기능을 앞 단계의 소스코드에 미리 넣지 않습니다.
+Wi-Fi 실습은 라이브러리 설정 → 애플리케이션 함수 분리 → Wi-Fi 처리 코드 준비 → Wi-Fi 연결 → OTA 순서로 진행합니다. MQTT 메시지 전송과 수신은 그 이후 실습입니다. 강의에서 배우지 않은 네트워크 처리 기능을 앞 단계의 소스코드에 미리 넣지 않습니다.
 
 [실습 문서](docs/step-01.md)

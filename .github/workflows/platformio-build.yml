@@ -16,6 +16,54 @@ jobs:
       fail-fast: false
       matrix:
         branch:
+          - step-01-01-serial
+          - step-01-01-serial-done
+          - step-02-01-led-blink
+          - step-02-01-led-blink-done
+          - step-02-02-five-blinks
+          - step-02-02-five-blinks-done
+          - step-03-01-pwm-fade
+          - step-03-01-pwm-fade-done
+          - step-03-02-fade-speed
+          - step-03-02-fade-speed-done
+          - step-03-03-fade-interval
+          - step-03-03-fade-interval-done
+          - step-03-04-microseconds
+          - step-03-04-microseconds-done
+          - step-04-01-loop-timing
+          - step-04-01-loop-timing-done
+          - step-04-02-micros-fade
+          - step-04-02-micros-fade-done
+          - step-04-03-brightness-function
+          - step-04-03-brightness-function-done
+          - step-05-01-button-raw
+          - step-05-01-button-raw-done
+          - step-05-02-button-interval
+          - step-05-02-button-interval-done
+          - step-05-03-button-change
+          - step-05-03-button-change-done
+          - step-06-01-debounce-30ms
+          - step-06-01-debounce-30ms-done
+          - step-07-01-fade-toggle
+          - step-07-01-fade-toggle-done
+          - step-07-02-external-pulldown
+          - step-07-02-external-pulldown-done
+          - step-07-03-internal-pulldown
+          - step-07-03-internal-pulldown-done
+          - step-07-04-internal-pullup
+          - step-07-04-internal-pullup-done
+          - step-07-05-button-function
+          - step-07-05-button-function-done
+          - step-08-01-wifi-library
+          - step-08-01-wifi-library-done
+          - step-08-02-application-split
+          - step-08-02-application-split-done
+          - step-08-03-wifi-structure
+          - step-08-03-wifi-structure-done
+          - step-08-04-wifi-connect
+          - step-08-04-wifi-connect-done
+          - step-08-05-ota
+          - step-08-05-ota-done
           - step-01-onboard-led
           - step-01-onboard-led-done
           - step-02-external-led
