@@ -1,4 +1,4 @@
-# Step 08 — Wi-Fi 연결 및 OTA
+# Step 08 — Wi-Fi 및 OTA (완성 코드)
 
 ## 실습 목적
 - 로컬 LED/버튼 동작과 네트워크 기능 분리
@@ -30,9 +30,9 @@
 - [ ] OTA 업로드를 사용하려면 `platformio.ini`의 `upload_port`를 실제 IP로 변경
 
 ## PlatformIO 설정
-- `[env:default]`: 보드/프레임워크/공통 라이브러리 설정
-- `[env:esp32usb]`: `extends = env:default`, USB 업로드
-- `[env:esp32ota]`: `extends = env:default`, OTA 업로드
+- `[env]`: 보드/프레임워크/공통 라이브러리 설정
+- `[env:esp32usb]`: 공통 `[env]` 자동 상속, USB 업로드
+- `[env:esp32ota]`: 공통 `[env]` 자동 상속, OTA 업로드
 - `default_envs = esp32usb` 유지
 - OTA는 USB로 Wi-Fi/ArduinoOTA 코드가 먼저 설치되어 있어야 사용 가능
 - OTA 비밀번호는 `upload_flags = --auth=...` 설정 또는 업로드 시 입력 방법 확인
@@ -49,3 +49,11 @@
 - ESP32 Arduino Core 버전에 따라 기업용 Wi-Fi API가 다름. 본 코드는 Core 2.0.17 기준
 - OTA 인증 비밀번호와 실제 계정 정보를 공개 저장소에 기록하지 않음
 - OTA 업로드 시 PC와 ESP32 사이 네트워크 경로 및 방화벽 확인
+
+## 브랜치 사용
+- [수업 시작 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-08-wifi-start): 이전 단계 완성 코드와 이번 과제 TODO
+- 현재 브랜치: Step 08 수업 종료 완성 코드
+- 실습 안내: `docs/step-08.md`
+- 보드: `esp32doit-devkit-v1`, MCU ESP32, CPU 240MHz
+- 공통 PlatformIO 설정은 `[env]`에 두고 `esp32usb`, `esp32ota`가 자동 공유
+- 추가 MQTT 라이브러리 미사용
