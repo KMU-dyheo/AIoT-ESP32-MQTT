@@ -1,60 +1,19 @@
-# Step 07 — 버튼 LED 제어 (수업 완료)
+# Step 07 — 버튼으로 PWM Fade 토글 (수업 종료)
 
-## 실습 목적
-- 버튼 눌림 이벤트와 LED 상태 연결
-- 이전 단계에서 작성한 LED Dimming과 버튼 입력 기능을 유지하며 확장
+## 브랜치 및 누적 코드
+- 시작: `step-07-button-led` (이전 단계 완료 코드 + 새 TODO)
+- 완료: `step-07-button-led-done` (새 기능 추가)
+- `git diff step-07-button-led..step-07-button-led-done -- src/main.cpp platformio.ini include/`
 
-## 준비물
-- ESP32 DevKit, USB 데이터 케이블, VS Code + PlatformIO
-- LED, 220~330Ω 저항, 버튼, 브레드보드, 점퍼선
+## 이 수업의 목표
+- 디바운싱된 pressed일 때 ledEnabled를 토글하고 LED Fade 실행/정지
+- GPIO25 LED PWM, GPIO23 INPUT_PULLUP 버튼 유지
+- `updateButton()`과 `updateBrightness()`의 동작을 삭제하거나 이름을 바꾸지 않음
+- 버튼 해제 시 Fade 상태를 토글하지 않음
+- MQTT 라이브러리는 아직 추가하지 않음. MQTT 연결은 Step 09부터 실습
 
-## 핵심 개념
-- `millis()`: 현재 시간 확인
-- `INPUT_PULLUP`: 버튼을 누르면 LOW 입력
-- `DEBOUNCE_MS`: 버튼 접점의 흔들림을 걸러내는 시간
-- `#define`: GPIO 및 고정 설정값 정의
-- `setup()` / `loop()`: Arduino 기본 실행 구조
-
-## 학생 수행 과제
-- [ ] `git switch step-07-button-led-done` 실행
-- [ ] GPIO18 LED 및 GPIO19 버튼 회로 구성
-- [ ] 버튼을 한 번 누를 때마다 LED 밝기 변화 활성/비활성 전환 확인
-- [ ] `DEBOUNCE_MS` 값을 변경해 결과 비교
-- [ ] USB 업로드 및 시리얼 모니터(115200) 확인
-
-## PlatformIO 설정 (`platformio.ini`)
-- `[env]`: `platform = espressif32`, `board = esp32doit-devkit-v1`, `framework = arduino`, `monitor_speed = 115200`
-- `[env:esp32usb]`: 공통 `[env]` 자동 상속, `upload_protocol = esptool`
-- `[env:esp32ota]`: 공통 `[env]` 자동 상속, `upload_protocol = espota`, `upload_port`는 실제 IP로 변경
-- 현재는 `default_envs = esp32usb` 사용
-- 외부 라이브러리 필요 시 `env:default`의 `lib_deps`에 추가
-- OTA는 Step 08 이후 사용
-
-## 검증 기준
-- USB 업로드 성공
-- 버튼을 한 번 누를 때마다 LED 밝기 변화 활성/비활성 전환 확인
-- LED Dimming 기능 유지
-
-## 주의사항
-- 버튼을 계속 누른 상태에서 반복 토글되지 않도록 처리
-- LED에 전류 제한 저항 연결
-- 버튼은 GPIO19와 GND 사이 연결
-- ESP32 보드의 GPIO 배치 확인
-
-## 생각해 볼 문제
-- 디바운싱이 없을 때 어떤 문제가 생기는가?
-- `delay()`를 사용하지 않는 이유는 무엇인가?
-
-## 브랜치 활용
-- [수업 시작 코드](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-07-button-led): 직전 단계의 완성 코드와 이번 단계 TODO
-- 현재 브랜치: Step 07 실습 완료 상태
-- 실습 문서: `docs/step-07.md`
-- 플랫폼 설정: `[env]` 공통, `esp32usb` / `esp32ota` 프로필
-- 실제 보드: `esp32doit-devkit-v1`, CPU 240MHz, ESP32 Core 2.0.17
-- `lib_deps`는 MQTT 도입 전까지 추가하지 않음
-
-## 강의 진행 브랜치
-- **수업 시작**: [`step-07-button-led`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-07-button-led)
-- **수업 완료**: [`step-07-button-led-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-07-button-led-done)
-- 현재 브랜치: **수업 완료 코드**
-- 현재 실습 문서: `docs/step-07.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
+## 검증
+- `pio run -e esp32usb`로 빌드·업로드
+- 버튼 누를 때 Fade 실행과 정지가 번갈아 발생
+- 실제 강의: [docs/step-07.md](docs/step-07.md)
+- [강의노트 연계](docs/lecture-alignment.md)
