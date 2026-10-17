@@ -1,5 +1,9 @@
 # Step 02 — 외부 LED 점멸
 
+## 시작/완성 코드
+- 시작: `step-02-external-led-start` (이전 단계 완성 코드 + TODO)
+- 완성: `step-02-external-led-complete` (이번 단계 구현 결과)
+
 ## 실습 목표
 - GPIO18에 직렬 저항과 외부 LED를 연결하여 GPIO 출력으로 점멸
 - 이전 단계와 달라진 점을 관찰하고 설명
@@ -7,7 +11,7 @@
 ## 실습 준비
 - ESP32 DevKit, USB 데이터 케이블, PlatformIO/VS Code
 - GPIO18 외부 LED + 220~330Ω 저항 + 브레드보드
-- 시작 브랜치: `git switch step-02-external-led`
+- 시작 브랜치: `git switch step-02-external-led-start`
 
 ## 회로 및 설정
 - GPIO18 → 저항 → LED 애노드(+), LED 캐소드(-) → GND
@@ -16,13 +20,13 @@
 ## 이번 단계에서 변경되는 코드
 - LED_PIN을 GPIO18로 변경, LED+저항 회로 추가
 - 전체 코드: `src/main.cpp`
-- 변경 결과를 이전 브랜치와 비교: `git diff step-01-onboard-led..step-02-external-led -- src/main.cpp`
+- 변경 결과를 이전 브랜치와 비교: `git diff step-02-external-led-start..step-02-external-led-complete -- src/main.cpp`
 
 ## PlatformIO 설정
-- `platformio.ini`에서 `[env:default]`에 공통 설정(`platform`, `board`, `framework`, `monitor_speed`, `lib_deps`) 배치
-- `[env:esp32usb]`와 `[env:esp32ota]`는 `extends = env:default`로 상속
+- `platformio.ini`에서 `[env]`에 공통 설정(`platform`, `board`, `board_build.mcu = esp32`, `board_build.f_cpu = 240000000L`, `framework`, `monitor_speed`; 외부 라이브러리는 필요한 단계에서 `lib_deps`) 배치
+- `[env:esp32usb]`와 `[env:esp32ota]`는 공통 `[env]` 설정을 자동으로 공유
 - 기본값 `default_envs = esp32usb`
-- 사용하는 ESP32의 모델에 따라 `board = esp32dev` 변경
+- 사용하는 ESP32의 모델에 따라 `board = esp32doit-devkit-v1` 변경
 - 이 단계는 USB 업로드로 진행, OTA 실습은 Step 08부터
 
 ## 실습 순서
