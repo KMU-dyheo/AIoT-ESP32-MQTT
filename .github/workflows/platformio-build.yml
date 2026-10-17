@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/platformio-build.yml'
       - 'README.md'
+      - 'docs/**'
   workflow_dispatch:
 
 jobs:
@@ -15,32 +16,32 @@ jobs:
       fail-fast: false
       matrix:
         branch:
-          - step-01-onboard-led-start
-          - step-01-onboard-led-complete
-          - step-02-external-led-start
-          - step-02-external-led-complete
-          - step-03-led-pwm-start
-          - step-03-led-pwm-complete
-          - step-04-led-nonblocking-start
-          - step-04-led-nonblocking-complete
-          - step-05-button-start
-          - step-05-button-complete
-          - step-06-button-nonblocking-start
-          - step-06-button-nonblocking-complete
-          - step-07-button-led-start
-          - step-07-button-led-complete
-          - step-08-wifi-start
-          - step-08-wifi-complete
-          - step-09-mqtt-connect-start
-          - step-09-mqtt-connect-complete
-          - step-10-mqtt-publish-start
-          - step-10-mqtt-publish-complete
-          - step-11-mqtt-control-start
-          - step-11-mqtt-control-complete
-          - step-12-aws-iot-connect-start
-          - step-12-aws-iot-connect-complete
-          - step-13-aws-iot-control-start
-          - step-13-aws-iot-control-complete
+          - step-01-onboard-led
+          - step-01-onboard-led-done
+          - step-02-external-led
+          - step-02-external-led-done
+          - step-03-led-pwm
+          - step-03-led-pwm-done
+          - step-04-led-nonblocking
+          - step-04-led-nonblocking-done
+          - step-05-button
+          - step-05-button-done
+          - step-06-button-nonblocking
+          - step-06-button-nonblocking-done
+          - step-07-button-led
+          - step-07-button-led-done
+          - step-08-wifi
+          - step-08-wifi-done
+          - step-09-mqtt-connect
+          - step-09-mqtt-connect-done
+          - step-10-mqtt-publish
+          - step-10-mqtt-publish-done
+          - step-11-mqtt-control
+          - step-11-mqtt-control-done
+          - step-12-aws-iot-connect
+          - step-12-aws-iot-connect-done
+          - step-13-aws-iot-control
+          - step-13-aws-iot-control-done
     steps:
       - name: Check out step branch
         uses: actions/checkout@v4
@@ -52,7 +53,7 @@ jobs:
           python-version: '3.11'
       - name: Install PlatformIO
         run: python -m pip install --upgrade platformio
-      - name: Prepare non-secret lab configuration for compilation
+      - name: Prepare non-secret lab config for compilation
         shell: bash
         run: |
           if [ -f include/wifi_config.example.h ]; then cp include/wifi_config.example.h include/wifi_config.h; fi
