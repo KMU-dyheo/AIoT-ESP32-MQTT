@@ -1,8 +1,9 @@
-# Step 07-04 — 내부 Pull-up
+# Step 07-05 — updateButton() 분리
 
-완성 코드
+시작 코드
 
-- 버튼을 GPIO23 ↔ GND 사이에 연결합니다.
-- 내부 `INPUT_PULLUP` 사용, 누르면 LOW
-- 디바운싱과 LED Fade 토글 기능을 유지합니다.
+- 버튼 읽기·30ms 디바운싱·토글을 `updateButton()`으로 분리합니다.
+- `loop()`는 PWM 시간 확인 후 `updateButton()`을 호출합니다.
+- `updateBrightness()`는 기존대로 사용합니다.
+- GPIO25 LED / GPIO23 내부 Pull-up 버튼
 - `pio run -e esp32usb`
