@@ -1,105 +1,82 @@
 #include <Arduino.h>
 #include <WiFi.h>
-#include <ArduinoOTA.h>
-#include "wifi_config.h"
-#include <esp_wpa2.h>
-#include <esp_wifi.h>
-#include <cstring>
-
-#define LED_PIN 25
-#define BUTTON_PIN 23
-#define PWM_FREQUENCY 5000
-#define PWM_RESOLUTION 8
-#define PWM_CHANNEL 0
-#define DIM_INTERVAL 30
-#define DEBOUNCE_MS 40
-#define WIFI_RETRY_MS 10000
+#define PIN_LED 25
+#define PIN_BUTTON 23
 
 int brightness = 0;
 int fadeAmount = 5;
-unsigned long lastBrightnessMs = 0;
+unsigned long previousTime = 0;
+const unsigned long interval = 20000;
+int buttonState = HIGH;
 int lastReading = HIGH;
-int stableButtonState = HIGH;
-bool ledEnabled = true;
-unsigned long lastButtonChangeMs = 0;
+unsigned long lastDebounceTime = 0;
+const unsigned long DEBOUNCE_DELAY = 30;
+bool fadeEnabled = true;
 
-unsigned long lastWifiAttempt = 0;
-bool otaStarted = false;
-
-void setupApplication();
-void loopApplication();
-
-void connectWifi() {
-  if (WiFi.status() == WL_CONNECTED) return;
-  WiFi.disconnect();
-#if WIFI_ENTERPRISE
-  // WPA2-Enterprise (PEAP) configuration is board/core-specific.
-  // ESP32 Arduino Core 2.x: WPA2-Enterprise (PEAP) API.
-  // Configure credentials before WiFi.begin().
-  esp_wifi_sta_wpa2_ent_set_identity((const unsigned char*)EAP_IDENTITY, strlen(EAP_IDENTITY));
-  esp_wifi_sta_wpa2_ent_set_username((const unsigned char*)EAP_USERNAME, strlen(EAP_USERNAME));
-  esp_wifi_sta_wpa2_ent_set_password((const unsigned char*)EAP_PASSWORD, strlen(EAP_PASSWORD));
-  esp_wifi_sta_wpa2_ent_enable();
-  WiFi.begin(WIFI_SSID);
-#else
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-#endif
-  lastWifiAttempt = millis();
-}
-void setup() {
-  Serial.begin(115200);
-  setupApplication();
-  WiFi.mode(WIFI_STA);
-  connectWifi();
-}
-void loop() {
-  loopApplication();
-  if (WiFi.status() == WL_CONNECTED) {
-    if (!otaStarted) {
-      ArduinoOTA.setHostname(OTA_HOSTNAME);
-      ArduinoOTA.setPassword(OTA_PASSWORD);
-      ArduinoOTA.begin();
-      otaStarted = true;
-      Serial.println(WiFi.localIP());
-    }
-    ArduinoOTA.handle();
-  } else {
-    otaStarted = false;
-    if (millis() - lastWifiAttempt >= WIFI_RETRY_MS) connectWifi();
+void updateBrightness() {
+  brightness += fadeAmount;
+  if (brightness >= 255) {
+    brightness = 255;
+    fadeAmount = -5;
+  } else if (brightness <= 0) {
+    brightness = 0;
+    fadeAmount = 5;
   }
+  analogWrite(PIN_LED, brightness);
 }
+
 void updateButton() {
-  unsigned long now = millis();
-  int reading = digitalRead(BUTTON_PIN);
-  if (reading != lastReading) lastButtonChangeMs = now;
-  if (now - lastButtonChangeMs >= DEBOUNCE_MS && reading != stableButtonState) {
-    stableButtonState = reading;
-    Serial.println(stableButtonState == LOW ? "pressed" : "released");
-    if (stableButtonState == LOW) {
-      ledEnabled = !ledEnabled;
-      Serial.println(ledEnabled ? "LED on" : "LED off");
+  int reading = digitalRead(PIN_BUTTON);
+  if (reading != lastReading) {
+    lastDebounceTime = millis();
+  }
+  if (millis() - lastDebounceTime >= DEBOUNCE_DELAY) {
+    if (reading != buttonState) {
+      buttonState = reading;
+      Serial.println(buttonState);
+      if (buttonState == LOW) {
+        fadeEnabled = !fadeEnabled;
+        if (!fadeEnabled) {
+          analogWrite(PIN_LED, 0);
+        }
+      }
     }
   }
   lastReading = reading;
 }
 
-void updateBrightness() {
-  unsigned long now = millis();
-  if (now - lastBrightnessMs < DIM_INTERVAL) return;
-  lastBrightnessMs = now;
-  brightness += fadeAmount;
-  if (brightness >= 255) { brightness = 255; fadeAmount = -5; }
-  if (brightness <= 0) { brightness = 0; fadeAmount = 5; }
-  ledcWrite(PWM_CHANNEL, ledEnabled ? brightness : 0);
-}
-
 void setupApplication() {
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
-  ledcSetup(PWM_CHANNEL, PWM_FREQUENCY, PWM_RESOLUTION);
-  ledcAttachPin(LED_PIN, PWM_CHANNEL);
+  pinMode(PIN_LED, OUTPUT);
+  pinMode(PIN_BUTTON, INPUT_PULLUP);
+  Serial.begin(115200);
+  analogWrite(PIN_LED, brightness);
 }
 
 void loopApplication() {
+  unsigned long currentTime = micros();
+  if (currentTime - previousTime >= interval) {
+    previousTime = currentTime;
+    if (fadeEnabled) {
+      updateBrightness();
+    }
+  }
   updateButton();
-  updateBrightness();
+}
+
+void setupWiFi() {
+  // Wi-Fi 연결 코드는 다음 실습에서 작성
+}
+
+void handleWiFi() {
+  // Wi-Fi 상태 처리 코드는 다음 실습에서 작성
+}
+
+void setup() {
+  setupApplication();
+  setupWiFi();
+}
+
+void loop() {
+  loopApplication();
+  handleWiFi();
 }
