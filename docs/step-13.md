@@ -1,8 +1,8 @@
 # Step 13 — AWS IoT LED 원격 제어
 
-## 시작/완성 코드
-- 시작: `step-13-aws-iot-control-start` (이전 단계 완성 코드 + TODO)
-- 완성: `step-13-aws-iot-control-complete` (이번 단계 구현 결과)
+## 시작/완료 브랜치
+- 시작: `step-13-aws-iot-control` (이전 단계 완성 코드 + TODO)
+- 완성: `step-13-aws-iot-control-done` (이번 단계 구현 결과)
 
 ## 실습 목표
 - AWS IoT MQTT 테스트 클라이언트에서 led/set ON/OFF 발행하고 LED 제어 확인
@@ -11,7 +11,7 @@
 ## 실습 준비
 - ESP32 DevKit, USB 데이터 케이블, PlatformIO/VS Code
 - LED/버튼, Wi-Fi, AWS IoT Core 계정·장치 인증서
-- 시작 브랜치: `git switch step-13-aws-iot-control-start`
+- 시작 브랜치: `git switch step-13-aws-iot-control`
 
 ## 회로 및 설정
 - LED: GPIO18 → 저항 → LED (+), LED (-) → GND; 버튼: GPIO19 ↔ GND
@@ -20,7 +20,7 @@
 ## 이번 단계에서 변경되는 코드
 - AWS에서 수신한 원격 LED 명령을 검증하고 상태 토픽 확인
 - 전체 코드: `src/main.cpp`
-- 변경 결과를 이전 브랜치와 비교: `git diff step-13-aws-iot-control-start..step-13-aws-iot-control-complete -- src/main.cpp`
+- 변경 결과를 이전 브랜치와 비교: `git diff step-13-aws-iot-control..step-13-aws-iot-control-done -- src/main.cpp`
 
 ## PlatformIO 설정
 - `platformio.ini`에서 `[env]`에 공통 설정(`platform`, `board`, `board_build.mcu = esp32`, `board_build.f_cpu = 240000000L`, `framework`, `monitor_speed`; 외부 라이브러리는 필요한 단계에서 `lib_deps`) 배치
@@ -52,3 +52,7 @@
 - AWS에서 명령/상태 토픽 권한 및 Subscribe/Receive 권한 확인
 - 사용자 계정, OTA 비밀번호, 개인키 등 비밀 정보는 공개 저장소에 커밋하지 않기
 - 네트워크 연결을 끊어 로컬 기능 유지 및 재연결 시험
+
+## 강의노트 연계
+- 강의노트 25~50쪽의 IoT 클라우드 구성과 45~46쪽의 MQTT 브로커 통신을 연결. AWS IoT Core 인증서 절차는 강의노트 외 실습.
+- [전체 강의노트–실습 대응표](lecture-alignment.md) 참고
