@@ -1,46 +1,18 @@
-# Step 6 — 버튼 비차단 읽기
+# Step 07 — 버튼으로 LED 제어 (수업 시작)
 
-## 실습 목적
-- millis() 기반 디바운싱
-- 이전 단계에서 작성한 LED Dimming과 버튼 입력 기능을 유지하며 확장
-
-## 준비물
-- ESP32 DevKit, USB 데이터 케이블, VS Code + PlatformIO
-- LED, 220~330Ω 저항, 버튼, 브레드보드, 점퍼선
-
-## 핵심 개념
-- `millis()`: 현재 시간 확인
-- `INPUT_PULLUP`: 버튼을 누르면 LOW 입력
-- `DEBOUNCE_MS`: 버튼 접점의 흔들림을 걸러내는 시간
-- `#define`: GPIO 및 고정 설정값 정의
-- `setup()` / `loop()`: Arduino 기본 실행 구조
+## 제공되는 코드
+- 이전 Step에서 완성한 LED/버튼 기능 제공
+- 이번 단계 버튼 LED 제어는 미구현
 
 ## 학생 수행 과제
-- [ ] `git switch step-06-button-nonblocking` 실행
-- [ ] GPIO18 LED 및 GPIO19 버튼 회로 구성
-- [ ] 버튼을 눌렀을 때 상태 변경 로그가 한 번만 출력되는지 확인
-- [ ] `DEBOUNCE_MS` 값을 변경해 결과 비교
-- [ ] USB 업로드 및 시리얼 모니터(115200) 확인
+- [ ] 디바운싱된 버튼 눌림 이벤트 검출
+- [ ] 버튼 한 번 누를 때마다 LED Dimming 켜기/끄기 전환
 
-## PlatformIO 설정 (`platformio.ini`)
-- `[env:default]`: `platform = espressif32`, `board = esp32dev`, `framework = arduino`, `monitor_speed = 115200`
-- `[env:esp32usb]`: `extends = env:default`, `upload_protocol = esptool`
-- `[env:esp32ota]`: `extends = env:default`, `upload_protocol = espota`, `upload_port`는 실제 IP로 변경
-- 현재는 `default_envs = esp32usb` 사용
-- 외부 라이브러리 필요 시 `env:default`의 `lib_deps`에 추가
-- OTA는 Step 08 이후 사용
+## 실행과 비교
+- `pio run -e esp32usb` 실행
+- 과제 코드 구현 후 [완성 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-07-button-led-complete)와 비교
+- 실습 자료: `docs/step-07.md`
 
-## 검증 기준
-- USB 업로드 성공
-- 버튼을 눌렀을 때 상태 변경 로그가 한 번만 출력되는지 확인
-- LED Dimming 기능 유지
-
-## 주의사항
-- 버튼 채터링과 중복 이벤트 주의
-- LED에 전류 제한 저항 연결
-- 버튼은 GPIO19와 GND 사이 연결
-- ESP32 보드의 GPIO 배치 확인
-
-## 생각해 볼 문제
-- 디바운싱이 없을 때 어떤 문제가 생기는가?
-- `delay()`를 사용하지 않는 이유는 무엇인가?
+## PlatformIO
+- 공통 `[env]` 설정: DOIT ESP32 DevKit V1 / 240MHz / Arduino
+- `esp32usb` 기본 사용, Step 08에서 OTA 업로드 도입
