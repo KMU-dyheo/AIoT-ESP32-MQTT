@@ -1,25 +1,19 @@
-# Step 11 — 로컬 MQTT 원격 LED 제어 (수업 시작)
+# Step 11 — Subscribe로 원격 LED 제어 (수업 시작)
 
-## 제공되는 코드
-- 이전 Step의 완성 코드 제공
-- 이번 단계 기능은 아직 구현되지 않음
+## 이번 실습의 코드 변화
+- 시작: `step-11-mqtt-control`
+- 완료: `step-11-mqtt-control-done`
+- 비교: `git diff step-11-mqtt-control..step-11-mqtt-control-done -- src/main.cpp platformio.ini include/`
+- led/set ON/OFF 대신 자료에서 정의한 소문자 on/off 명령을 구독하여 기존 Fade 상태를 제어
+- 이전 단계의 `updateButton()`, `updateBrightness()`, pressed/released 발행, LED on/off 발행 유지
+- GPIO23 버튼 + GPIO25 LED, Wi-Fi/MQTT 장애 시 로컬 제어 지속
 
-## 수업 중 구현할 항목
-- [ ] led/set 토픽 구독하여 ON/OFF 명령 받기
-- [ ] 수신 명령을 LED 상태에 반영하고 led/state로 결과 발행
-- [ ] 네트워크 실패 시 로컬 LED/버튼 동작 확인
+## 접속 설정
+- `include/wifi_config.h`: 학생별 비공개 Wi-Fi 설정
+- `include/mqtt_config.h`: MQTT Client ID 및 `aiot/esp32-01/...` 토픽 지정
+- `MQTT_HOST`: Broker PC의 실제 IP. localhost는 ESP32에서 PC를 뜻하지 않음
 
-## 실행과 비교
-- `pio run -e esp32usb` 실행
-- [완성 코드 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-11-mqtt-control-done)와 코드 비교
-- 실습 문서: `docs/step-11.md`
-
-## PlatformIO
-- `[env]`에 DOIT ESP32 DevKit V1 보드·240MHz·MQTT/JSON 라이브러리 설정
-- `esp32usb` / `esp32ota` 공통 설정 자동 상속
-
-## 강의 진행 브랜치
-- **수업 시작**: [`step-11-mqtt-control`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-11-mqtt-control)
-- **수업 완료**: [`step-11-mqtt-control-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-11-mqtt-control-done)
-- 현재 브랜치: **수업 시작 코드**
-- 현재 실습 문서: `docs/step-11.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
+## 검증
+- `pio run -e esp32usb`로 USB 빌드
+- mosquitto_pub로 aiot/esp32-01/led/set 토픽에 on/off를 보내 Fade 제어
+- [단계 실습 문서](docs/step-11.md) · [원본 강의 흐름](docs/lecture-alignment.md)

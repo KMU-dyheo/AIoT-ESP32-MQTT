@@ -1,58 +1,54 @@
-# Step 04 — millis 기반 비차단 Dimming
+# Step 04 — millis 기반 비차단 Fade
 
-## 시작/완료 브랜치
-- 시작: `step-04-led-nonblocking` (이전 단계 완성 코드 + TODO)
-- 완성: `step-04-led-nonblocking-done` (이번 단계 구현 결과)
+## 학습 목표
+delay()를 제거하고 millis() 차이로 DIM_INTERVAL마다 PWM 갱신
 
-## 실습 목표
-- delay를 없애고 millis/unsigned long 이전 시각으로 PWM 갱신
-- 이전 단계와 달라진 점을 관찰하고 설명
+## 수업 시작·완료 코드
+- **시작**: `git switch step-04-led-nonblocking` — Step 03 완료 코드와 이 단계 TODO
+- **완료**: `git switch step-04-led-nonblocking-done` — 이 단계 기능까지 구현
+- 비교: `git diff step-04-led-nonblocking..step-04-led-nonblocking-done -- src/main.cpp platformio.ini include/`
+- Step 04의 시작 소스에는 이 단계 완성 기능을 미리 넣지 않음
 
-## 실습 준비
-- ESP32 DevKit, USB 데이터 케이블, PlatformIO/VS Code
-- GPIO18 외부 LED + 220~330Ω 저항 + 브레드보드
-- 시작 브랜치: `git switch step-04-led-nonblocking`
+## 연결 및 준비
+- 회로: GPIO25 외부 LED 및 직렬 저항
+- Arduino/PlatformIO의 실제 보드 설정과 USB 포트를 확인
 
-## 회로 및 설정
-- GPIO18 → 저항 → LED 애노드(+), LED 캐소드(-) → GND
-- millis 차이를 unsigned long으로 비교
-
-## 이번 단계에서 변경되는 코드
-- previousMillis/DIM_INTERVAL/brightness/changeAmount로 주기 처리
-- 전체 코드: `src/main.cpp`
-- 변경 결과를 이전 브랜치와 비교: `git diff step-04-led-nonblocking..step-04-led-nonblocking-done -- src/main.cpp`
-
-## PlatformIO 설정
-- `platformio.ini`에서 `[env]`에 공통 설정(`platform`, `board`, `board_build.mcu = esp32`, `board_build.f_cpu = 240000000L`, `framework`, `monitor_speed`; 외부 라이브러리는 필요한 단계에서 `lib_deps`) 배치
-- `[env:esp32usb]`와 `[env:esp32ota]`는 공통 `[env]` 설정을 자동으로 공유
-- 기본값 `default_envs = esp32usb`
-- 사용하는 ESP32의 모델에 따라 `board = esp32doit-devkit-v1` 변경
-- 이 단계는 USB 업로드로 진행, OTA 실습은 Step 08부터
+## 이번 수업에서 변경하는 코드
+- 핵심 구현: `if (millis() - lastBrightnessMs >= DIM_INTERVAL) { brightness += fadeAmount; ... }`
+- 직전 완료 단계의 기능을 제거하지 않고, 이번 개념만 점진적으로 추가
+- 개념: 협력적 멀티태스킹, 경과시간 검사
 
 ## 실습 순서
-1. 위 브랜치 선택 후 `src/main.cpp` 확인
-2. 회로 구성과 GPIO 점검
-3. `platformio.ini`의 `board` 및 `esp32usb` 선택 확인
-4. Build, Upload 실행
-5. Build, Upload 후 회로 동작 관찰
-6. LED 밝기 변화가 delay 없이 반복
-7. 코드와 실험 결과 비교 기록
+1. 수업 시작 브랜치로 이동하고 `src/main.cpp`의 TODO 읽기
+2. 새로 필요한 회로·설정·라이브러리만 추가
+3. 핵심 로직 구현 후 `pio run -e esp32usb`로 빌드
+4. ESP32를 USB로 업로드하고 시리얼 모니터(`115200`) 확인
+5. LED Fade 실행 중 루프가 멈추지 않음
+6. 완료 브랜치와 `git diff`로 구현 차이를 비교
 
 ## 검증 기준
-- ESP32 빌드·업로드 성공
-- LED 밝기 변화가 delay 없이 반복
-- 이전 단계에서 배운 GPIO 기능 이해
+- **필수 동작**: LED Fade 실행 중 루프가 멈추지 않음
+- Step 04 이후: 루프에서 불필요한 `delay()` 없이 PWM 동작 유지
+- Step 08 이후: 네트워크가 끊겨도 `updateButton()`·`updateBrightness()` 동작 유지
+- MQTT 이전 단계는 MQTT 헤더·접속 코드·라이브러리를 추가하지 않음
 
 ## 문제 해결
-- USB 업로드 실패: 데이터 케이블, USB 포트, 드라이버, 실제 `board` 설정 확인
-- GPIO 동작 실패: 보드 핀맵, 회로 극성, GND 연결 확인
-- LED 출력 실패: 핀 번호와 회로 상태 확인
-
-## 주의사항 및 추가 실습
-- millis 차이를 unsigned long으로 비교
-- 사용자 계정, OTA 비밀번호, 개인키 등 비밀 정보는 공개 저장소에 커밋하지 않기
-- 코드의 시간/핀 설정을 변경해 동작 비교
+- LED가 동작하지 않으면 GPIO25, GND 공통 접지, 저항, LED 극성을 확인
+- 버튼 값이 반대로 보이면 `INPUT_PULLUP`에서 LOW=눌림인지 확인
+- MQTT 연결 실패 시 PC 브로커 리스너·방화벽·IP 주소 및 Client ID 중복 확인
+- AWS 연결 실패 시 장치 정책, endpoint, X.509 인증서, NTP 시각 동기화 확인
 
 ## 강의노트 연계
-- 강의노트 51~58쪽은 에지에서 데이터를 처리하고 빠르게 피드백하는 배경을 설명. 이 단계의 `millis()` 처리는 해당 개념을 로컬 제어 실습으로 연결한 설계.
-- [전체 강의노트–실습 대응표](lecture-alignment.md) 참고
+- Step 01~07: 로컬 입력·출력, 신호처리, 비차단 제어로 IoT 데이터 수집·에지 처리 체험
+- Step 08: 에지의 독립적 기능과 클라우드 네트워크 연결 구분
+- Step 09~11: 첨부된 버튼 실습 흐름의 Broker → 버튼 Publish → LED Publish → Subscribe 단계 적용
+- Step 12~13: 별도 클라우드·JSON 확장 실습. 기본 MQTT 100분 수업 이후에 배치
+- [강의노트 대응표](lecture-alignment.md) 참고
+
+## 공통 하드웨어 및 PlatformIO 기준
+- 실제 사용 보드: `esp32doit-devkit-v1`, ESP32 240MHz, Arduino Framework, Serial 115200
+- LED: Step 01은 내장 GPIO2, Step 02부터 외부 GPIO25 + 220~330Ω 직렬저항
+- 버튼: Step 05부터 GPIO23 ↔ GND, `INPUT_PULLUP`; 눌림 LOW, 해제 HIGH
+- `[platformio]` 기본 `esp32usb`; `[env]`에 공통 설정; `[env:esp32ota]`는 Step 08부터 실제 활용
+- 사용자가 제공한 강의 흐름 기준. 학생의 C++ 표현 방식은 제한하지 않음
+
