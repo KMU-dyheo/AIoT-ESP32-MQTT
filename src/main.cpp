@@ -1,3 +1,8 @@
+/* Step 11 시작 코드
+ TODO 1: led/set 토픽 구독하여 ON/OFF 명령 받기
+ TODO 2: 수신 명령을 LED 상태에 반영하고 led/state로 결과 발행
+ 아래는 이전 Step의 완성 코드. 이번 단계 기능을 직접 구현한다.
+*/
 #include <Arduino.h>
 #include <WiFi.h>
 #include <ArduinoOTA.h>
