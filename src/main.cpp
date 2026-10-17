@@ -1,3 +1,8 @@
+/* Step 08 시작 코드
+ TODO 1: setupApplication() / loopApplication()으로 LED/버튼 분리
+ TODO 2: 개인용·기업용 Wi-Fi 연결, 재연결 및 ArduinoOTA 처리
+ 아래는 이전 Step의 완성 코드. 이번 단계 기능을 직접 구현한다.
+*/
 #include <Arduino.h>
 #define LED_PIN 18
 #define BUTTON_PIN 19
