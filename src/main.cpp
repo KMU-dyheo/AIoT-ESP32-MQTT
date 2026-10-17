@@ -4,7 +4,7 @@
  아래는 이전 Step의 완성 코드. 이번 단계 기능을 직접 구현한다.
 */
 #include <Arduino.h>
-#define LED_PIN 18
+#define LED_PIN 25
 
 void setup() {
   pinMode(LED_PIN, OUTPUT);
