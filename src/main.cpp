@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#define LED_PIN 18
+#define LED_PIN 25
 #define PWM_FREQUENCY 5000
 #define PWM_RESOLUTION 8
 #define PWM_CHANNEL 0
