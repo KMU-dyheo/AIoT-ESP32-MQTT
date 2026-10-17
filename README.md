@@ -1,25 +1,19 @@
-# Step 03 — PWM LED 밝기 조절 (수업 시작)
+# Step 03 — PWM으로 LED 밝기 조절 (수업 시작 코드)
 
-## 제공되는 코드
-- 이전 Step 완성 코드 제공
-- 이번 단계 기능은 미구현
+## 시작과 완료
+- 수업 시작: `step-03-led-pwm`
+- 수업 완료: `step-03-led-pwm-done`
+- 현재 브랜치: 직전 단계 완성 코드에 이번 실습 TODO만 추가
+- 코드 변경 비교: `git diff step-03-led-pwm..step-03-led-pwm-done -- src/main.cpp`
 
-## 수업 중 구현할 항목
-- [ ] digitalWrite 점멸을 PWM 출력으로 바꾸기
-- [ ] 밝기 0~255 상승/하강을 delay로 구현
+## 실습 핵심
+- GPIO25 외부 LED, 220~330Ω 직렬 저항
+- PWM 채널과 8비트 해상도 및 delay를 통한 밝기 증가/감소
+- LED 밝기를 0~255 범위로 변화시키며 시리얼/육안으로 확인
+- `pio run -e esp32usb`로 빌드
+- MQTT 라이브러리는 이 단계에 포함되지 않음
 
-## 실행과 비교
-- `pio run -e esp32usb`로 시작 코드 빌드
-- `src/main.cpp` 수정 후 업로드
-- [수업 종료 완성 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-03-led-pwm-done)와 차이 비교
-
-## 공통 설정
-- `[env]`에 `esp32doit-devkit-v1` 및 240MHz 설정
-- USB/OTA 환경은 공통 `[env]` 설정 사용
-- 참고: `docs/step-03.md`
-
-## 강의 진행 브랜치
-- **수업 시작**: [`step-03-led-pwm`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-03-led-pwm)
-- **수업 완료**: [`step-03-led-pwm-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-03-led-pwm-done)
-- 현재 브랜치: **수업 시작 코드**
-- 현재 실습 문서: `docs/step-03.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
+## 실습 자료
+- [현재 단계 강의](docs/step-03.md)
+- [전체 강의노트–실습 연결](docs/lecture-alignment.md)
+- `docs/`에는 단계별 전체 문서가 포함될 수 있지만 `src/`는 현재 단계까지만 구현
