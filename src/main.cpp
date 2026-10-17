@@ -1,3 +1,8 @@
+/* Step 02 시작 코드
+ TODO 1: GPIO18에 LED와 저항을 연결
+ TODO 2: LED_PIN을 외부 LED 핀에 맞게 변경하여 점멸 구현
+ 아래 코드는 이전 Step의 완성 코드이다. 이번 Step을 직접 구현하자.
+*/
 #include <Arduino.h>
 
 // Step 01: ESP32 내장 LED 켜고 끄기
