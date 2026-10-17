@@ -1,10 +1,13 @@
 #include <Arduino.h>
 
 void setup() {
-  Serial.begin(115200);
+    Serial.begin(115200);
+    while (!Serial) {
+        ;
+    }
 }
 
 void loop() {
-  Serial.println("Hello");
-  delay(1000);
+    Serial.println("Hello World!");
+    delay(1000);
 }
