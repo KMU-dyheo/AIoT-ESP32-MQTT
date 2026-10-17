@@ -20,6 +20,7 @@ const unsigned long DEBOUNCE_DELAY = 30;
 bool fadeEnabled = true;
 
 unsigned long lastWifiAttempt = 0;
+bool wifiWasConnected = false;
 
 void setupApplication();
 void loopApplication();
@@ -42,15 +43,20 @@ void connectWifi() {
   lastWifiAttempt = millis();
 }
 void setup() {
+  Serial.begin(115200);
   setupApplication();
   WiFi.mode(WIFI_STA);
   connectWifi();
 }
 void loop() {
   loopApplication();
-  if (WiFi.status() != WL_CONNECTED && millis() - lastWifiAttempt >= WIFI_RETRY_MS) {
-    connectWifi();
+  bool connected = WiFi.status() == WL_CONNECTED;
+  if (connected && !wifiWasConnected) {
+    Serial.print("Wi-Fi connected. IP: ");
+    Serial.println(WiFi.localIP());
   }
+  if (!connected && millis() - lastWifiAttempt >= WIFI_RETRY_MS) connectWifi();
+  wifiWasConnected = connected;
 }
 
 void updateBrightness() {
@@ -88,7 +94,6 @@ void updateButton() {
 void setupApplication() {
   pinMode(PIN_LED, OUTPUT);
   pinMode(PIN_BUTTON, INPUT_PULLUP);
-  Serial.begin(115200);
   analogWrite(PIN_LED, brightness);
 }
 
