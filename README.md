@@ -1,25 +1,20 @@
-# Step 06 — 비차단 버튼 입력 (수업 시작)
+# Step 06 — 40ms 비차단 버튼 디바운싱 (수업 시작)
 
-## 제공되는 코드
-- 이전 Step 완성 코드 제공
-- 이번 단계 기능은 아직 구현되지 않음
+## 브랜치 사용
+- 시작: `git switch step-06-button-nonblocking`
+- 완료: `git switch step-06-button-nonblocking-done`
+- `git diff step-06-button-nonblocking..step-06-button-nonblocking-done -- src/main.cpp`
 
-## 수업 중 구현할 항목
-- [ ] 버튼 읽기에서 delay 제거
-- [ ] millis()로 버튼 디바운싱 구현
+## 이번 강의에서 추가하는 기능
+- lastReading·stableButtonState·lastButtonChangeMs·DEBOUNCE_MS로 안정 이벤트 식별
+- 버튼: GPIO23 ↔ GND, INPUT_PULLUP. 눌림=LOW / 놓임=HIGH
+- LED: GPIO25 (220~330Ω 저항 직렬), PWM Fade 유지
+- `updateButton()`과 `updateBrightness()`를 유지하면서 각각 변경
+- 수업 시작 브랜치에는 이번 기능이 아직 구현되지 않음
 
-## 진행 방법
-- `pio run -e esp32usb` 실행
-- `src/main.cpp`의 TODO를 확인하고 단계별 구현
-- [완성 코드](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-06-button-nonblocking-done)와 차이 비교
+## 확인 방법
+- `pio run -e esp32usb`, USB Upload, Serial Monitor 115200
+- 안정된 입력 변화마다 pressed/released가 중복 없이 한 번씩 출력
+- MQTT 관련 라이브러리 및 통신 코드는 아직 사용하지 않음
 
-## PlatformIO 및 실습 자료
-- `[env]`에 공통 DOIT ESP32 DevKit V1/240MHz 설정
-- `esp32usb`로 진행; `esp32ota`는 Step 08부터 사용
-- `docs/step-06.md` 참고
-
-## 강의 진행 브랜치
-- **수업 시작**: [`step-06-button-nonblocking`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-06-button-nonblocking)
-- **수업 완료**: [`step-06-button-nonblocking-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-06-button-nonblocking-done)
-- 현재 브랜치: **수업 시작 코드**
-- 현재 실습 문서: `docs/step-06.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
+[Step 06 실습 문서](docs/step-06.md) · [강의 흐름 대응표](docs/lecture-alignment.md)
