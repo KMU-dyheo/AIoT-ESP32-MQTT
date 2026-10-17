@@ -47,7 +47,6 @@ void updateButton() {
 void setupApplication() {
   pinMode(PIN_LED, OUTPUT);
   pinMode(PIN_BUTTON, INPUT_PULLUP);
-  Serial.begin(115200);
   analogWrite(PIN_LED, brightness);
 }
 
@@ -63,6 +62,7 @@ void loopApplication() {
 }
 
 void setup() {
+  Serial.begin(115200);
   setupApplication();
 }
 
