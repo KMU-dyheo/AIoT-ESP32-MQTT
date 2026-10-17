@@ -1,3 +1,8 @@
+/* Step 12 시작 코드
+ TODO 1: AWS IoT Root CA·장치 인증서·개인키를 활용하여 TLS 설정
+ TODO 2: Mosquitto에서 AWS IoT Core MQTT 서버로 연결 전환
+ 아래는 이전 Step의 완성 코드. 이번 단계 기능을 직접 구현한다.
+*/
 #include <Arduino.h>
 #include <WiFi.h>
 #include <ArduinoOTA.h>
