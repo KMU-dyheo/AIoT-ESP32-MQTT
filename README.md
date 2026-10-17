@@ -1,4 +1,4 @@
-# Step 13 — AWS IoT 원격 LED 제어 (완성 코드)
+# Step 13 — AWS IoT 원격 LED 제어 (수업 완료)
 
 ## 실습 목적
 - AWS IoT MQTT 테스트 클라이언트에서 LED 명령 ON/OFF 전송 및 상태 확인
@@ -17,7 +17,7 @@
 - AWS IoT Core의 인증서 활성화 및 IoT 정책 권한 필요
 
 ## 학생 수행 과제
-- [ ] `git switch step-13-aws-iot-control` 실행
+- [ ] `git switch step-13-aws-iot-control-done` 실행
 - [ ] `include/wifi_config.example.h` → `include/wifi_config.h` 복사 후 설정
 - [ ] `include/mqtt_config.example.h` → `include/mqtt_config.h` 복사 후 토픽/Client ID 설정
 - [ ] `include/aws_certificates.example.h` → `include/aws_certificates.h` 복사 후 엔드포인트, Root CA, 디바이스 인증서, 개인키 입력
@@ -43,10 +43,16 @@
 - 인증서 검증을 위해 네트워크 시간 동기화 필요
 
 ## 브랜치 사용
-- [수업 시작 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-13-aws-iot-control-start): 이전 단계 완성 코드와 이번 과제 TODO
+- [수업 시작 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-13-aws-iot-control): 이전 단계 완성 코드와 이번 과제 TODO
 - 현재 브랜치: Step 13 수업 종료 완성 코드
 - 실습 안내: `docs/step-13.md`
 - 보드: `esp32doit-devkit-v1`, MCU ESP32, CPU 240MHz
 - 공통 PlatformIO 설정은 `[env]`에 두고 `esp32usb`, `esp32ota`가 자동 공유
 - MQTT/JSON 라이브러리: `cyijun/ESP32MQTTClient@^1.1.3`, `bblanchon/ArduinoJson`
 - MQTT는 백그라운드 `mqttClient.loopStart()` 방식으로 동작
+
+## 강의 진행 브랜치
+- **수업 시작**: [`step-13-aws-iot-control`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-13-aws-iot-control)
+- **수업 완료**: [`step-13-aws-iot-control-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-13-aws-iot-control-done)
+- 현재 브랜치: **수업 완료 코드**
+- 현재 실습 문서: `docs/step-13.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
