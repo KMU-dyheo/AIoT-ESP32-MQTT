@@ -56,3 +56,7 @@
 ## 강의노트 연계
 - 강의노트 25~50쪽의 IoT 클라우드 구성과 45~46쪽의 MQTT 브로커 통신을 연결. AWS IoT Core 인증서 절차는 강의노트 외 실습.
 - [전체 강의노트–실습 대응표](lecture-alignment.md) 참고
+
+## Step 11 기능의 유지
+- AWS IoT Core TLS 연결로 브로커가 바뀌어도, 기존 `led/set` ON/OFF 구독·LED 제어 및 `led/state` 발행은 유지
+- 이 단계에서 새로 배우는 것은 AWS X.509 인증서, Root CA, TLS 엔드포인트 및 시간 동기화
