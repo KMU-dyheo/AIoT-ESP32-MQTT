@@ -1,8 +1,7 @@
-# Step 01 — 내장 LED 점멸
+# Step 01-01 — LED 출력 핀 설정 (완성 코드)
 
-완성 코드
+`#define LED 2`와 `pinMode(LED, OUTPUT)` 설정을 확인하세요. 아직 점멸 코드는 없습니다.
 
-- LED를 1초 켜고 1초 끄는 코드를 구현합니다.
-- `setup()`와 `loop()`에서 동작을 확인합니다.
-- 빌드: `pio run -e esp32usb`
-- [전체 단계](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/blob/main/README.md)
+- [실습 안내](docs/step-01-01.md)
+- 빌드: `pio run -e esp32dev_usb`
+- 다음 단계: `step-01-02-led-blink`
