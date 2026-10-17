@@ -1,58 +1,55 @@
-# Step 08 — Wi-Fi 및 OTA
+# Step 08 — Wi-Fi 및 OTA, 앱 루프 독립
 
-## 시작/완료 브랜치
-- 시작: `step-08-wifi` (이전 단계 완성 코드 + TODO)
-- 완성: `step-08-wifi-done` (이번 단계 구현 결과)
+## 학습 목표
+로컬 updateButton()/updateBrightness()를 보존하며 setupApplication()/loopApplication(), Wi-Fi, OTA 도입
 
-## 실습 목표
-- 로컬 기능을 setupApplication/loopApplication으로 분리, 비차단 Wi-Fi 재연결/ArduinoOTA 처리
-- 이전 단계와 달라진 점을 관찰하고 설명
+## 수업 시작·완료 코드
+- **시작**: `git switch step-08-wifi` — Step 07 완료 코드와 이 단계 TODO
+- **완료**: `git switch step-08-wifi-done` — 이 단계 기능까지 구현
+- 비교: `git diff step-08-wifi..step-08-wifi-done -- src/main.cpp platformio.ini include/`
+- Step 08의 시작 소스에는 이 단계 완성 기능을 미리 넣지 않음
 
-## 실습 준비
-- ESP32 DevKit, USB 데이터 케이블, PlatformIO/VS Code
-- GPIO18 LED/저항, GPIO19 버튼, Wi-Fi 접속 정보
-- 시작 브랜치: `git switch step-08-wifi`
+## 연결 및 준비
+- 회로: GPIO23 버튼, GPIO25 LED, Wi-Fi AP
+- Arduino/PlatformIO의 실제 보드 설정과 USB 포트를 확인
+- 개인 Wi-Fi 또는 WPA2-Enterprise 연결정보는 `include/wifi_config.example.h`를 복사한 비공개 `wifi_config.h`에 입력
 
-## 회로 및 설정
-- LED: GPIO18 → 저항 → LED (+), LED (-) → GND; 버튼: GPIO19 ↔ GND
-- 개인용 WPA2-Personal과 기업용 WPA2-Enterprise(PEAP) 중 접속 방식 설정; 학교망의 인증/CA 정책 확인
-
-## 이번 단계에서 변경되는 코드
-- wifi_config.h, ArduinoOTA, connectWifi, setupApplication/loopApplication, esp32ota 사용 가능
-- 전체 코드: `src/main.cpp`
-- 변경 결과를 이전 브랜치와 비교: `git diff step-08-wifi..step-08-wifi-done -- src/main.cpp`
-
-## PlatformIO 설정
-- `platformio.ini`에서 `[env]`에 공통 설정(`platform`, `board`, `board_build.mcu = esp32`, `board_build.f_cpu = 240000000L`, `framework`, `monitor_speed`; 외부 라이브러리는 필요한 단계에서 `lib_deps`) 배치
-- `[env:esp32usb]`와 `[env:esp32ota]`는 공통 `[env]` 설정을 자동으로 공유
-- 기본값 `default_envs = esp32usb`
-- 사용하는 ESP32의 모델에 따라 `board = esp32doit-devkit-v1` 변경
-- OTA 사용 시 ESP32 IP 주소와 인증 비밀번호를 로컬에서 설정
+## 이번 수업에서 변경하는 코드
+- 핵심 구현: `connectWifi(), ArduinoOTA.handle(), setupApplication(), loopApplication()`
+- 직전 완료 단계의 기능을 제거하지 않고, 이번 개념만 점진적으로 추가
+- 개념: 로컬 동작과 네트워크 서비스 분리
 
 ## 실습 순서
-1. 위 브랜치 선택 후 `src/main.cpp` 확인
-2. 회로 구성과 GPIO 점검
-3. `platformio.ini`의 `board` 및 `esp32usb` 선택 확인
-4. include/wifi_config.example.h를 include/wifi_config.h로 복사하고 실제 Wi-Fi/OTA 계정 정보 입력
-5. USB Build/Upload 후 Serial Monitor(115200) 및 네트워크 연결 상태 확인
-6. 네트워크 끊김 중에도 버튼/LED 동작, 연결 시 IP 출력 및 OTA 업로드
-7. 코드와 실험 결과 비교 기록
+1. 수업 시작 브랜치로 이동하고 `src/main.cpp`의 TODO 읽기
+2. 새로 필요한 회로·설정·라이브러리만 추가
+3. 핵심 로직 구현 후 `pio run -e esp32usb`로 빌드
+4. ESP32를 USB로 업로드하고 시리얼 모니터(`115200`) 확인
+5. Wi-Fi 끊김 및 재연결 중에도 버튼과 LED Fade가 작동
+6. 완료 브랜치와 `git diff`로 구현 차이를 비교
 
 ## 검증 기준
-- ESP32 빌드·업로드 성공
-- 네트워크 끊김 중에도 버튼/LED 동작, 연결 시 IP 출력 및 OTA 업로드
-- 네트워크 연결 실패 시에도 로컬 LED/버튼 루프가 계속 실행
+- **필수 동작**: Wi-Fi 끊김 및 재연결 중에도 버튼과 LED Fade가 작동
+- Step 04 이후: 루프에서 불필요한 `delay()` 없이 PWM 동작 유지
+- Step 08 이후: 네트워크가 끊겨도 `updateButton()`·`updateBrightness()` 동작 유지
+- MQTT 이전 단계는 MQTT 헤더·접속 코드·라이브러리를 추가하지 않음
 
 ## 문제 해결
-- USB 업로드 실패: 데이터 케이블, USB 포트, 드라이버, 실제 `board` 설정 확인
-- Wi-Fi 연결 실패: SSID/인증 방식/네트워크 분리·방화벽 확인
-- LED 출력 실패: 핀 번호와 회로 상태 확인
-
-## 주의사항 및 추가 실습
-- 개인용 WPA2-Personal과 기업용 WPA2-Enterprise(PEAP) 중 접속 방식 설정; 학교망의 인증/CA 정책 확인
-- 사용자 계정, OTA 비밀번호, 개인키 등 비밀 정보는 공개 저장소에 커밋하지 않기
-- 네트워크 연결을 끊어 로컬 기능 유지 및 재연결 시험
+- LED가 동작하지 않으면 GPIO25, GND 공통 접지, 저항, LED 극성을 확인
+- 버튼 값이 반대로 보이면 `INPUT_PULLUP`에서 LOW=눌림인지 확인
+- MQTT 연결 실패 시 PC 브로커 리스너·방화벽·IP 주소 및 Client ID 중복 확인
+- AWS 연결 실패 시 장치 정책, endpoint, X.509 인증서, NTP 시각 동기화 확인
 
 ## 강의노트 연계
-- 강의노트 25~44쪽은 클라우드, 51~58쪽은 에지 컴퓨팅의 역할을 설명. Wi-Fi/OTA 및 로컬 기능 분리는 이를 체험하기 위해 추가한 실습.
-- [전체 강의노트–실습 대응표](lecture-alignment.md) 참고
+- Step 01~07: 로컬 입력·출력, 신호처리, 비차단 제어로 IoT 데이터 수집·에지 처리 체험
+- Step 08: 에지의 독립적 기능과 클라우드 네트워크 연결 구분
+- Step 09~11: 첨부된 버튼 실습 흐름의 Broker → 버튼 Publish → LED Publish → Subscribe 단계 적용
+- Step 12~13: 별도 클라우드·JSON 확장 실습. 기본 MQTT 100분 수업 이후에 배치
+- [강의노트 대응표](lecture-alignment.md) 참고
+
+## 공통 하드웨어 및 PlatformIO 기준
+- 실제 사용 보드: `esp32doit-devkit-v1`, ESP32 240MHz, Arduino Framework, Serial 115200
+- LED: Step 01은 내장 GPIO2, Step 02부터 외부 GPIO25 + 220~330Ω 직렬저항
+- 버튼: Step 05부터 GPIO23 ↔ GND, `INPUT_PULLUP`; 눌림 LOW, 해제 HIGH
+- `[platformio]` 기본 `esp32usb`; `[env]`에 공통 설정; `[env:esp32ota]`는 Step 08부터 실제 활용
+- 사용자가 제공한 강의 흐름 기준. 학생의 C++ 표현 방식은 제한하지 않음
+
