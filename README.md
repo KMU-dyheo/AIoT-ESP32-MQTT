@@ -1,4 +1,4 @@
-# Step 07 — 버튼 LED Fade 제어
+# Step 07-01 — 버튼으로 Fade 토글
 
 시작 코드
 
