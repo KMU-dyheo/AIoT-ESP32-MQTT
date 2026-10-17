@@ -1,3 +1,8 @@
+/* Step 05 시작 코드
+ TODO 1: GPIO19에 버튼을 연결하고 INPUT_PULLUP 설정
+ TODO 2: digitalRead 값을 시리얼 모니터에 출력
+ 아래는 이전 Step의 완성 코드. 이번 단계 기능을 직접 구현한다.
+*/
 #include <Arduino.h>
 #define LED_PIN 18
 #define PWM_FREQUENCY 5000
