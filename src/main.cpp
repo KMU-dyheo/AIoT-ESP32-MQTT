@@ -1,14 +1,11 @@
 #include <Arduino.h>
-
 #define PIN_LED 25
-
-void setup() {
-  pinMode(PIN_LED, OUTPUT);
-}
-
+int brightness = 0;
+int fadeAmount = 5;
+void setup() { pinMode(PIN_LED, OUTPUT); }
 void loop() {
-  delay(500);
-  digitalWrite(PIN_LED, HIGH);
-  delay(500);
-  digitalWrite(PIN_LED, LOW);
+  analogWrite(PIN_LED, brightness);
+  brightness = brightness + fadeAmount;
+  if (brightness <= 0 || brightness >= 255) fadeAmount = -fadeAmount;
+  delay(30);
 }
