@@ -1,4 +1,4 @@
-# Step 01 — ESP32 내장 LED 제어
+# Step 01 — 내장 LED (완성 코드)
 
 ## 실습 목적
 - PlatformIO에서 ESP32 프로그램을 작성하고 업로드하는 과정을 익힘
@@ -50,8 +50,8 @@ upload_port = 192.168.0.100
 
 
 - `default_envs`: 기본으로 사용할 환경. Step 01에서는 `esp32usb` 지정
-- `[env:default]`: 보드, 프레임워크, 공통 라이브러리를 모아두는 기본 설정 프로필
-- `extends = env:default`: USB/OTA 환경이 공통 설정을 상속
+- `[env]`: 보드, 프레임워크, 공통 라이브러리를 모아두는 기본 설정 프로필
+- 공통 `[env]` 자동 상속: USB/OTA 환경이 공통 설정을 상속
 - `lib_deps`: 외부 라이브러리 목록. Step 01에서는 필요하지 않으므로 주석 처리, 이후 단계에서 추가
 - `[platformio] default_envs`: 기본 빌드 환경 선택. `esp32usb`만 기본 실행
 - `platform`: ESP32 개발 플랫폼
@@ -67,7 +67,7 @@ upload_port = 192.168.0.100
 ### 학생 설정 실습
 - [ ] 실제 보드의 모델과 `board` 값 확인
 - [ ] `default_envs = esp32usb` 확인
-- [ ] `esp32usb`, `esp32ota`에 `extends = env:default`가 있는지 확인
+- [ ] `esp32usb`, `esp32ota`에 공통 `[env]` 자동 상속가 있는지 확인
 - [ ] 라이브러리 추가가 필요할 때 `env:default`의 `lib_deps`에 작성한다는 점 이해
 - [ ] USB 연결 후 `esp32usb` 환경에서 Build 및 Upload 실행
 - [ ] `esp32ota`는 향후 사용할 환경임을 이해하고 Step 01에서는 실행하지 않기
@@ -108,3 +108,11 @@ git switch step-01-onboard-led
 - `setup()`과 `loop()`의 차이는?
 - `HIGH`와 `LOW`의 의미는?
 - `delay(1000)`을 두 번 호출하면 LED 한 주기에 걸리는 시간은?
+
+## 브랜치 활용
+- [수업 시작 코드](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-01-onboard-led-start): 직전 단계의 완성 코드와 이번 단계 TODO
+- 현재 브랜치: Step 01 실습 완료 상태
+- 실습 문서: `docs/step-01.md`
+- 플랫폼 설정: `[env]` 공통, `esp32usb` / `esp32ota` 프로필
+- 실제 보드: `esp32doit-devkit-v1`, CPU 240MHz, ESP32 Core 2.0.17
+- `lib_deps`는 MQTT 도입 전까지 추가하지 않음
