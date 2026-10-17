@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <WiFi.h>
+#include <ArduinoOTA.h>
 #include "wifi_config.h"
 #include <esp_wpa2.h>
 #include <esp_wifi.h>
@@ -19,6 +20,7 @@ const unsigned long DEBOUNCE_DELAY = 30;
 bool fadeEnabled = true;
 
 unsigned long lastWifiAttempt = 0;
+bool otaStarted = false;
 
 void setupApplication();
 void loopApplication();
@@ -47,11 +49,20 @@ void setup() {
 }
 void loop() {
   loopApplication();
-  if (WiFi.status() != WL_CONNECTED && millis() - lastWifiAttempt >= WIFI_RETRY_MS) {
-    connectWifi();
+  if (WiFi.status() == WL_CONNECTED) {
+    if (!otaStarted) {
+      ArduinoOTA.setHostname(OTA_HOSTNAME);
+      ArduinoOTA.setPassword(OTA_PASSWORD);
+      ArduinoOTA.begin();
+      otaStarted = true;
+      Serial.println(WiFi.localIP());
+    }
+    ArduinoOTA.handle();
+  } else {
+    otaStarted = false;
+    if (millis() - lastWifiAttempt >= WIFI_RETRY_MS) connectWifi();
   }
 }
-
 void updateBrightness() {
   brightness += fadeAmount;
   if (brightness >= 255) {
