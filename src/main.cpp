@@ -12,6 +12,7 @@
 
 #define PIN_LED 25
 #define PIN_BUTTON 23
+#define WIFI_RETRY_MS 10000
 
 int brightness = 0;
 int fadeAmount = 5;
