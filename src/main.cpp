@@ -1,13 +1,11 @@
 #include <Arduino.h>
+
 #define LED 2
 
 void setup() {
-  pinMode(LED, OUTPUT);
+    pinMode(LED, OUTPUT);
 }
 
 void loop() {
-  delay(500);
-  digitalWrite(LED, HIGH);
-  delay(500);
-  digitalWrite(LED, LOW);
+    // TODO: delay(500), HIGH, delay(500), LOW 순서로 LED를 제어하세요.
 }
