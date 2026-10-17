@@ -1,4 +1,4 @@
-# Step 01 — 내장 LED (완성 코드)
+# Step 01 — 내장 LED (수업 완료)
 
 ## 실습 목적
 - PlatformIO에서 ESP32 프로그램을 작성하고 업로드하는 과정을 익힘
@@ -110,9 +110,15 @@ git switch step-01-onboard-led
 - `delay(1000)`을 두 번 호출하면 LED 한 주기에 걸리는 시간은?
 
 ## 브랜치 활용
-- [수업 시작 코드](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-01-onboard-led-start): 직전 단계의 완성 코드와 이번 단계 TODO
+- [수업 시작 코드](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-01-onboard-led): 직전 단계의 완성 코드와 이번 단계 TODO
 - 현재 브랜치: Step 01 실습 완료 상태
 - 실습 문서: `docs/step-01.md`
 - 플랫폼 설정: `[env]` 공통, `esp32usb` / `esp32ota` 프로필
 - 실제 보드: `esp32doit-devkit-v1`, CPU 240MHz, ESP32 Core 2.0.17
 - `lib_deps`는 MQTT 도입 전까지 추가하지 않음
+
+## 강의 진행 브랜치
+- **수업 시작**: [`step-01-onboard-led`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-01-onboard-led)
+- **수업 완료**: [`step-01-onboard-led-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-01-onboard-led-done)
+- 현재 브랜치: **수업 완료 코드**
+- 현재 실습 문서: `docs/step-01.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
