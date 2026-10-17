@@ -1,8 +1,8 @@
-/* Step 13 시작 코드
- TODO 1: AWS IoT Core에서 LED 명령 토픽 구독
- TODO 2: ON/OFF 원격 명령 수신 뒤 LED 상태를 변경
- TODO 3: 변경 상태를 AWS IoT Core MQTT 토픽으로 재발행
- 아래는 Step 12 완성 코드이며 AWS LED 명령은 미구현이다.
+/* Step 13 수업 시작 코드
+ TODO 1: 기존 ON/OFF 문자열 명령 외에 JSON {"state":"ON"} / {"state":"OFF"} 명령 파싱 구현
+ TODO 2: LED 상태를 JSON으로 발행 (device, led, brightness, uptime_ms)
+ TODO 3: 로컬 MQTT 제어와 AWS 원격 제어 기능을 모두 유지하면서 데이터 표현 개선
+ 아래는 Step 12 완성 코드: AWS IoT TLS 연결 및 ON/OFF 문자열 원격 제어는 구현되어 있음.
 */
 #include <Arduino.h>
 #include <WiFi.h>
@@ -39,15 +39,21 @@ bool buttonEventPending = false;
 bool ledStatePending = true;
 ESP32MQTTClient mqttClient;
 bool mqttStarted = false;
+volatile int mqttLedCommand = -1;
 
 void setupApplication();
 void loopApplication();
 
+// ESP32MQTTClient의 이벤트 태스크에서는 명령만 기록
+void onLedCommand(const std::string &payload) {
+  if (payload == "ON") mqttLedCommand = 1;
+  if (payload == "OFF") mqttLedCommand = 0;
+}
 
 void onMqttConnect(esp_mqtt_client_handle_t client) {
   if (!mqttClient.isMyTurn(client)) return;
   Serial.println("MQTT connected");
-
+  mqttClient.subscribe(MQTT_LED_SET_TOPIC, onLedCommand, 0);
 }
 
 esp_err_t handleMQTT(esp_mqtt_event_handle_t event) {
@@ -60,6 +66,11 @@ void serviceMqtt() {
   if (time(nullptr) < 1700000000) return;
   if (!mqttStarted) {
     mqttStarted = mqttClient.loopStart();
+  }
+  if (mqttLedCommand != -1) {
+    ledEnabled = mqttLedCommand == 1;
+    mqttLedCommand = -1;
+    ledStatePending = true;
   }
   if (mqttClient.isConnected()) {
     if (buttonEventPending && mqttClient.publish(MQTT_BUTTON_TOPIC, "PRESSED", 0, false)) buttonEventPending = false;
