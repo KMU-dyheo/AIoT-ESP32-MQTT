@@ -1,3 +1,4 @@
+// TODO: 이 단계의 Wi-Fi 연결 또는 OTA 코드를 추가합니다.
 #include <Arduino.h>
 #include <WiFi.h>
 #define PIN_LED 25
