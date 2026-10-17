@@ -37,6 +37,11 @@ esp_err_t handleMQTT(esp_mqtt_event_handle_t event) {
   return ESP_OK;
 }
 
+void serviceMqtt() {
+  if (WiFi.status() != WL_CONNECTED) return;
+  if (!mqttStarted) mqttStarted = mqttClient.loopStart();
+}
+
 void setupApplication();
 void loopApplication();
 
@@ -58,12 +63,16 @@ void connectWifi() {
   lastWifiAttempt = millis();
 }
 void setup() {
+  Serial.begin(115200);
   setupApplication();
+  mqttClient.setURL(MQTT_HOST, MQTT_PORT);
+  mqttClient.setMqttClientName(MQTT_CLIENT_ID);
   WiFi.mode(WIFI_STA);
   connectWifi();
 }
 void loop() {
   loopApplication();
+  serviceMqtt();
   if (WiFi.status() != WL_CONNECTED && millis() - lastWifiAttempt >= WIFI_RETRY_MS) {
     connectWifi();
   }
