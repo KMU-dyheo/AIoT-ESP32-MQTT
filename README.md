@@ -1,7 +1,8 @@
-# Step 04-02 — micros 비차단 PWM
+# Step 04-03 — updateBrightness 함수 분리
 
-완성 코드
+시작 코드
 
-- `micros()`로 경과 시간을 계산합니다.
-- LED 출력은 `analogWrite(PIN_LED, brightness)`를 사용합니다.
-- `pio run -e esp32usb`로 빌드합니다.
+- 5주차의 `updateBrightness()` 추출 및 `micros()` 간격 검사 실습
+- `setup()`와 `loop()`를 그대로 사용합니다.
+- `analogWrite(PIN_LED, brightness)` 출력
+- `pio run -e esp32usb`
