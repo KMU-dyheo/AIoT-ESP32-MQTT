@@ -18,6 +18,10 @@ jobs:
         branch:
           - step-01-01-serial
           - step-01-01-serial-done
+          - step-01-02-led-output
+          - step-01-02-led-output-done
+          - step-01-03-led-blink
+          - step-01-03-led-blink-done
           - step-02-01-led-blink
           - step-02-01-led-blink-done
           - step-02-02-five-blinks
@@ -112,4 +116,4 @@ jobs:
           if [ -f include/mqtt_config.example.h ]; then cp include/mqtt_config.example.h include/mqtt_config.h; fi
           if [ -f include/aws_certificates.example.h ]; then cp include/aws_certificates.example.h include/aws_certificates.h; fi
       - name: Build USB firmware
-        run: pio run -e esp32usb
+        run: pio run

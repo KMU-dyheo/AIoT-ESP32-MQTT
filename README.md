@@ -14,6 +14,8 @@ ESP32 DOIT DevKit V1 · PlatformIO · Arduino.
 | 단계 | 실습 | 시작 브랜치 | 완료 브랜치 |
 |---|---|---|---|
 | 01-01 | [시리얼 모니터](docs/step-01-01.md) | `step-01-01-serial` | `step-01-01-serial-done` |
+| 01-02 | [LED 출력 설정](docs/step-01-02.md) | `step-01-02-led-output` | `step-01-02-led-output-done` |
+| 01-03 | [내장 LED 500ms 점멸](docs/step-01-03.md) | `step-01-03-led-blink` | `step-01-03-led-blink-done` |
 | 02-01 | [외부 LED 점멸](docs/step-02-01.md) | `step-02-01-led-blink` | `step-02-01-led-blink-done` |
 | 02-02 | [1초 점등 후 5회 점멸](docs/step-02-02.md) | `step-02-02-five-blinks` | `step-02-02-five-blinks-done` |
 | 03-01 | [analogWrite Fade](docs/step-03-01.md) | `step-03-01-pwm-fade` | `step-03-01-pwm-fade-done` |
@@ -41,7 +43,7 @@ ESP32 DOIT DevKit V1 · PlatformIO · Arduino.
 ## 환경
 - 보드: `esp32doit-devkit-v1`
 - CPU: 240MHz
-- 기본 업로드: `pio run -e esp32usb`
+- 기본 USB 업로드: `pio run` (해당 브랜치의 `default_envs` 사용)
 - 2·3·5주차 로컬 실습에서는 `setup()`, `loop()`를 사용합니다.
 - Wi-Fi 실습 Step 08-02에서 처음 `setupApplication()`, `loopApplication()`을 도입합니다.
 - LED: GPIO25와 220~330Ω 저항, 버튼: GPIO23
