@@ -1,8 +1,8 @@
 # Step 04 — millis 기반 비차단 Dimming
 
-## 시작/완성 코드
-- 시작: `step-04-led-nonblocking-start` (이전 단계 완성 코드 + TODO)
-- 완성: `step-04-led-nonblocking-complete` (이번 단계 구현 결과)
+## 시작/완료 브랜치
+- 시작: `step-04-led-nonblocking` (이전 단계 완성 코드 + TODO)
+- 완성: `step-04-led-nonblocking-done` (이번 단계 구현 결과)
 
 ## 실습 목표
 - delay를 없애고 millis/unsigned long 이전 시각으로 PWM 갱신
@@ -11,7 +11,7 @@
 ## 실습 준비
 - ESP32 DevKit, USB 데이터 케이블, PlatformIO/VS Code
 - GPIO18 외부 LED + 220~330Ω 저항 + 브레드보드
-- 시작 브랜치: `git switch step-04-led-nonblocking-start`
+- 시작 브랜치: `git switch step-04-led-nonblocking`
 
 ## 회로 및 설정
 - GPIO18 → 저항 → LED 애노드(+), LED 캐소드(-) → GND
@@ -20,7 +20,7 @@
 ## 이번 단계에서 변경되는 코드
 - previousMillis/DIM_INTERVAL/brightness/changeAmount로 주기 처리
 - 전체 코드: `src/main.cpp`
-- 변경 결과를 이전 브랜치와 비교: `git diff step-04-led-nonblocking-start..step-04-led-nonblocking-complete -- src/main.cpp`
+- 변경 결과를 이전 브랜치와 비교: `git diff step-04-led-nonblocking..step-04-led-nonblocking-done -- src/main.cpp`
 
 ## PlatformIO 설정
 - `platformio.ini`에서 `[env]`에 공통 설정(`platform`, `board`, `board_build.mcu = esp32`, `board_build.f_cpu = 240000000L`, `framework`, `monitor_speed`; 외부 라이브러리는 필요한 단계에서 `lib_deps`) 배치
@@ -52,3 +52,7 @@
 - millis 차이를 unsigned long으로 비교
 - 사용자 계정, OTA 비밀번호, 개인키 등 비밀 정보는 공개 저장소에 커밋하지 않기
 - 코드의 시간/핀 설정을 변경해 동작 비교
+
+## 강의노트 연계
+- 강의노트 51~58쪽은 에지에서 데이터를 처리하고 빠르게 피드백하는 배경을 설명. 이 단계의 `millis()` 처리는 해당 개념을 로컬 제어 실습으로 연결한 설계.
+- [전체 강의노트–실습 대응표](lecture-alignment.md) 참고
