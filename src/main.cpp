@@ -6,6 +6,7 @@
 #include <esp_wifi.h>
 #include <cstring>
 #include <ESP32MQTTClient.h>
+#include <ArduinoJson.h>
 
 #include <time.h>
 #include "aws_certificates.h"
@@ -38,9 +39,19 @@ volatile int mqttLedCommand = -1;
 void setupApplication();
 void loopApplication();
 
+// ESP32MQTTClient의 이벤트 태스크에서는 명령만 기록
 void onLedCommand(const std::string &payload) {
-  if (payload == "ON") mqttLedCommand = 1;
-  if (payload == "OFF") mqttLedCommand = 0;
+  if (payload == "ON") { mqttLedCommand = 1; return; }
+  if (payload == "OFF") { mqttLedCommand = 0; return; }
+
+  JsonDocument command;
+  DeserializationError error = deserializeJson(command, payload.c_str());
+  if (error) return;
+  const char *state = command["state"];
+  if (state == nullptr) return;
+
+  if (strcmp(state, "ON") == 0) mqttLedCommand = 1;
+  if (strcmp(state, "OFF") == 0) mqttLedCommand = 0;
 }
 
 void onMqttConnect(esp_mqtt_client_handle_t client) {
@@ -67,7 +78,18 @@ void serviceMqtt() {
   }
   if (mqttClient.isConnected()) {
     if (buttonEventPending && mqttClient.publish(MQTT_BUTTON_TOPIC, "PRESSED", 0, false)) buttonEventPending = false;
-    if (ledStatePending && mqttClient.publish(MQTT_LED_STATE_TOPIC, ledEnabled ? "ON" : "OFF", 0, true)) ledStatePending = false;
+    if (ledStatePending) {
+      JsonDocument state;
+      state["device"] = MQTT_CLIENT_ID;
+      state["led"] = ledEnabled ? "ON" : "OFF";
+      state["brightness"] = ledEnabled ? brightness : 0;
+      state["uptime_ms"] = millis();
+      String json;
+      serializeJson(state, json);
+      if (mqttClient.publish(MQTT_LED_STATE_TOPIC, json.c_str(), 0, true)) {
+        ledStatePending = false;
+      }
+    }
   }
 }
 
