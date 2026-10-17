@@ -1,10 +1,9 @@
-/* Step 05 시작 코드
- TODO 1: GPIO19에 버튼을 연결하고 INPUT_PULLUP 설정
- TODO 2: digitalRead 값을 시리얼 모니터에 출력
- 아래는 이전 Step의 완성 코드. 이번 단계 기능을 직접 구현한다.
+/* Step 05 수업 시작
+TODO: GPIO23 입력을 INPUT_PULLUP으로 읽고 버튼 변화를 시리얼 출력
+기존 LED Fade 기능을 유지하며 updateButton()과 updateBrightness()를 분리해 구현합니다.
 */
 #include <Arduino.h>
-#define LED_PIN 18
+#define LED_PIN 25
 #define PWM_FREQUENCY 5000
 #define PWM_RESOLUTION 8
 #define PWM_CHANNEL 0
