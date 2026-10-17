@@ -1,7 +1,7 @@
-# Step 04-01 — loop 재진입 속도 측정
+# Step 04-02 — micros 비차단 PWM
 
-완성 코드
+시작 코드
 
-- `micros()`로 `loop()` 실행 간격을 측정합니다.
-- `Serial.print()`·`Serial.println()`으로 결과를 확인합니다.
+- `micros()`로 경과 시간을 계산합니다.
+- LED 출력은 `analogWrite(PIN_LED, brightness)`를 사용합니다.
 - `pio run -e esp32usb`로 빌드합니다.
