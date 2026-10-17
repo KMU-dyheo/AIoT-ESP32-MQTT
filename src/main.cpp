@@ -2,12 +2,12 @@
 #define LED 2
 
 void setup() {
-  Serial.begin(115200);
   pinMode(LED, OUTPUT);
 }
+
 void loop() {
+  delay(500);
   digitalWrite(LED, HIGH);
-  delay(1000);
+  delay(500);
   digitalWrite(LED, LOW);
-  delay(1000);
 }
