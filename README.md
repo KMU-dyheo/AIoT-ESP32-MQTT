@@ -1,4 +1,4 @@
-# Step 11 — MQTT LED 제어 (완성 코드)
+# Step 11 — MQTT LED 제어 (수업 완료)
 
 ## 실습 목적
 - 버튼 눌림은 button/event, LED 상태는 led/state 토픽에 발행. mosquitto_sub로 수신 확인.
@@ -40,10 +40,16 @@
 - 브로커 포트 1883의 PC 방화벽 및 접속 허용 범위 확인
 
 ## 브랜치 사용
-- [수업 시작 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-11-mqtt-control-start): 이전 단계 완성 코드와 이번 과제 TODO
+- [수업 시작 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-11-mqtt-control): 이전 단계 완성 코드와 이번 과제 TODO
 - 현재 브랜치: Step 11 수업 종료 완성 코드
 - 실습 안내: `docs/step-11.md`
 - 보드: `esp32doit-devkit-v1`, MCU ESP32, CPU 240MHz
 - 공통 PlatformIO 설정은 `[env]`에 두고 `esp32usb`, `esp32ota`가 자동 공유
 - MQTT/JSON 라이브러리: `cyijun/ESP32MQTTClient@^1.1.3`, `bblanchon/ArduinoJson`
 - MQTT는 백그라운드 `mqttClient.loopStart()` 방식으로 동작
+
+## 강의 진행 브랜치
+- **수업 시작**: [`step-11-mqtt-control`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-11-mqtt-control)
+- **수업 완료**: [`step-11-mqtt-control-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-11-mqtt-control-done)
+- 현재 브랜치: **수업 완료 코드**
+- 현재 실습 문서: `docs/step-11.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
