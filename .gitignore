@@ -11,5 +11,6 @@ certs/
 *.key
 
 include/wifi_config.h
+include/mqtt_config.h
 include/aws_config.h
 include/aws_certificates.h
