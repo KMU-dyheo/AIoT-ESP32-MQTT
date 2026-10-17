@@ -5,8 +5,8 @@
 #include <esp_wpa2.h>
 #include <esp_wifi.h>
 #include <cstring>
-#include <PubSubClient.h>
-#include <WiFiClientSecure.h>
+#include <ESP32MQTTClient.h>
+
 #include <time.h>
 #include "aws_certificates.h"
 #include "mqtt_config.h"
@@ -31,35 +31,35 @@ unsigned long lastWifiAttempt = 0;
 bool otaStarted = false;
 bool buttonEventPending = false;
 bool ledStatePending = true;
-WiFiClientSecure mqttNetwork;
-PubSubClient mqtt(mqttNetwork);
-unsigned long lastMqttAttempt = 0;
+ESP32MQTTClient mqttClient;
+bool mqttStarted = false;
 
 void setupApplication();
-void handleMqttMessage(char* topic, byte* payload, unsigned int length) {
-  // Step 13에서 AWS MQTT LED 명령을 구현
-}
-void serviceMqtt() {
-  if (WiFi.status() != WL_CONNECTED || time(nullptr) < 1700000000) return;
-  if (!mqtt.connected() && millis() - lastMqttAttempt >= 5000) {
-    lastMqttAttempt = millis();
-    if (mqtt.connect(MQTT_CLIENT_ID)) {
-      ledStatePending = true;
-      // Step 13에서 원격 제어 토픽 구독
-    }
-  }
-  if (mqtt.connected()) {
-    mqtt.loop();
-    if (buttonEventPending) {
-      if (mqtt.publish(MQTT_BUTTON_TOPIC, "PRESSED")) buttonEventPending = false;
-    }
-    if (ledStatePending) {
-      if (mqtt.publish(MQTT_LED_STATE_TOPIC, ledEnabled ? "ON" : "OFF", true)) ledStatePending = false;
-    }
-  }
+void loopApplication();
+
+
+void onMqttConnect(esp_mqtt_client_handle_t client) {
+  if (!mqttClient.isMyTurn(client)) return;
+  Serial.println("MQTT connected");
+
 }
 
-void loopApplication();
+esp_err_t handleMQTT(esp_mqtt_event_handle_t event) {
+  mqttClient.onEventCallback(event);
+  return ESP_OK;
+}
+
+void serviceMqtt() {
+  if (WiFi.status() != WL_CONNECTED) return;
+  if (time(nullptr) < 1700000000) return;
+  if (!mqttStarted) {
+    mqttStarted = mqttClient.loopStart();
+  }
+  if (mqttClient.isConnected()) {
+    if (buttonEventPending && mqttClient.publish(MQTT_BUTTON_TOPIC, "PRESSED", 0, false)) buttonEventPending = false;
+    if (ledStatePending && mqttClient.publish(MQTT_LED_STATE_TOPIC, ledEnabled ? "ON" : "OFF", 0, true)) ledStatePending = false;
+  }
+}
 
 void connectWifi() {
   if (WiFi.status() == WL_CONNECTED) return;
@@ -81,11 +81,11 @@ void connectWifi() {
 void setup() {
   Serial.begin(115200);
   setupApplication();
-  mqttNetwork.setCACert(AWS_ROOT_CA);
-  mqttNetwork.setCertificate(AWS_DEVICE_CERT);
-  mqttNetwork.setPrivateKey(AWS_PRIVATE_KEY);
-  mqtt.setServer(AWS_IOT_ENDPOINT, 8883);
-  mqtt.setCallback(handleMqttMessage);
+  mqttClient.setURL(AWS_IOT_ENDPOINT, 8883);
+  mqttClient.setMqttClientName(MQTT_CLIENT_ID);
+  mqttClient.setCaCert(AWS_ROOT_CA);
+  mqttClient.setClientCert(AWS_DEVICE_CERT);
+  mqttClient.setKey(AWS_PRIVATE_KEY);
   configTime(0, 0, "pool.ntp.org", "time.google.com");
   WiFi.mode(WIFI_STA);
   connectWifi();
