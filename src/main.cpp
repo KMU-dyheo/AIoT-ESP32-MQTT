@@ -3,6 +3,7 @@
 #define BUTTON_PIN 19
 #define PWM_FREQUENCY 5000
 #define PWM_RESOLUTION 8
+#define PWM_CHANNEL 0
 #define DIM_INTERVAL 30
 #define DEBOUNCE_MS 40
 
@@ -17,7 +18,8 @@ int stableButtonState = HIGH;
 void setup() {
   Serial.begin(115200);
   pinMode(BUTTON_PIN, INPUT_PULLUP);
-  ledcAttach(LED_PIN, PWM_FREQUENCY, PWM_RESOLUTION);
+  ledcSetup(PWM_CHANNEL, PWM_FREQUENCY, PWM_RESOLUTION);
+  ledcAttachPin(LED_PIN, PWM_CHANNEL);
 }
 void loop() {
   unsigned long now = millis();
@@ -36,6 +38,6 @@ void loop() {
     brightness += changeAmount;
     if (brightness >= 255) { brightness = 255; changeAmount = -5; }
     if (brightness <= 0) { brightness = 0; changeAmount = 5; }
-    ledcWrite(LED_PIN, ledEnabled ? brightness : 0);
+    ledcWrite(PWM_CHANNEL, ledEnabled ? brightness : 0);
   }
 }
