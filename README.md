@@ -1,4 +1,4 @@
-# Step 03 — PWM 밝기 제어
+# Step 03-01 — analogWrite Fade
 
 실습 시작 코드
 
