@@ -14,9 +14,15 @@
 ## 실행
 - `pio run -e esp32usb`
 - 실제 계정 및 인증서는 `include/aws_certificates.h`에만 입력하고 Git에 올리지 않음
-- [Step 13 완성 코드](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-13-aws-iot-control-complete)와 비교
+- [Step 13 완성 코드](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-13-aws-iot-control-done)와 비교
 - `docs/step-13.md` 참고
 
 ## PlatformIO
 - `[env]`에 보드(`esp32doit-devkit-v1`), 240MHz CPU, MQTT·JSON 라이브러리 관리
 - USB/OTA 프로필은 각각 업로드 방법만 달리함
+
+## 강의 진행 브랜치
+- **수업 시작**: [`step-13-aws-iot-control`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-13-aws-iot-control)
+- **수업 완료**: [`step-13-aws-iot-control-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-13-aws-iot-control-done)
+- 현재 브랜치: **수업 시작 코드**
+- 현재 실습 문서: `docs/step-13.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고

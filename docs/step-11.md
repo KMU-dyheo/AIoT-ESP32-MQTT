@@ -1,8 +1,8 @@
 # Step 11 — MQTT LED 원격 제어
 
-## 시작/완성 코드
-- 시작: `step-11-mqtt-control-start` (이전 단계 완성 코드 + TODO)
-- 완성: `step-11-mqtt-control-complete` (이번 단계 구현 결과)
+## 시작/완료 브랜치
+- 시작: `step-11-mqtt-control` (이전 단계 완성 코드 + TODO)
+- 완성: `step-11-mqtt-control-done` (이번 단계 구현 결과)
 
 ## 실습 목표
 - led/set ON/OFF 수신 후 LED 활성 상태 변경, 변경 상태를 led/state에 발행
@@ -11,7 +11,7 @@
 ## 실습 준비
 - ESP32 DevKit, USB 데이터 케이블, PlatformIO/VS Code
 - LED/버튼, Wi-Fi, PC Mosquitto 브로커
-- 시작 브랜치: `git switch step-11-mqtt-control-start`
+- 시작 브랜치: `git switch step-11-mqtt-control`
 
 ## 회로 및 설정
 - LED: GPIO18 → 저항 → LED (+), LED (-) → GND; 버튼: GPIO19 ↔ GND
@@ -20,7 +20,7 @@
 ## 이번 단계에서 변경되는 코드
 - MQTT 콜백의 ON/OFF 명령 파싱, mqtt.subscribe 추가
 - 전체 코드: `src/main.cpp`
-- 변경 결과를 이전 브랜치와 비교: `git diff step-11-mqtt-control-start..step-11-mqtt-control-complete -- src/main.cpp`
+- 변경 결과를 이전 브랜치와 비교: `git diff step-11-mqtt-control..step-11-mqtt-control-done -- src/main.cpp`
 
 ## PlatformIO 설정
 - `platformio.ini`에서 `[env]`에 공통 설정(`platform`, `board`, `board_build.mcu = esp32`, `board_build.f_cpu = 240000000L`, `framework`, `monitor_speed`; 외부 라이브러리는 필요한 단계에서 `lib_deps`) 배치
@@ -52,3 +52,7 @@
 - MQTT 명령은 ON/OFF 대소문자 정확히 사용; 콜백은 수신 길이 검사
 - 사용자 계정, OTA 비밀번호, 개인키 등 비밀 정보는 공개 저장소에 커밋하지 않기
 - 네트워크 연결을 끊어 로컬 기능 유지 및 재연결 시험
+
+## 강의노트 연계
+- 강의노트 45~46쪽의 MQTT 브로커, Publish/Subscribe, QoS 설명과 직접 연결. Mosquitto 설치 및 ESP32 C++ 구현은 강의노트 외 실습.
+- [전체 강의노트–실습 대응표](lecture-alignment.md) 참고
