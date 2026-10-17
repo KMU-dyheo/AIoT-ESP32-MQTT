@@ -1,7 +1,6 @@
-/* Step 09 시작 코드
- TODO 1: 공통 lib_deps에 ESP32MQTTClient 1.1.3과 ArduinoJson 추가
- TODO 2: PC Mosquitto 브로커에 백그라운드 MQTT 연결 구현
- 아래는 이전 Step의 완성 코드. 이번 단계 기능을 직접 구현한다.
+/* Step 09 수업 시작: MQTT 브로커 연결
+ TODO: [env] MQTT 라이브러리 등록, mqtt_config.h 구성, 연결 콜백 및 serviceMqtt() 구현
+ Wi-Fi/OTA 장애 여부와 무관하게 updateButton() 및 updateBrightness() 실행
 */
 #include <Arduino.h>
 #include <WiFi.h>
@@ -11,8 +10,8 @@
 #include <esp_wifi.h>
 #include <cstring>
 
-#define LED_PIN 18
-#define BUTTON_PIN 19
+#define LED_PIN 25
+#define BUTTON_PIN 23
 #define PWM_FREQUENCY 5000
 #define PWM_RESOLUTION 8
 #define PWM_CHANNEL 0
@@ -21,12 +20,13 @@
 #define WIFI_RETRY_MS 10000
 
 int brightness = 0;
-int changeAmount = 5;
-bool ledEnabled = true;
-unsigned long previousMillis = 0;
-unsigned long lastChangeMillis = 0;
+int fadeAmount = 5;
+unsigned long lastBrightnessMs = 0;
 int lastReading = HIGH;
 int stableButtonState = HIGH;
+bool ledEnabled = true;
+unsigned long lastButtonChangeMs = 0;
+
 unsigned long lastWifiAttempt = 0;
 bool otaStarted = false;
 
@@ -72,28 +72,38 @@ void loop() {
     if (millis() - lastWifiAttempt >= WIFI_RETRY_MS) connectWifi();
   }
 }
+void updateButton() {
+  unsigned long now = millis();
+  int reading = digitalRead(BUTTON_PIN);
+  if (reading != lastReading) lastButtonChangeMs = now;
+  if (now - lastButtonChangeMs >= DEBOUNCE_MS && reading != stableButtonState) {
+    stableButtonState = reading;
+    Serial.println(stableButtonState == LOW ? "pressed" : "released");
+    if (stableButtonState == LOW) {
+      ledEnabled = !ledEnabled;
+      Serial.println(ledEnabled ? "LED on" : "LED off");
+    }
+  }
+  lastReading = reading;
+}
+
+void updateBrightness() {
+  unsigned long now = millis();
+  if (now - lastBrightnessMs < DIM_INTERVAL) return;
+  lastBrightnessMs = now;
+  brightness += fadeAmount;
+  if (brightness >= 255) { brightness = 255; fadeAmount = -5; }
+  if (brightness <= 0) { brightness = 0; fadeAmount = 5; }
+  ledcWrite(PWM_CHANNEL, ledEnabled ? brightness : 0);
+}
+
 void setupApplication() {
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   ledcSetup(PWM_CHANNEL, PWM_FREQUENCY, PWM_RESOLUTION);
   ledcAttachPin(LED_PIN, PWM_CHANNEL);
 }
+
 void loopApplication() {
-  unsigned long now = millis();
-  int reading = digitalRead(BUTTON_PIN);
-  if (reading != lastReading) lastChangeMillis = now;
-  if (now - lastChangeMillis >= DEBOUNCE_MS && reading != stableButtonState) {
-    stableButtonState = reading;
-    if (stableButtonState == LOW) {
-      ledEnabled = !ledEnabled;
-      Serial.println(ledEnabled ? "LED ENABLED" : "LED DISABLED");
-    }
-  }
-  lastReading = reading;
-  if (now - previousMillis >= DIM_INTERVAL) {
-    previousMillis = now;
-    brightness += changeAmount;
-    if (brightness >= 255) { brightness = 255; changeAmount = -5; }
-    if (brightness <= 0) { brightness = 0; changeAmount = 5; }
-    ledcWrite(PWM_CHANNEL, ledEnabled ? brightness : 0);
-  }
+  updateButton();
+  updateBrightness();
 }
