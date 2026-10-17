@@ -1,44 +1,50 @@
-# Step 12 실습 — AWS IoT Core TLS 연결
+# Step 12 — AWS IoT TLS 인증 연결
 
-## 실습 목적
-- AWS IoT Core TLS 연결 기능 구현
-- 이전 단계의 LED Dimming, 버튼 입력, Wi-Fi/OTA 기능 유지
+## 실습 목표
+- WiFiClientSecure로 Root CA/장치 인증서/개인키 설정 후 AWS IoT Core 8883 접속
+- 이전 단계와 달라진 점을 관찰하고 설명
 
-## 준비물
-- ESP32 DevKit, LED(220~330Ω 저항), 버튼, USB 케이블
-- VS Code + PlatformIO, Wi-Fi
-- AWS IoT Core 사물, X.509 인증서 및 MQTT 테스트 클라이언트
+## 실습 준비
+- ESP32 DevKit, USB 데이터 케이블, PlatformIO/VS Code
+- LED/버튼, Wi-Fi, AWS IoT Core 계정·장치 인증서
+- 시작 브랜치: `git switch step-12-aws-iot-connect`
 
-## 회로
-- GPIO18 → 저항 → LED 애노드(+), LED 캐소드(-) → GND
-- GPIO19 → 버튼 → GND (INPUT_PULLUP)
+## 회로 및 설정
+- LED: GPIO18 → 저항 → LED (+), LED (-) → GND; 버튼: GPIO19 ↔ GND
+- IoT 정책과 인증서 활성화, 서버 Root CA, 정확한 endpoint, 시간 동기화 필요
 
-## 실습 절차
-1. `git switch step-12-aws-iot-connect` 실행
-2. `include/wifi_config.example.h`를 `include/wifi_config.h`로 복사 후 실제 Wi-Fi 설정
-3. `include/mqtt_config.example.h`를 `include/mqtt_config.h`로 복사 후 MQTT 토픽 및 고유 Client ID 설정
-4. `include/aws_certificates.example.h`를 `include/aws_certificates.h`로 복사하고 AWS 엔드포인트/Root CA/인증서/개인키 설정
-4. `platformio.ini`의 `board`, `default_envs` 확인
-5. USB 업로드 후 시리얼 모니터 확인
-6. AWS IoT Core에서 인증서·정책 활성화 및 TLS MQTT 연결 확인
-7. 네트워크 연결을 끊고 로컬 LED/버튼 동작 유지 확인
+## 이번 단계에서 변경되는 코드
+- WiFiClient에서 WiFiClientSecure로 변경, AWS 인증서 및 NTP 추가; AWS 연결에 집중
+- 전체 코드: `src/main.cpp`
+- 변경 결과를 이전 브랜치와 비교: `git diff step-11-mqtt-control..step-12-aws-iot-connect -- src/main.cpp`
 
 ## PlatformIO 설정
-- `[env:default]`: 보드 및 공통 `lib_deps` 관리
-- `lib_deps = knolleary/PubSubClient @ ^2.8`
-- `[env:esp32usb]`, `[env:esp32ota]`는 `extends = env:default`
-- OTA는 실제 IP 주소와 비밀번호 설정 후 사용
+- `platformio.ini`에서 `[env:default]`에 공통 설정(`platform`, `board`, `framework`, `monitor_speed`, `lib_deps`) 배치
+- `[env:esp32usb]`와 `[env:esp32ota]`는 `extends = env:default`로 상속
+- 기본값 `default_envs = esp32usb`
+- 사용하는 ESP32의 모델에 따라 `board = esp32dev` 변경
+- 공통 MQTT 라이브러리 PubSubClient, TLS는 WiFiClientSecure 사용
+
+## 실습 순서
+1. 위 브랜치 선택 후 `src/main.cpp` 확인
+2. 회로 구성과 GPIO 점검
+3. `platformio.ini`의 `board` 및 `esp32usb` 선택 확인
+4. Wi-Fi/MQTT 설정 파일과 AWS 인증서 예제 파일을 실사용 .h로 복사하고 실제 인증서/엔드포인트 설정
+5. USB Build/Upload 후 Serial Monitor(115200) 및 네트워크 연결 상태 확인
+6. AWS IoT MQTT 테스트 클라이언트에서 연결/상태 발행 확인
+7. 코드와 실험 결과 비교 기록
 
 ## 검증 기준
-- USB 업로드 성공
-- AWS IoT Core TLS 연결 성공
-- 네트워크 장애 시에도 로컬 기능 유지
+- ESP32 빌드·업로드 성공
+- AWS IoT MQTT 테스트 클라이언트에서 연결/상태 발행 확인
+- 네트워크 연결 실패 시에도 로컬 LED/버튼 루프가 계속 실행
 
 ## 문제 해결
-- MQTT 연결 실패: PC IP, 방화벽, 브로커 리스너/인증 확인
-- AWS 연결 실패: TLS 인증서, 엔드포인트, NTP, 정책 권한 확인
-- LED 반응 없음: GPIO18 배선 및 led/set 토픽 확인
+- USB 업로드 실패: 데이터 케이블, USB 포트, 드라이버, 실제 `board` 설정 확인
+- Wi-Fi 연결 실패: SSID/인증 방식/네트워크 분리·방화벽 확인
+- MQTT 접속 실패: 브로커 주소, 포트, Client ID, 정책 및 토픽 확인
 
-## 추가 실습
-- 토픽의 장치 ID를 학생별로 변경
-- 연결 실패 후 재접속되는 과정 관찰
+## 주의사항 및 추가 실습
+- IoT 정책과 인증서 활성화, 서버 Root CA, 정확한 endpoint, 시간 동기화 필요
+- 사용자 계정, OTA 비밀번호, 개인키 등 비밀 정보는 공개 저장소에 커밋하지 않기
+- 네트워크 연결을 끊어 로컬 기능 유지 및 재연결 시험
