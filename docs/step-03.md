@@ -1,5 +1,9 @@
 # Step 03 — PWM LED 밝기 조절
 
+## 시작/완성 코드
+- 시작: `step-03-led-pwm-start` (이전 단계 완성 코드 + TODO)
+- 완성: `step-03-led-pwm-complete` (이번 단계 구현 결과)
+
 ## 실습 목표
 - ledcSetup/ledcAttachPin/ledcWrite로 8비트 PWM 제어; delay로 상승/하강 밝기 구현
 - 이전 단계와 달라진 점을 관찰하고 설명
@@ -7,7 +11,7 @@
 ## 실습 준비
 - ESP32 DevKit, USB 데이터 케이블, PlatformIO/VS Code
 - GPIO18 외부 LED + 220~330Ω 저항 + 브레드보드
-- 시작 브랜치: `git switch step-03-led-pwm`
+- 시작 브랜치: `git switch step-03-led-pwm-start`
 
 ## 회로 및 설정
 - GPIO18 → 저항 → LED 애노드(+), LED 캐소드(-) → GND
@@ -16,13 +20,13 @@
 ## 이번 단계에서 변경되는 코드
 - PWM_FREQUENCY/PWM_RESOLUTION/PWM_CHANNEL과 밝기 반복문 추가
 - 전체 코드: `src/main.cpp`
-- 변경 결과를 이전 브랜치와 비교: `git diff step-02-external-led..step-03-led-pwm -- src/main.cpp`
+- 변경 결과를 이전 브랜치와 비교: `git diff step-03-led-pwm-start..step-03-led-pwm-complete -- src/main.cpp`
 
 ## PlatformIO 설정
-- `platformio.ini`에서 `[env:default]`에 공통 설정(`platform`, `board`, `framework`, `monitor_speed`, `lib_deps`) 배치
-- `[env:esp32usb]`와 `[env:esp32ota]`는 `extends = env:default`로 상속
+- `platformio.ini`에서 `[env]`에 공통 설정(`platform`, `board`, `board_build.mcu = esp32`, `board_build.f_cpu = 240000000L`, `framework`, `monitor_speed`; 외부 라이브러리는 필요한 단계에서 `lib_deps`) 배치
+- `[env:esp32usb]`와 `[env:esp32ota]`는 공통 `[env]` 설정을 자동으로 공유
 - 기본값 `default_envs = esp32usb`
-- 사용하는 ESP32의 모델에 따라 `board = esp32dev` 변경
+- 사용하는 ESP32의 모델에 따라 `board = esp32doit-devkit-v1` 변경
 - 이 단계는 USB 업로드로 진행, OTA 실습은 Step 08부터
 
 ## 실습 순서
