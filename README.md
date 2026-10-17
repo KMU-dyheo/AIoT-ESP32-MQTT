@@ -13,7 +13,7 @@
 - [ ] LED_PIN을 외부 LED 핀에 맞게 변경하여 점멸 구현
 - [ ] `pio run -e esp32usb`로 빌드
 - [ ] LED 동작 확인
-- [ ] [완성 코드 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-02-external-led-complete)와 차이 비교
+- [ ] [완성 코드 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-02-external-led-done)와 차이 비교
 
 ## PlatformIO
 - `platformio.ini`의 `[env]`에 공통 보드·MCU·CPU·프레임워크 설정
@@ -23,3 +23,9 @@
 
 ## 참고 자료
 - `docs/step-02.md`
+
+## 강의 진행 브랜치
+- **수업 시작**: [`step-02-external-led`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-02-external-led)
+- **수업 완료**: [`step-02-external-led-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-02-external-led-done)
+- 현재 브랜치: **수업 시작 코드**
+- 현재 실습 문서: `docs/step-02.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
