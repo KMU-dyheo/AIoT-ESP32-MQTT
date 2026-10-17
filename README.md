@@ -1,31 +1,18 @@
-# Step 02 — 외부 LED 제어 (수업 시작)
+# Step 02 — 외부 LED GPIO25 제어 (수업 시작)
 
-## 현재 코드
-- Step 01에서 작성한 내장 LED 점멸 코드 제공
-- 이번 단계 구현은 아직 포함하지 않음
+## 브랜치
+- 수업 시작: `step-02-external-led`
+- 수업 완료: `step-02-external-led-done`
+- 현재 상태: **이전 단계 완성 코드와 이번 단계 TODO**
+- 변경 비교: `git diff step-02-external-led..step-02-external-led-done -- src/main.cpp platformio.ini include/`
 
-## 수업 목표
-- GPIO18에 LED와 저항을 연결
-- LED_PIN을 외부 LED 핀에 맞게 변경하여 점멸 구현
+## 학습 목표 및 검증
+- 상세 과제·배선·검증 기준: [docs/step-02.md](docs/step-02.md)
+- GPIO25 LED(직렬 저항 220~330Ω), GPIO23 버튼은 Step05 이후
+- ESP32 DOIT DevKit V1, 240MHz, USB 업로드: `pio run -e esp32usb`
+- MQTT 통신은 Step09부터만 추가. 로컬 버튼/Fade는 네트워크 장애와 무관하게 실행.
+- GPIO를 설정할 때 `#define` 예제를 사용하며 학생의 C++ 문법 선택은 제한하지 않음.
 
-## 학생 구현 과제
-- [ ] GPIO18에 LED와 저항을 연결
-- [ ] LED_PIN을 외부 LED 핀에 맞게 변경하여 점멸 구현
-- [ ] `pio run -e esp32usb`로 빌드
-- [ ] LED 동작 확인
-- [ ] [완성 코드 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-02-external-led-done)와 차이 비교
-
-## PlatformIO
-- `platformio.ini`의 `[env]`에 공통 보드·MCU·CPU·프레임워크 설정
-- `esp32usb`는 USB 업로드, `esp32ota`는 OTA 업로드 프로필
-- 보드 `esp32doit-devkit-v1`, CPU 240MHz
-- Step 01~07에서는 USB 업로드 사용
-
-## 참고 자료
-- `docs/step-02.md`
-
-## 강의 진행 브랜치
-- **수업 시작**: [`step-02-external-led`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-02-external-led)
-- **수업 완료**: [`step-02-external-led-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-02-external-led-done)
-- 현재 브랜치: **수업 시작 코드**
-- 현재 실습 문서: `docs/step-02.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
+## 강의 자료
+- `docs/step-01.md` ~ `docs/step-13.md`, 서브스텝 `docs/step-10-01.md`·`step-10-02.md`
+- `docs/lecture-alignment.md` — 기존 버튼 입력 수업 자료와 MQTT 강의 흐름 대조
