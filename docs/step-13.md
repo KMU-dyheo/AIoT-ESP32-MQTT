@@ -56,3 +56,10 @@
 ## 강의노트 연계
 - 강의노트 25~50쪽의 IoT 클라우드 구성과 45~46쪽의 MQTT 브로커 통신을 연결. AWS IoT Core 인증서 절차는 강의노트 외 실습.
 - [전체 강의노트–실습 대응표](lecture-alignment.md) 참고
+
+## 이번 단계 새 과제: JSON 데이터 교환
+- Step 12에는 이미 일반 문자열 `ON`/`OFF` 명령 수신과 LED 제어가 포함되어 있음
+- 이번 단계에는 `ArduinoJson`을 활용해 `{"state":"ON"}`/`{"state":"OFF"}` 명령을 추가
+- 응답 `led/state`는 `device`, `led`, `brightness`, `uptime_ms` 필드를 갖는 JSON으로 전환
+- 이전 문자열 명령은 계속 수용; AWS MQTT 테스트 클라이언트에서 두 형식을 비교
+- 강의노트 11쪽의 반정형 데이터 설명과 연결한 실습이며, JSON 프로그래밍 예시는 강의노트 본문에 없음
