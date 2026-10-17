@@ -11,9 +11,15 @@
 ## 진행 방법
 - `pio run -e esp32usb` 실행
 - `src/main.cpp`의 TODO를 확인하고 단계별 구현
-- [완성 코드](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-05-button-complete)와 차이 비교
+- [완성 코드](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-05-button-done)와 차이 비교
 
 ## PlatformIO 및 실습 자료
 - `[env]`에 공통 DOIT ESP32 DevKit V1/240MHz 설정
 - `esp32usb`로 진행; `esp32ota`는 Step 08부터 사용
 - `docs/step-05.md` 참고
+
+## 강의 진행 브랜치
+- **수업 시작**: [`step-05-button`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-05-button)
+- **수업 완료**: [`step-05-button-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-05-button-done)
+- 현재 브랜치: **수업 시작 코드**
+- 현재 실습 문서: `docs/step-05.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
