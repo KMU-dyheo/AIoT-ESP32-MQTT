@@ -33,15 +33,21 @@ bool buttonEventPending = false;
 bool ledStatePending = true;
 ESP32MQTTClient mqttClient;
 bool mqttStarted = false;
+volatile int mqttLedCommand = -1;
 
 void setupApplication();
 void loopApplication();
 
+// ESP32MQTTClient의 이벤트 태스크에서는 명령만 기록
+void onLedCommand(const std::string &payload) {
+  if (payload == "ON") mqttLedCommand = 1;
+  if (payload == "OFF") mqttLedCommand = 0;
+}
 
 void onMqttConnect(esp_mqtt_client_handle_t client) {
   if (!mqttClient.isMyTurn(client)) return;
   Serial.println("MQTT connected");
-
+  mqttClient.subscribe(MQTT_LED_SET_TOPIC, onLedCommand, 0);
 }
 
 esp_err_t handleMQTT(esp_mqtt_event_handle_t event) {
@@ -54,6 +60,11 @@ void serviceMqtt() {
   if (time(nullptr) < 1700000000) return;
   if (!mqttStarted) {
     mqttStarted = mqttClient.loopStart();
+  }
+  if (mqttLedCommand != -1) {
+    ledEnabled = mqttLedCommand == 1;
+    mqttLedCommand = -1;
+    ledStatePending = true;
   }
   if (mqttClient.isConnected()) {
     if (buttonEventPending && mqttClient.publish(MQTT_BUTTON_TOPIC, "PRESSED", 0, false)) buttonEventPending = false;
