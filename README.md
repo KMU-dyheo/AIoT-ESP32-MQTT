@@ -31,3 +31,22 @@ git switch step-01-onboard-led
 ```
 
 > ESP32 DevKit의 내장 LED GPIO는 모델에 따라 다르며 내장 LED가 없는 보드도 있습니다. 각 단계의 설정값을 확인하세요.
+
+## 저장소 구성 원칙
+
+- `main`: 전체 커리큘럼, 공통 `docs/step-01.md` ~ `docs/step-13.md`, 13개 브랜치 빌드 검증 워크플로
+- `step-XX-...`: 해당 단계까지의 `src/main.cpp` 코드와 해당 단계 실습용 `README.md`
+- 각 Step 브랜치의 `docs/`에는 전체 13개 안내서를 동일하게 제공
+- Step 01~07: `setup()` / `loop()` 직접 구현
+- Step 08~13: `setupApplication()` / `loopApplication()`에 로컬 기능을 분리
+- Step 01~08: 추가 MQTT 라이브러리 없음, Step 09부터 `PubSubClient` 추가
+- `platformio.ini`: `[env:default]`를 두 환경(`esp32usb`, `esp32ota`)이 `extends`로 상속
+- ESP32 플랫폼: `espressif32 @ 6.12.0` (Arduino Core 2.0.17), PWM/WPA2-Enterprise 예제도 해당 버전 기준
+- Wi-Fi 비밀번호, MQTT 설정, AWS 인증서/개인키의 실사용 파일은 Git에서 제외
+
+## 자동 빌드 검증
+
+- `.github/workflows/platformio-build.yml`에서 Step 01~13 브랜치를 각각 체크아웃해 USB 프로필 빌드
+- 공개된 예시 설정 헤더를 복사해 컴파일하므로 실제 Wi-Fi 비밀번호나 AWS 개인키를 CI에 업로드하지 않음
+- GitHub Actions에서 `ESP32 Step Build Check`를 선택해 수동 실행 가능
+- 자동 빌드는 컴파일을 확인하는 절차이며 ESP32 보드 실물, Wi-Fi, OTA, Mosquitto, AWS IoT 동작을 보장하지 않음
