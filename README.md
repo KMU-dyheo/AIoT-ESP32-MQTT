@@ -1,4 +1,4 @@
-# Step 03 — LED PWM Dimming
+# Step 03 — PWM Dimming (완성 코드)
 
 ## 실습 목적
 - PWM과 듀티비 개념 이해
@@ -21,11 +21,11 @@
 - [ ] 이전 단계와 달라진 동작을 관찰하고 설명
 
 ## PlatformIO 설정 (`platformio.ini`)
-- `[env:default]`에 `platform`, `board`, `framework`, `monitor_speed`, 공통 `lib_deps` 설정
-- `[env:esp32usb]`: `extends = env:default`, `upload_protocol = esptool`
-- `[env:esp32ota]`: `extends = env:default`, `upload_protocol = espota`
+- `[env]`에 `platform`, `board`, `framework`, `monitor_speed`, 공통 `lib_deps` 설정
+- `[env:esp32usb]`: 공통 `[env]` 자동 상속, `upload_protocol = esptool`
+- `[env:esp32ota]`: 공통 `[env]` 자동 상속, `upload_protocol = espota`
 - 현재 단계에서는 `default_envs = esp32usb` 사용
-- `board = esp32dev`는 실제 보드 모델에 맞게 변경
+- `board = esp32doit-devkit-v1`는 실제 보드 모델에 맞게 변경
 - OTA 업로드는 Step 08에서 ArduinoOTA를 구현한 뒤 사용
 
 ## 검증 기준
@@ -42,3 +42,11 @@
 ## 생각해 볼 문제
 - 이번 단계에서 이전 단계와 비교해 추가된 동작은?
 - `delay()` 사용 여부가 버튼 입력 응답에 미치는 영향은?
+
+## 브랜치 활용
+- [수업 시작 코드](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-03-led-pwm-start): 직전 단계의 완성 코드와 이번 단계 TODO
+- 현재 브랜치: Step 03 실습 완료 상태
+- 실습 문서: `docs/step-03.md`
+- 플랫폼 설정: `[env]` 공통, `esp32usb` / `esp32ota` 프로필
+- 실제 보드: `esp32doit-devkit-v1`, CPU 240MHz, ESP32 Core 2.0.17
+- `lib_deps`는 MQTT 도입 전까지 추가하지 않음
