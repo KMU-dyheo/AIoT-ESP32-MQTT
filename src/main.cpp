@@ -1,52 +1,50 @@
-/* Step 07 수업 시작: 디바운싱된 버튼 눌림마다 LED Fade를 토글한다.
- TODO: ledEnabled 변수 추가, updateButton()에서 토글, updateBrightness()에 반영
-*/
 #include <Arduino.h>
-
-#define LED_PIN 25
-#define BUTTON_PIN 23
-#define PWM_FREQUENCY 5000
-#define PWM_RESOLUTION 8
-#define PWM_CHANNEL 0
-#define DIM_INTERVAL 30
-#define DEBOUNCE_MS 40
+#define PIN_LED 25
+#define PIN_BUTTON 23
 
 int brightness = 0;
 int fadeAmount = 5;
-unsigned long lastBrightnessMs = 0;
+unsigned long previousTime = 0;
+const unsigned long interval = 20000;
+int buttonState = HIGH;
 int lastReading = HIGH;
-int stableButtonState = HIGH;
-unsigned long lastButtonChangeMs = 0;
-
-void updateButton() {
-  unsigned long now = millis();
-  int reading = digitalRead(BUTTON_PIN);
-  if (reading != lastReading) lastButtonChangeMs = now;
-  if (now - lastButtonChangeMs >= DEBOUNCE_MS && reading != stableButtonState) {
-    stableButtonState = reading;
-    Serial.println(stableButtonState == LOW ? "pressed" : "released");
-  }
-  lastReading = reading;
-}
+unsigned long lastDebounceTime = 0;
+const unsigned long DEBOUNCE_DELAY = 30;
 
 void updateBrightness() {
-  unsigned long now = millis();
-  if (now - lastBrightnessMs < DIM_INTERVAL) return;
-  lastBrightnessMs = now;
   brightness += fadeAmount;
-  if (brightness >= 255) { brightness = 255; fadeAmount = -5; }
-  if (brightness <= 0) { brightness = 0; fadeAmount = 5; }
-  ledcWrite(PWM_CHANNEL, brightness);
+  if (brightness >= 255) {
+    brightness = 255;
+    fadeAmount = -5;
+  } else if (brightness <= 0) {
+    brightness = 0;
+    fadeAmount = 5;
+  }
+  analogWrite(PIN_LED, brightness);
 }
 
 void setup() {
+  pinMode(PIN_LED, OUTPUT);
+  pinMode(PIN_BUTTON, INPUT);
   Serial.begin(115200);
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
-  ledcSetup(PWM_CHANNEL, PWM_FREQUENCY, PWM_RESOLUTION);
-  ledcAttachPin(LED_PIN, PWM_CHANNEL);
+  analogWrite(PIN_LED, brightness);
 }
 
 void loop() {
-  updateButton();
-  updateBrightness();
+  unsigned long currentTime = micros();
+  if (currentTime - previousTime >= interval) {
+    previousTime = currentTime;
+    updateBrightness();
+  }
+  int reading = digitalRead(PIN_BUTTON);
+  if (reading != lastReading) {
+    lastDebounceTime = millis();
+  }
+  if (millis() - lastDebounceTime >= DEBOUNCE_DELAY) {
+    if (reading != buttonState) {
+      buttonState = reading;
+      Serial.println(buttonState);
+    }
+  }
+  lastReading = reading;
 }
