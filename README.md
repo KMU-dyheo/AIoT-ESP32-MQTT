@@ -1,18 +1,24 @@
-# Step 02 — 외부 LED GPIO25 제어 (수업 시작)
+# Step 02 — 외부 LED 제어
 
-## 브랜치
-- 수업 시작: `step-02-external-led`
-- 수업 완료: `step-02-external-led-done`
-- 현재 상태: **이전 단계 완성 코드와 이번 단계 TODO**
-- 변경 비교: `git diff step-02-external-led..step-02-external-led-done -- src/main.cpp platformio.ini include/`
+**실습 시작 코드**입니다. `src/main.cpp`의 TODO를 구현하세요.
 
-## 학습 목표 및 검증
-- 상세 과제·배선·검증 기준: [docs/step-02.md](docs/step-02.md)
-- GPIO25 LED(직렬 저항 220~330Ω), GPIO23 버튼은 Step05 이후
-- ESP32 DOIT DevKit V1, 240MHz, USB 업로드: `pio run -e esp32usb`
-- MQTT 통신은 Step09부터만 추가. 로컬 버튼/Fade는 네트워크 장애와 무관하게 실행.
-- GPIO를 설정할 때 `#define` 예제를 사용하며 학생의 C++ 문법 선택은 제한하지 않음.
+## 실습 방법
+1. `git switch step-02-external-led`로 시작 코드를 확인합니다.
+2. [Step 02 실습 안내](docs/step-02.md)의 배선과 구현 항목을 따라 진행합니다.
+3. `pio run -e esp32usb`로 컴파일하고 ESP32에 업로드합니다.
+4. 시리얼 모니터(`115200`)에서 결과를 확인합니다.
+5. GPIO25에 연결된 LED가 점멸하는지 확인.
+6. 완료 코드가 필요하면 `git switch step-02-external-led-done`으로 이동합니다.
 
-## 강의 자료
-- `docs/step-01.md` ~ `docs/step-13.md`, 서브스텝 `docs/step-10-01.md`·`step-10-02.md`
-- `docs/lecture-alignment.md` — 기존 버튼 입력 수업 자료와 MQTT 강의 흐름 대조
+## 코드 비교
+```bash
+git diff step-02-external-led..step-02-external-led-done -- src/main.cpp platformio.ini include/
+```
+
+## 연결
+- Step 01: 내장 LED GPIO2
+- Step 02부터: GPIO25 외부 LED + 220~330Ω 저항
+- Step 05부터: GPIO23 버튼 ↔ GND, `INPUT_PULLUP`
+- MQTT 연결은 Step 09부터, AWS IoT Core는 Step 12부터 사용합니다.
+
+[전체 단계 목록](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/blob/main/README.md)
