@@ -10,6 +10,7 @@ int buttonState = HIGH;
 int lastReading = HIGH;
 unsigned long lastDebounceTime = 0;
 const unsigned long DEBOUNCE_DELAY = 30;
+bool fadeEnabled = true;
 
 void updateBrightness() {
   brightness += fadeAmount;
@@ -34,7 +35,9 @@ void loop() {
   unsigned long currentTime = micros();
   if (currentTime - previousTime >= interval) {
     previousTime = currentTime;
-    updateBrightness();
+    if (fadeEnabled) {
+      updateBrightness();
+    }
   }
   int reading = digitalRead(PIN_BUTTON);
   if (reading != lastReading) {
@@ -44,6 +47,12 @@ void loop() {
     if (reading != buttonState) {
       buttonState = reading;
       Serial.println(buttonState);
+      if (buttonState == LOW) {
+        fadeEnabled = !fadeEnabled;
+        if (!fadeEnabled) {
+          analogWrite(PIN_LED, 0);
+        }
+      }
     }
   }
   lastReading = reading;
