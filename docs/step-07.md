@@ -1,44 +1,50 @@
-# Step 07 실습 — 버튼으로 LED 제어
+# Step 07 — 버튼으로 LED 제어
 
-## 실습 목적
-- 버튼 누름마다 LED Dimming 활성화/비활성화
-- 이전 단계 기능과 새 기능의 차이 이해
+## 실습 목표
+- 버튼 눌림마다 LED Dimming 활성 상태 토글, PWM 및 디바운싱 유지
+- 이전 단계와 달라진 점을 관찰하고 설명
 
-## 준비물
-- ESP32 DevKit, USB 데이터 케이블, PlatformIO
-- LED, 220~330Ω 저항, 버튼, 브레드보드, 점퍼선(해당 단계에서 필요한 부품)
+## 실습 준비
+- ESP32 DevKit, USB 데이터 케이블, PlatformIO/VS Code
+- GPIO18 LED + 저항 + GPIO19 버튼
+- 시작 브랜치: `git switch step-07-button-led`
 
-## 회로 및 환경 구성
-- LED와 버튼 회로 유지
-- 사용 보드의 GPIO 핀 배치 확인
+## 회로 및 설정
+- LED: GPIO18 → 저항 → LED (+), LED (-) → GND; 버튼: GPIO19 ↔ GND
+- LED 모드는 버튼 눌림일 때만 토글, PWM은 계속 갱신
 
-## 실습 진행
-1. `git switch step-07-button-led` 실행
-2. `src/main.cpp`에서 핀 번호와 설정값 확인
-3. `platformio.ini`의 `[env:default]`에서 실제 보드 ID 확인
-4. `[env:esp32usb]`가 `extends = env:default`로 공통 설정을 참조하는지 확인
-5. PlatformIO에서 USB Build 및 Upload 실행
-6. 버튼 누름마다 LED Dimming 활성화/비활성화
-7. 동작 결과 기록 및 이전 단계와 비교
+## 이번 단계에서 변경되는 코드
+- ledEnabled 변수와 버튼 눌림 이벤트 토글 추가
+- 전체 코드: `src/main.cpp`
+- 변경 결과를 이전 브랜치와 비교: `git diff step-06-button-nonblocking..step-07-button-led -- src/main.cpp`
 
-## platformio.ini 설명
-- `[env:default]`: `platform`, `board`, `framework`, `monitor_speed`, 공통 `lib_deps` 설정
-- `[env:esp32usb]`: USB 업로드, `upload_protocol = esptool`
-- `[env:esp32ota]`: 무선 업로드, `upload_protocol = espota`
-- `extends = env:default`: 두 프로필의 공통 설정 상속
-- Step 01~07은 USB 업로드 사용, Step 08부터 OTA 사용 가능
-- 실제 보드에 맞춰 `board` 수정, OTA 시 `upload_port`를 실제 ESP32 IP로 수정
+## PlatformIO 설정
+- `platformio.ini`에서 `[env:default]`에 공통 설정(`platform`, `board`, `framework`, `monitor_speed`, `lib_deps`) 배치
+- `[env:esp32usb]`와 `[env:esp32ota]`는 `extends = env:default`로 상속
+- 기본값 `default_envs = esp32usb`
+- 사용하는 ESP32의 모델에 따라 `board = esp32dev` 변경
+- 이 단계는 USB 업로드로 진행, OTA 실습은 Step 08부터
 
-## 확인할 결과
-- 빌드 및 업로드 성공
-- 버튼 누름마다 LED Dimming 활성화/비활성화
-- 기존 기능 유지
+## 실습 순서
+1. 위 브랜치 선택 후 `src/main.cpp` 확인
+2. 회로 구성과 GPIO 점검
+3. `platformio.ini`의 `board` 및 `esp32usb` 선택 확인
+4. Build, Upload 실행
+5. Build, Upload 후 회로 동작 관찰
+6. 버튼 누를 때마다 LED Dimming이 ON/OFF 전환
+7. 코드와 실험 결과 비교 기록
 
-## 주의사항
-- 누르고 있는 동안 반복 토글 방지
-- LED에는 전류 제한 저항 사용
-- ESP32 GPIO에 5V 직접 입력 금지
+## 검증 기준
+- ESP32 빌드·업로드 성공
+- 버튼 누를 때마다 LED Dimming이 ON/OFF 전환
+- 이전 단계에서 배운 GPIO 기능 이해
 
-## 추가 실습
-- 코드의 주기 또는 설정값을 변경하여 동작 비교
-- 이전 단계와 변경된 코드 구간을 찾아 설명
+## 문제 해결
+- USB 업로드 실패: 데이터 케이블, USB 포트, 드라이버, 실제 `board` 설정 확인
+- GPIO 동작 실패: 보드 핀맵, 회로 극성, GND 연결 확인
+- LED 출력 실패: 핀 번호와 회로 상태 확인
+
+## 주의사항 및 추가 실습
+- LED 모드는 버튼 눌림일 때만 토글, PWM은 계속 갱신
+- 사용자 계정, OTA 비밀번호, 개인키 등 비밀 정보는 공개 저장소에 커밋하지 않기
+- 코드의 시간/핀 설정을 변경해 동작 비교
