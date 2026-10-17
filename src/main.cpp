@@ -1,19 +1,23 @@
 #include <Arduino.h>
 #define PIN_LED 25
 
-int brightness = 0;
-int fadeAmount = 1;
-int fadeInterval = 500;
+int t = 0, count = 0;
+unsigned long sum = 0;
 
 void setup() {
   pinMode(PIN_LED, OUTPUT);
+  Serial.begin(115200);
 }
 
 void loop() {
-  analogWrite(PIN_LED, brightness);
-  brightness = brightness + fadeAmount;
-  if (brightness <= 0 || brightness >= 250) {
-    fadeAmount = -fadeAmount;
+  int now = micros();
+  sum += (now - t);
+  t = now;
+  count += 1;
+  if (count > 100) {
+    Serial.print("Time Diff:");
+    Serial.println(sum / (float)count);
+    count = 0;
+    sum = 0;
   }
-  delayMicroseconds(fadeInterval);
 }
