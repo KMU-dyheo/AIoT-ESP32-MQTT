@@ -26,7 +26,7 @@ PlatformIO + Arduino Framework 기반 ESP32 교육 저장소.
 | 10 | [`step-10-mqtt-publish`](../../tree/step-10-mqtt-publish) | [`step-10-mqtt-publish-done`](../../tree/step-10-mqtt-publish-done) | 버튼/LED 메시지 발행 | [실습 문서](docs/step-10.md) |
 | 11 | [`step-11-mqtt-control`](../../tree/step-11-mqtt-control) | [`step-11-mqtt-control-done`](../../tree/step-11-mqtt-control-done) | MQTT LED 제어 | [실습 문서](docs/step-11.md) |
 | 12 | [`step-12-aws-iot-connect`](../../tree/step-12-aws-iot-connect) | [`step-12-aws-iot-connect-done`](../../tree/step-12-aws-iot-connect-done) | AWS IoT Core 인증서 연결 | [실습 문서](docs/step-12.md) |
-| 13 | [`step-13-aws-iot-control`](../../tree/step-13-aws-iot-control) | [`step-13-aws-iot-control-done`](../../tree/step-13-aws-iot-control-done) | AWS IoT 원격 제어 | [실습 문서](docs/step-13.md) |
+| 13 | [`step-13-aws-iot-control`](../../tree/step-13-aws-iot-control) | [`step-13-aws-iot-control-done`](../../tree/step-13-aws-iot-control-done) | AWS IoT 원격 제어·JSON 상태 데이터 | [실습 문서](docs/step-13.md) |
 
 ## 실습 시작 예시
 
@@ -47,7 +47,7 @@ git diff step-01-onboard-led..step-01-onboard-led-done -- src/main.cpp
 - Step 01~07: `setup()` / `loop()`를 직접 사용. GPIO → PWM → `millis()` → 버튼 → 로컬 제어 순서.
 - Step 08: 이전 로컬 기능을 `setupApplication()` / `loopApplication()`으로 옮기고 Wi-Fi/OTA를 도입.
 - Step 09~11: 로컬 Mosquitto 브로커 연결 → 발행 → 원격 LED 제어를 각각 도입.
-- Step 12~13: AWS IoT Core X.509 TLS 연결 → AWS 원격 제어.
+- Step 12~13: AWS IoT Core X.509 TLS 연결(기존 ON/OFF 제어 보존) → ArduinoJson을 이용한 JSON 명령·상태 데이터 확장.
 - **각 시작 브랜치에는 이번 단계 완성 기능을 미리 넣지 않음**. 다음 단계의 라이브러리와 개인 설정도 조기에 추가하지 않음.
 - Wi-Fi/MQTT/AWS가 동작하지 않아도 로컬 LED와 버튼 처리는 지속할 수 있도록 분리.
 - `docs/`에는 미래 단계의 자료가 미리 포함되어도 소스는 현재 단계 범위를 넘지 않음.
