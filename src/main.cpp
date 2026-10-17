@@ -1,3 +1,6 @@
+/* Step 10-02 시작: 기존 버튼 pressed/released 발행 유지
+ TODO: LED Fade on/off 변경 상태를 led/state에 retain Publish 추가
+*/
 #include <Arduino.h>
 #include <WiFi.h>
 #include <ArduinoOTA.h>
@@ -29,6 +32,8 @@ unsigned long lastWifiAttempt = 0;
 bool otaStarted = false;
 ESP32MQTTClient mqttClient;
 bool mqttStarted = false;
+bool buttonStatePending = false;
+const char *pendingButtonPayload = "released";
 
 void setupApplication();
 void loopApplication();
@@ -46,6 +51,12 @@ esp_err_t handleMQTT(esp_mqtt_event_handle_t event) {
 void serviceMqtt() {
   if (WiFi.status() != WL_CONNECTED) return;
   if (!mqttStarted) mqttStarted = mqttClient.loopStart();
+  if (!mqttClient.isConnected()) return;
+  if (buttonStatePending) {
+    if (mqttClient.publish(MQTT_BUTTON_TOPIC, pendingButtonPayload, 0, false)) {
+      buttonStatePending = false;
+    }
+  }
 }
 
 void connectWifi() {
@@ -97,6 +108,8 @@ void updateButton() {
   if (now - lastButtonChangeMs >= DEBOUNCE_MS && reading != stableButtonState) {
     stableButtonState = reading;
     Serial.println(stableButtonState == LOW ? "pressed" : "released");
+    pendingButtonPayload = stableButtonState == LOW ? "pressed" : "released";
+    buttonStatePending = true;
     if (stableButtonState == LOW) {
       ledEnabled = !ledEnabled;
       Serial.println(ledEnabled ? "LED on" : "LED off");
