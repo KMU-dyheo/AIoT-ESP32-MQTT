@@ -11,7 +11,7 @@
 
 ## 핵심 개념
 - `setupApplication()` / `loopApplication()`에서 로컬 기능 유지
-- `WiFiClientSecure`로 TLS 연결
+- `ESP32MQTTClient`의 `setCaCert()` / `setClientCert()` / `setKey()`로 TLS 연결
 - NTP 시간 동기화 후 서버 인증서 검증
 - MQTT subscribe/publish와 LED 명령 콜백
 - AWS IoT Core의 인증서 활성화 및 IoT 정책 권한 필요
@@ -29,7 +29,7 @@
 ## PlatformIO 설정
 - `[env]`: 공통 `platform`, `board`, `framework`, `monitor_speed`, `lib_deps`
 - `lib_deps = cyijun/ESP32MQTTClient@^1.1.3`
-- `[env:esp32usb]`와 `[env:esp32ota]`는 공통 `[env]` 자동 상속 상속
+- `[env:esp32usb]`와 `[env:esp32ota]`는 공통 `[env]` 설정 자동 공유
 - OTA의 `upload_port`는 실제 ESP32 IP로 변경
 
 ## 검증 기준
@@ -56,3 +56,7 @@
 - **수업 완료**: [`step-12-aws-iot-connect-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-12-aws-iot-connect-done)
 - 현재 브랜치: **수업 완료 코드**
 - 현재 실습 문서: `docs/step-12.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
+
+## 이전 단계 기능 유지
+- Step 11에서 구현한 `led/set` ON/OFF 구독과 LED 제어를 AWS TLS 전환 후에도 유지
+- Step 12의 신규 학습 목표는 **서버 변경 및 X.509 인증서 기반 연결**
