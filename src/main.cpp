@@ -1,7 +1,4 @@
-/* Step 09 수업 시작: MQTT 브로커 연결
- TODO: [env] MQTT 라이브러리 등록, mqtt_config.h 구성, 연결 콜백 및 serviceMqtt() 구현
- Wi-Fi/OTA 장애 여부와 무관하게 updateButton() 및 updateBrightness() 실행
-*/
+// TODO: 다음 단계에서 MQTT 브로커 연결 코드를 추가합니다.
 #include <Arduino.h>
 #include <WiFi.h>
 #include <ArduinoOTA.h>
