@@ -1,19 +1,17 @@
-# Step 03 — PWM으로 LED 밝기 조절 (완료 코드)
+# Step 03 — PWM 밝기 제어
 
-## 시작과 완료
-- 수업 시작: `step-03-led-pwm`
-- 수업 완료: `step-03-led-pwm-done`
-- 현재 브랜치: 이번 실습을 구현한 기준 코드
-- 코드 변경 비교: `git diff step-03-led-pwm..step-03-led-pwm-done -- src/main.cpp`
+**완성 코드:** 이번 단계의 실습 결과입니다.
 
-## 실습 핵심
-- GPIO25 외부 LED, 220~330Ω 직렬 저항
-- PWM 채널과 8비트 해상도 및 delay를 통한 밝기 증가/감소
-- LED 밝기를 0~255 범위로 변화시키며 시리얼/육안으로 확인
-- `pio run -e esp32usb`로 빌드
-- MQTT 라이브러리는 이 단계에 포함되지 않음
+## 실습
+1. `git switch step-03-led-pwm`로 시작합니다.
+2. [Step 03 실습 안내](docs/step-03.md)를 참고해 회로와 코드를 작성합니다.
+3. `pio run -e esp32usb`로 빌드한 뒤 보드에 업로드합니다.
+4. PWM으로 LED 밝기가 변화하는지 확인합니다.
+5. 결과를 `git diff step-03-led-pwm..step-03-led-pwm-done -- src/main.cpp`로 비교합니다.
 
-## 실습 자료
-- [현재 단계 강의](docs/step-03.md)
-- [전체 강의노트–실습 연결](docs/lecture-alignment.md)
-- `docs/`에는 단계별 전체 문서가 포함될 수 있지만 `src/`는 현재 단계까지만 구현
+## 준비물
+- ESP32 DOIT DevKit V1, USB 케이블
+- GPIO25 LED, 220~330Ω 저항, 브레드보드
+- Step 05부터는 GPIO23 버튼을 추가합니다.
+
+[전체 실습 목록](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/blob/main/README.md)
