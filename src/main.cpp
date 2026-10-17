@@ -3,7 +3,7 @@
 
 int brightness = 0;
 int fadeAmount = 1;
-int fadeInterval = 1;
+int fadeInterval = 500;
 
 void setup() {
   pinMode(PIN_LED, OUTPUT);
@@ -15,5 +15,5 @@ void loop() {
   if (brightness <= 0 || brightness >= 250) {
     fadeAmount = -fadeAmount;
   }
-  delay(fadeInterval);
+  delayMicroseconds(fadeInterval);
 }
