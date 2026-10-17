@@ -1,9 +1,12 @@
-# Step 08-02 — setup / loop 애플리케이션 분리
+# Step 08-03 — setup / loop Wi-Fi 코드 준비
 
-완성 코드
+시작 코드
 
-- 기존 `setup()`의 코드를 전부 `setupApplication()`으로 옮깁니다.
-- 기존 `loop()`의 코드를 전부 `loopApplication()`으로 옮깁니다.
-- `setup()`과 `loop()`는 앱 함수를 호출합니다.
-- 이 단계에서는 Wi-Fi 연결 동작을 추가하지 않습니다.
-- `pio run -e esp32usb`
+## 실행 구조
+- `setupApplication()` / `loopApplication()`: 기존 버튼 및 LED 코드
+- `setupWiFi()` / `handleWiFi()`: Wi-Fi 처리를 추가할 위치
+- 이 단계는 Wi-Fi 호출 위치 준비까지만 실습하며 실제 접속은 구현하지 않습니다.
+- `setup()`과 `loop()`는 기존 앱 코드를 계속 실행해야 합니다.
+
+## 빌드
+`pio run -e esp32usb`
