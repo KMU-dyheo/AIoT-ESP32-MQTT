@@ -1,20 +1,19 @@
 #include <Arduino.h>
-#define LED_PIN 25
-#define PWM_FREQUENCY 5000
-#define PWM_RESOLUTION 8
-#define PWM_CHANNEL 0
+#define PIN_LED 25
+
+int brightness = 0;
+int fadeAmount = 1;
+int fadeInterval = 500;
 
 void setup() {
-  ledcSetup(PWM_CHANNEL, PWM_FREQUENCY, PWM_RESOLUTION);
-  ledcAttachPin(LED_PIN, PWM_CHANNEL);
+  pinMode(PIN_LED, OUTPUT);
 }
+
 void loop() {
-  for (int brightness = 0; brightness <= 255; brightness += 5) {
-    ledcWrite(PWM_CHANNEL, brightness);
-    delay(30);
+  analogWrite(PIN_LED, brightness);
+  brightness = brightness + fadeAmount;
+  if (brightness <= 0 || brightness >= 250) {
+    fadeAmount = -fadeAmount;
   }
-  for (int brightness = 255; brightness >= 0; brightness -= 5) {
-    ledcWrite(PWM_CHANNEL, brightness);
-    delay(30);
-  }
+  delayMicroseconds(fadeInterval);
 }
