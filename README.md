@@ -1,4 +1,4 @@
-# Step 08 — Wi-Fi 및 OTA (완성 코드)
+# Step 08 — Wi-Fi 및 OTA (수업 완료)
 
 ## 실습 목적
 - 로컬 LED/버튼 동작과 네트워크 기능 분리
@@ -20,7 +20,7 @@
 - 기업망은 인증서 검증 정책과 EAP 방식에 따라 추가 설정이 필요할 수 있음
 
 ## 학생 수행 과제
-- [ ] `git switch step-08-wifi` 실행
+- [ ] `git switch step-08-wifi-done` 실행
 - [ ] `include/wifi_config.example.h`를 `include/wifi_config.h`로 복사
 - [ ] SSID, 비밀번호, OTA 호스트 이름과 비밀번호 설정
 - [ ] 개인용 Wi-Fi에서는 `WIFI_ENTERPRISE 0` 설정
@@ -51,9 +51,15 @@
 - OTA 업로드 시 PC와 ESP32 사이 네트워크 경로 및 방화벽 확인
 
 ## 브랜치 사용
-- [수업 시작 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-08-wifi-start): 이전 단계 완성 코드와 이번 과제 TODO
+- [수업 시작 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-08-wifi): 이전 단계 완성 코드와 이번 과제 TODO
 - 현재 브랜치: Step 08 수업 종료 완성 코드
 - 실습 안내: `docs/step-08.md`
 - 보드: `esp32doit-devkit-v1`, MCU ESP32, CPU 240MHz
 - 공통 PlatformIO 설정은 `[env]`에 두고 `esp32usb`, `esp32ota`가 자동 공유
 - 추가 MQTT 라이브러리 미사용
+
+## 강의 진행 브랜치
+- **수업 시작**: [`step-08-wifi`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-08-wifi)
+- **수업 완료**: [`step-08-wifi-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-08-wifi-done)
+- 현재 브랜치: **수업 완료 코드**
+- 현재 실습 문서: `docs/step-08.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
