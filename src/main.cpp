@@ -1,3 +1,4 @@
+// TODO: 강의노트 순서대로 이번 시간 간격 처리 방식만 변경합니다.
 #include <Arduino.h>
 #define PIN_LED 25
 int brightness = 0;
