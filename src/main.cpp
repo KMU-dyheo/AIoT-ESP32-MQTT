@@ -1,5 +1,10 @@
 #include <Arduino.h>
 #include <WiFi.h>
+#include "wifi_config.h"
+#include <esp_wpa2.h>
+#include <esp_wifi.h>
+#include <cstring>
+
 #define PIN_LED 25
 #define PIN_BUTTON 23
 
@@ -12,6 +17,40 @@ int lastReading = HIGH;
 unsigned long lastDebounceTime = 0;
 const unsigned long DEBOUNCE_DELAY = 30;
 bool fadeEnabled = true;
+
+unsigned long lastWifiAttempt = 0;
+
+void setupApplication();
+void loopApplication();
+
+void connectWifi() {
+  if (WiFi.status() == WL_CONNECTED) return;
+  WiFi.disconnect();
+#if WIFI_ENTERPRISE
+  // WPA2-Enterprise (PEAP) configuration is board/core-specific.
+  // ESP32 Arduino Core 2.x: WPA2-Enterprise (PEAP) API.
+  // Configure credentials before WiFi.begin().
+  esp_wifi_sta_wpa2_ent_set_identity((const unsigned char*)EAP_IDENTITY, strlen(EAP_IDENTITY));
+  esp_wifi_sta_wpa2_ent_set_username((const unsigned char*)EAP_USERNAME, strlen(EAP_USERNAME));
+  esp_wifi_sta_wpa2_ent_set_password((const unsigned char*)EAP_PASSWORD, strlen(EAP_PASSWORD));
+  esp_wifi_sta_wpa2_ent_enable();
+  WiFi.begin(WIFI_SSID);
+#else
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+#endif
+  lastWifiAttempt = millis();
+}
+void setup() {
+  setupApplication();
+  WiFi.mode(WIFI_STA);
+  connectWifi();
+}
+void loop() {
+  loopApplication();
+  if (WiFi.status() != WL_CONNECTED && millis() - lastWifiAttempt >= WIFI_RETRY_MS) {
+    connectWifi();
+  }
+}
 
 void updateBrightness() {
   brightness += fadeAmount;
@@ -61,22 +100,4 @@ void loopApplication() {
     }
   }
   updateButton();
-}
-
-void setupWiFi() {
-  // Wi-Fi 연결 코드는 다음 실습에서 작성
-}
-
-void handleWiFi() {
-  // Wi-Fi 상태 처리 코드는 다음 실습에서 작성
-}
-
-void setup() {
-  setupApplication();
-  setupWiFi();
-}
-
-void loop() {
-  loopApplication();
-  handleWiFi();
 }
