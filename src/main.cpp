@@ -6,8 +6,8 @@ int brightness = 0;
 int fadeAmount = 5;
 unsigned long previousTime = 0;
 const unsigned long interval = 20000;
-int buttonState = HIGH;
-int lastReading = HIGH;
+int buttonState = LOW;
+int lastReading = LOW;
 unsigned long lastDebounceTime = 0;
 const unsigned long DEBOUNCE_DELAY = 30;
 bool fadeEnabled = true;
@@ -47,7 +47,7 @@ void loop() {
     if (reading != buttonState) {
       buttonState = reading;
       Serial.println(buttonState);
-      if (buttonState == LOW) {
+      if (buttonState == HIGH) {
         fadeEnabled = !fadeEnabled;
         if (!fadeEnabled) {
           analogWrite(PIN_LED, 0);

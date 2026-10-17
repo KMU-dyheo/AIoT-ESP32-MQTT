@@ -1,6 +1,6 @@
 # Step 07-02 — 외부 Pull-down
 
-시작 코드
+완성 코드
 
 ## 회로
 - GPIO23 버튼과 외부 10kΩ Pull-down 저항, 눌림 HIGH
