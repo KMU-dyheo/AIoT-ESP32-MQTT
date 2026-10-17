@@ -1,8 +1,8 @@
-# Step 01 — 내장 LED 점멸
+# Step 01-01 — LED 출력 핀 설정 (시작 코드)
 
-시작 코드
+`src/main.cpp`에서 `LED` 핀 정의와 `setup()`의 `pinMode()`를 직접 구현하세요.
 
-- Serial 출력 후 LED 출력 GPIO를 설정하고 점멸시키세요.
-- `setup()`와 `loop()`에서 동작을 확인합니다.
-- 빌드: `pio run -e esp32usb`
-- [전체 단계](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/blob/main/README.md)
+- [실습 안내](docs/step-01-01.md)
+- 빌드: `pio run -e esp32dev_usb`
+- 완료 코드: `step-01-01-led-output-done`
+- 다음 실습: `step-01-02-led-blink`
