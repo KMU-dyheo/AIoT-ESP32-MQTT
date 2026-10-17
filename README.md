@@ -1,6 +1,6 @@
 # Step 07-04 — 내부 Pull-up
 
-시작 코드
+완성 코드
 
 - 버튼을 GPIO23 ↔ GND 사이에 연결합니다.
 - 내부 `INPUT_PULLUP` 사용, 누르면 LOW
