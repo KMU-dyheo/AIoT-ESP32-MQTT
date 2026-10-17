@@ -44,14 +44,14 @@ void updateButton() {
   lastReading = reading;
 }
 
-void setup() {
+void setupApplication() {
   pinMode(PIN_LED, OUTPUT);
   pinMode(PIN_BUTTON, INPUT_PULLUP);
   Serial.begin(115200);
   analogWrite(PIN_LED, brightness);
 }
 
-void loop() {
+void loopApplication() {
   unsigned long currentTime = micros();
   if (currentTime - previousTime >= interval) {
     previousTime = currentTime;
@@ -60,4 +60,12 @@ void loop() {
     }
   }
   updateButton();
+}
+
+void setup() {
+  setupApplication();
+}
+
+void loop() {
+  loopApplication();
 }

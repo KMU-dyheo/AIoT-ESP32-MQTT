@@ -1,6 +1,6 @@
 # Step 08-02 — setup / loop 애플리케이션 분리
 
-시작 코드
+완성 코드
 
 - 기존 `setup()`의 코드를 전부 `setupApplication()`으로 옮깁니다.
 - 기존 `loop()`의 코드를 전부 `loopApplication()`으로 옮깁니다.
