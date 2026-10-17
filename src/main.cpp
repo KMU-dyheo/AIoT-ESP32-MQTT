@@ -8,8 +8,8 @@
 #include <ESP32MQTTClient.h>
 #include "mqtt_config.h"
 
-#define LED_PIN 18
-#define BUTTON_PIN 19
+#define LED_PIN 25
+#define BUTTON_PIN 23
 #define PWM_FREQUENCY 5000
 #define PWM_RESOLUTION 8
 #define PWM_CHANNEL 0
@@ -18,18 +18,20 @@
 #define WIFI_RETRY_MS 10000
 
 int brightness = 0;
-int changeAmount = 5;
-bool ledEnabled = true;
-unsigned long previousMillis = 0;
-unsigned long lastChangeMillis = 0;
+int fadeAmount = 5;
+unsigned long lastBrightnessMs = 0;
 int lastReading = HIGH;
 int stableButtonState = HIGH;
+bool ledEnabled = true;
+unsigned long lastButtonChangeMs = 0;
+
 unsigned long lastWifiAttempt = 0;
 bool otaStarted = false;
-bool buttonEventPending = false;
-bool ledStatePending = true;
 ESP32MQTTClient mqttClient;
 bool mqttStarted = false;
+bool buttonStatePending = false;
+const char *pendingButtonPayload = "released";
+bool ledStatePending = true;
 
 void setupApplication();
 void loopApplication();
@@ -37,6 +39,7 @@ void loopApplication();
 void onMqttConnect(esp_mqtt_client_handle_t client) {
   if (!mqttClient.isMyTurn(client)) return;
   Serial.println("MQTT connected");
+  ledStatePending = true;
 }
 
 esp_err_t handleMQTT(esp_mqtt_event_handle_t event) {
@@ -46,15 +49,20 @@ esp_err_t handleMQTT(esp_mqtt_event_handle_t event) {
 
 void serviceMqtt() {
   if (WiFi.status() != WL_CONNECTED) return;
-  if (!mqttStarted) {
-    mqttStarted = mqttClient.loopStart();
+  if (!mqttStarted) mqttStarted = mqttClient.loopStart();
+  if (!mqttClient.isConnected()) return;
+  if (buttonStatePending) {
+    if (mqttClient.publish(MQTT_BUTTON_TOPIC, pendingButtonPayload, 0, false)) {
+      buttonStatePending = false;
+    }
   }
-  if (mqttClient.isConnected()) {
-    if (buttonEventPending && mqttClient.publish(MQTT_BUTTON_TOPIC, "PRESSED", 0, false)) buttonEventPending = false;
-    if (ledStatePending && mqttClient.publish(MQTT_LED_STATE_TOPIC, ledEnabled ? "ON" : "OFF", 0, true)) ledStatePending = false;
+  if (ledStatePending) {
+    if (mqttClient.publish(MQTT_LED_STATE_TOPIC, ledEnabled ? "on" : "off", 0, true)) {
+      ledStatePending = false;
+    }
   }
 }
- 
+
 void connectWifi() {
   if (WiFi.status() == WL_CONNECTED) return;
   WiFi.disconnect();
@@ -97,30 +105,41 @@ void loop() {
     if (millis() - lastWifiAttempt >= WIFI_RETRY_MS) connectWifi();
   }
 }
+void updateButton() {
+  unsigned long now = millis();
+  int reading = digitalRead(BUTTON_PIN);
+  if (reading != lastReading) lastButtonChangeMs = now;
+  if (now - lastButtonChangeMs >= DEBOUNCE_MS && reading != stableButtonState) {
+    stableButtonState = reading;
+    Serial.println(stableButtonState == LOW ? "pressed" : "released");
+    pendingButtonPayload = stableButtonState == LOW ? "pressed" : "released";
+    buttonStatePending = true;
+    if (stableButtonState == LOW) {
+      ledEnabled = !ledEnabled;
+      ledStatePending = true;
+      Serial.println(ledEnabled ? "LED on" : "LED off");
+    }
+  }
+  lastReading = reading;
+}
+
+void updateBrightness() {
+  unsigned long now = millis();
+  if (now - lastBrightnessMs < DIM_INTERVAL) return;
+  lastBrightnessMs = now;
+  brightness += fadeAmount;
+  if (brightness >= 255) { brightness = 255; fadeAmount = -5; }
+  if (brightness <= 0) { brightness = 0; fadeAmount = 5; }
+  ledcWrite(PWM_CHANNEL, ledEnabled ? brightness : 0);
+}
+
 void setupApplication() {
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   ledcSetup(PWM_CHANNEL, PWM_FREQUENCY, PWM_RESOLUTION);
   ledcAttachPin(LED_PIN, PWM_CHANNEL);
 }
+
 void loopApplication() {
-  unsigned long now = millis();
-  int reading = digitalRead(BUTTON_PIN);
-  if (reading != lastReading) lastChangeMillis = now;
-  if (now - lastChangeMillis >= DEBOUNCE_MS && reading != stableButtonState) {
-    stableButtonState = reading;
-    if (stableButtonState == LOW) {
-      ledEnabled = !ledEnabled;
-      buttonEventPending = true;
-      ledStatePending = true;
-      Serial.println(ledEnabled ? "LED ENABLED" : "LED DISABLED");
-    }
-  }
-  lastReading = reading;
-  if (now - previousMillis >= DIM_INTERVAL) {
-    previousMillis = now;
-    brightness += changeAmount;
-    if (brightness >= 255) { brightness = 255; changeAmount = -5; }
-    if (brightness <= 0) { brightness = 0; changeAmount = 5; }
-    ledcWrite(PWM_CHANNEL, ledEnabled ? brightness : 0);
-  }
+  updateButton();
+  updateBrightness();
 }
