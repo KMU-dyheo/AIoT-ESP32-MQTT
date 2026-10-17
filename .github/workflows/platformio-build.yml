@@ -15,19 +15,32 @@ jobs:
       fail-fast: false
       matrix:
         branch:
-          - step-01-onboard-led
-          - step-02-external-led
-          - step-03-led-pwm
-          - step-04-led-nonblocking
-          - step-05-button
-          - step-06-button-nonblocking
-          - step-07-button-led
-          - step-08-wifi
-          - step-09-mqtt-connect
-          - step-10-mqtt-publish
-          - step-11-mqtt-control
-          - step-12-aws-iot-connect
-          - step-13-aws-iot-control
+          - step-01-onboard-led-start
+          - step-01-onboard-led-complete
+          - step-02-external-led-start
+          - step-02-external-led-complete
+          - step-03-led-pwm-start
+          - step-03-led-pwm-complete
+          - step-04-led-nonblocking-start
+          - step-04-led-nonblocking-complete
+          - step-05-button-start
+          - step-05-button-complete
+          - step-06-button-nonblocking-start
+          - step-06-button-nonblocking-complete
+          - step-07-button-led-start
+          - step-07-button-led-complete
+          - step-08-wifi-start
+          - step-08-wifi-complete
+          - step-09-mqtt-connect-start
+          - step-09-mqtt-connect-complete
+          - step-10-mqtt-publish-start
+          - step-10-mqtt-publish-complete
+          - step-11-mqtt-control-start
+          - step-11-mqtt-control-complete
+          - step-12-aws-iot-connect-start
+          - step-12-aws-iot-connect-complete
+          - step-13-aws-iot-control-start
+          - step-13-aws-iot-control-complete
     steps:
       - name: Check out step branch
         uses: actions/checkout@v4
