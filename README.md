@@ -1,9 +1,9 @@
-# Wi-Fi 실습 — 01. Wi-Fi 라이브러리 준비
+# Step 08-02 — setup / loop 애플리케이션 분리
 
-완성 코드
+시작 코드
 
-## 실습
-- 먼저 Wi-Fi 라이브러리 사용을 위한 PlatformIO 설정을 확인합니다.
-- `WiFi.h`는 ESP32 Arduino Framework에 포함되어 있어 별도 외부 라이브러리 설치가 필요하지 않습니다.
-- 이번 단계에서 아직 Wi-Fi 접속 명령을 작성하지 않습니다.
+- 기존 `setup()`의 코드를 전부 `setupApplication()`으로 옮깁니다.
+- 기존 `loop()`의 코드를 전부 `loopApplication()`으로 옮깁니다.
+- `setup()`과 `loop()`는 앱 함수를 호출합니다.
+- 이 단계에서는 Wi-Fi 연결 동작을 추가하지 않습니다.
 - `pio run -e esp32usb`
