@@ -11,9 +11,15 @@
 
 ## 실행과 비교
 - `pio run -e esp32usb` 실행
-- [완성 코드 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-11-mqtt-control-complete)와 코드 비교
+- [완성 코드 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-11-mqtt-control-done)와 코드 비교
 - 실습 문서: `docs/step-11.md`
 
 ## PlatformIO
 - `[env]`에 DOIT ESP32 DevKit V1 보드·240MHz·MQTT/JSON 라이브러리 설정
 - `esp32usb` / `esp32ota` 공통 설정 자동 상속
+
+## 강의 진행 브랜치
+- **수업 시작**: [`step-11-mqtt-control`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-11-mqtt-control)
+- **수업 완료**: [`step-11-mqtt-control-done`](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-11-mqtt-control-done)
+- 현재 브랜치: **수업 시작 코드**
+- 현재 실습 문서: `docs/step-11.md`; 강의노트와의 연결은 `docs/lecture-alignment.md` 참고
