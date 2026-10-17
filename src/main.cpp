@@ -1,3 +1,6 @@
+/* Step 10-01 시작: 버튼 디바운싱 변화 pressed/released MQTT Publish 구현
+ TODO: MQTT_BUTTON_TOPIC에 이벤트만 발행, LED 상태 MQTT 발행은 다음 단계에서 구현
+*/
 #include <Arduino.h>
 #include <WiFi.h>
 #include <ArduinoOTA.h>
