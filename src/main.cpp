@@ -26,7 +26,7 @@ void updateBrightness() {
 
 void setup() {
   pinMode(PIN_LED, OUTPUT);
-  pinMode(PIN_BUTTON, INPUT);
+  pinMode(PIN_BUTTON, INPUT_PULLDOWN);
   Serial.begin(115200);
   analogWrite(PIN_LED, brightness);
 }
