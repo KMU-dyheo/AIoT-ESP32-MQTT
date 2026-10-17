@@ -1,3 +1,9 @@
+/* Step 13 시작 코드
+ TODO 1: AWS IoT Core에서 LED 명령 토픽 구독
+ TODO 2: ON/OFF 원격 명령 수신 뒤 LED 상태를 변경
+ TODO 3: 변경 상태를 AWS IoT Core MQTT 토픽으로 재발행
+ 아래는 Step 12 완성 코드이며 AWS LED 명령은 미구현이다.
+*/
 #include <Arduino.h>
 #include <WiFi.h>
 #include <ArduinoOTA.h>
