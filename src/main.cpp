@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #define PIN_LED 25
+#define PIN_BUTTON 23
 
 int brightness = 0;
 int fadeAmount = 5;
@@ -20,6 +21,8 @@ void updateBrightness() {
 
 void setup() {
   pinMode(PIN_LED, OUTPUT);
+  pinMode(PIN_BUTTON, INPUT);
+  Serial.begin(115200);
   analogWrite(PIN_LED, brightness);
 }
 
@@ -29,4 +32,6 @@ void loop() {
     previousTime = currentTime;
     updateBrightness();
   }
+  int buttonState = digitalRead(PIN_BUTTON);
+  Serial.println(buttonState);
 }
