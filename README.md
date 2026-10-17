@@ -1,4 +1,4 @@
-# Step 13 — AWS IoT 원격 LED 제어
+# Step 13 — AWS IoT 원격 LED 제어 (완성 코드)
 
 ## 실습 목적
 - AWS IoT MQTT 테스트 클라이언트에서 LED 명령 ON/OFF 전송 및 상태 확인
@@ -27,9 +27,9 @@
 - [ ] Wi-Fi가 끊겨도 로컬 LED/버튼 동작하는지 확인
 
 ## PlatformIO 설정
-- `[env:default]`: 공통 `platform`, `board`, `framework`, `monitor_speed`, `lib_deps`
-- `lib_deps = knolleary/PubSubClient @ ^2.8`
-- `[env:esp32usb]`와 `[env:esp32ota]`는 `extends = env:default` 상속
+- `[env]`: 공통 `platform`, `board`, `framework`, `monitor_speed`, `lib_deps`
+- `lib_deps = cyijun/ESP32MQTTClient@^1.1.3`
+- `[env:esp32usb]`와 `[env:esp32ota]`는 공통 `[env]` 자동 상속 상속
 - OTA의 `upload_port`는 실제 ESP32 IP로 변경
 
 ## 검증 기준
@@ -41,3 +41,12 @@
 - 인증서, 개인키, 비밀번호를 공개 Git 저장소에 등록하지 않음
 - AWS IoT 정책의 Connect, Publish, Subscribe, Receive 권한 확인
 - 인증서 검증을 위해 네트워크 시간 동기화 필요
+
+## 브랜치 사용
+- [수업 시작 브랜치](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-13-aws-iot-control-start): 이전 단계 완성 코드와 이번 과제 TODO
+- 현재 브랜치: Step 13 수업 종료 완성 코드
+- 실습 안내: `docs/step-13.md`
+- 보드: `esp32doit-devkit-v1`, MCU ESP32, CPU 240MHz
+- 공통 PlatformIO 설정은 `[env]`에 두고 `esp32usb`, `esp32ota`가 자동 공유
+- MQTT/JSON 라이브러리: `cyijun/ESP32MQTTClient@^1.1.3`, `bblanchon/ArduinoJson`
+- MQTT는 백그라운드 `mqttClient.loopStart()` 방식으로 동작
