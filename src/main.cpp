@@ -2,6 +2,7 @@
 #define LED_PIN 18
 #define PWM_FREQUENCY 5000
 #define PWM_RESOLUTION 8
+#define PWM_CHANNEL 0
 #define DIM_INTERVAL 30
 
 int brightness = 0;
@@ -9,7 +10,8 @@ int changeAmount = 5;
 unsigned long previousMillis = 0;
 
 void setup() {
-  ledcAttach(LED_PIN, PWM_FREQUENCY, PWM_RESOLUTION);
+  ledcSetup(PWM_CHANNEL, PWM_FREQUENCY, PWM_RESOLUTION);
+  ledcAttachPin(LED_PIN, PWM_CHANNEL);
 }
 void loop() {
   unsigned long currentMillis = millis();
@@ -24,6 +26,6 @@ void loop() {
       brightness = 0;
       changeAmount = 5;
     }
-    ledcWrite(LED_PIN, brightness);
+    ledcWrite(PWM_CHANNEL, brightness);
   }
 }
