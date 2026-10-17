@@ -1,4 +1,4 @@
-# Step 02 — GPIO25 외부 LED 실습
+# Step 02-01 — 외부 LED 점멸
 
 시작 코드
 
