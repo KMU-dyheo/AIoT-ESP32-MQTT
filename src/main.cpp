@@ -1,3 +1,4 @@
+// TODO: 버튼 입력의 이번 단계 코드를 강의노트에 따라 추가합니다.
 #include <Arduino.h>
 
 #define PIN_LED 25
