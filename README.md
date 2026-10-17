@@ -20,7 +20,7 @@ PlatformIO + Arduino Framework 기반 단계별 ESP32 실습 저장소입니다.
 
 각 브랜치는 이전 단계의 기능을 기반으로 누적 확장합니다. Step 01~07은 `setup()`과 `loop()`를 직접 사용하며, Step 08부터 `setupApplication()`과 `loopApplication()`으로 로컬 기능을 분리합니다.
 
-각 단계의 `README.md`는 해당 브랜치 실습을 설명하고, `docs/step-XX.md`는 단계별 실습 안내서입니다. `platformio.ini`는 `[env:default]` 공통 설정을 `esp32usb`/`esp32ota`가 상속합니다. Step 08 이전에는 USB 업로드를 사용합니다.
+각 단계의 `README.md`는 해당 브랜치 실습을 설명하고, `docs/step-XX.md`는 단계별 실습 안내서입니다. `platformio.ini`는 `[env]` 공통 설정을 `esp32usb`/`esp32ota`가 상속합니다. Step 08 이전에는 USB 업로드를 사용합니다.
 
 ### 시작하기
 
@@ -40,7 +40,7 @@ git switch step-01-onboard-led
 - Step 01~07: `setup()` / `loop()` 직접 구현
 - Step 08~13: `setupApplication()` / `loopApplication()`에 로컬 기능을 분리
 - Step 01~08: 추가 MQTT 라이브러리 없음, Step 09부터 `PubSubClient` 추가
-- `platformio.ini`: `[env:default]`를 두 환경(`esp32usb`, `esp32ota`)이 `extends`로 상속
+- `platformio.ini`: `[env:default]`를 두 환경(`esp32usb`, `esp32ota`)이 공통값을 자동으로 공유
 - ESP32 플랫폼: `espressif32 @ 6.12.0` (Arduino Core 2.0.17), PWM/WPA2-Enterprise 예제도 해당 버전 기준
 - Wi-Fi 비밀번호, MQTT 설정, AWS 인증서/개인키의 실사용 파일은 Git에서 제외
 
@@ -50,3 +50,13 @@ git switch step-01-onboard-led
 - 공개된 예시 설정 헤더를 복사해 컴파일하므로 실제 Wi-Fi 비밀번호나 AWS 개인키를 CI에 업로드하지 않음
 - GitHub Actions에서 `ESP32 Step Build Check`를 선택해 수동 실행 가능
 - 자동 빌드는 컴파일을 확인하는 절차이며 ESP32 보드 실물, Wi-Fi, OTA, Mosquitto, AWS IoT 동작을 보장하지 않음
+
+## 학생 시작 코드와 수업 완성 코드
+
+- 각 Step은 `-start`와 `-complete` 브랜치로 구분
+- `step-XX-...-start`: 이전 단계 완성 코드 + 현재 단계 학생 TODO (컴파일 가능)
+- `step-XX-...-complete`: 해당 단계 실습 완성 결과
+- 기존 `step-XX-...` 브랜치는 이전 자료 링크 호환을 위해 보존
+- 실제 보드 설정: `board = esp32doit-devkit-v1`, `board_build.mcu = esp32`, `board_build.f_cpu = 240000000L`
+- `[env]` 공통 설정은 USB/OTA 환경으로 자동 전파
+- Step 09부터 `cyijun/ESP32MQTTClient@^1.1.3` 및 `bblanchon/ArduinoJson` 추가
