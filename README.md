@@ -1,8 +1,12 @@
-# Step 01-01 — LED 출력 핀 설정 (시작 코드)
+# Step 01-02 — LED 출력 핀 설정
 
-`src/main.cpp`에서 `LED` 핀 정의와 `setup()`의 `pinMode()`를 직접 구현하세요.
+**시작 코드**입니다. LED 핀 번호와 `pinMode()`를 직접 작성하세요.
 
-- [실습 안내](docs/step-01-01.md)
+- [실습 방법](docs/step-01-02.md)
+- 시작: `step-01-02-led-output`
+- 완료: `step-01-02-led-output-done`
 - 빌드: `pio run -e esp32dev_usb`
-- 완료 코드: `step-01-01-led-output-done`
-- 다음 실습: `step-01-02-led-blink`
+
+```bash
+git diff step-01-02-led-output..step-01-02-led-output-done -- src/main.cpp
+```
