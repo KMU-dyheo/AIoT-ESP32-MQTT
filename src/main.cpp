@@ -1,3 +1,4 @@
+// TODO: 이번 슬라이드의 micros() 관찰/비차단 로직을 적용합니다.
 #include <Arduino.h>
 #define PIN_LED 25
 int brightness = 0;
