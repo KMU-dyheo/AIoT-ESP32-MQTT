@@ -1,4 +1,4 @@
-# Step 7 — 버튼으로 LED 제어
+# Step 07 — 버튼 LED 제어 (완성 코드)
 
 ## 실습 목적
 - 버튼 눌림 이벤트와 LED 상태 연결
@@ -23,9 +23,9 @@
 - [ ] USB 업로드 및 시리얼 모니터(115200) 확인
 
 ## PlatformIO 설정 (`platformio.ini`)
-- `[env:default]`: `platform = espressif32`, `board = esp32dev`, `framework = arduino`, `monitor_speed = 115200`
-- `[env:esp32usb]`: `extends = env:default`, `upload_protocol = esptool`
-- `[env:esp32ota]`: `extends = env:default`, `upload_protocol = espota`, `upload_port`는 실제 IP로 변경
+- `[env]`: `platform = espressif32`, `board = esp32doit-devkit-v1`, `framework = arduino`, `monitor_speed = 115200`
+- `[env:esp32usb]`: 공통 `[env]` 자동 상속, `upload_protocol = esptool`
+- `[env:esp32ota]`: 공통 `[env]` 자동 상속, `upload_protocol = espota`, `upload_port`는 실제 IP로 변경
 - 현재는 `default_envs = esp32usb` 사용
 - 외부 라이브러리 필요 시 `env:default`의 `lib_deps`에 추가
 - OTA는 Step 08 이후 사용
@@ -44,3 +44,11 @@
 ## 생각해 볼 문제
 - 디바운싱이 없을 때 어떤 문제가 생기는가?
 - `delay()`를 사용하지 않는 이유는 무엇인가?
+
+## 브랜치 활용
+- [수업 시작 코드](https://github.com/KMU-dyheo/AIoT-ESP32-MQTT/tree/step-07-button-led-start): 직전 단계의 완성 코드와 이번 단계 TODO
+- 현재 브랜치: Step 07 실습 완료 상태
+- 실습 문서: `docs/step-07.md`
+- 플랫폼 설정: `[env]` 공통, `esp32usb` / `esp32ota` 프로필
+- 실제 보드: `esp32doit-devkit-v1`, CPU 240MHz, ESP32 Core 2.0.17
+- `lib_deps`는 MQTT 도입 전까지 추가하지 않음
