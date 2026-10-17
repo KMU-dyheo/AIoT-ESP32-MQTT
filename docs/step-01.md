@@ -1,5 +1,9 @@
 # Step 01 — 내장 LED 점멸
 
+## 시작/완성 코드
+- 시작: `step-01-onboard-led-start` (이전 단계 완성 코드 + TODO)
+- 완성: `step-01-onboard-led-complete` (이번 단계 구현 결과)
+
 ## 실습 목표
 - GPIO2(보드별 상이) 내장 LED에 pinMode/digitalWrite/delay 적용
 - 이전 단계와 달라진 점을 관찰하고 설명
@@ -7,7 +11,7 @@
 ## 실습 준비
 - ESP32 DevKit, USB 데이터 케이블, PlatformIO/VS Code
 - ESP32 내장 사용자 LED
-- 시작 브랜치: `git switch step-01-onboard-led`
+- 시작 브랜치: `git switch step-01-onboard-led-start`
 
 ## 회로 및 설정
 - 내장 사용자 LED GPIO를 보드 핀맵에서 확인
@@ -16,13 +20,13 @@
 ## 이번 단계에서 변경되는 코드
 - setup/loop, delay(1000), #define LED_PIN
 - 전체 코드: `src/main.cpp`
-- 변경 결과를 이전 브랜치와 비교: `git diff main..step-01-onboard-led -- src/main.cpp`
+- 변경 결과를 이전 브랜치와 비교: `git diff step-01-onboard-led-start..step-01-onboard-led-complete -- src/main.cpp`
 
 ## PlatformIO 설정
-- `platformio.ini`에서 `[env:default]`에 공통 설정(`platform`, `board`, `framework`, `monitor_speed`, `lib_deps`) 배치
-- `[env:esp32usb]`와 `[env:esp32ota]`는 `extends = env:default`로 상속
+- `platformio.ini`에서 `[env]`에 공통 설정(`platform`, `board`, `board_build.mcu = esp32`, `board_build.f_cpu = 240000000L`, `framework`, `monitor_speed`; 외부 라이브러리는 필요한 단계에서 `lib_deps`) 배치
+- `[env:esp32usb]`와 `[env:esp32ota]`는 공통 `[env]` 설정을 자동으로 공유
 - 기본값 `default_envs = esp32usb`
-- 사용하는 ESP32의 모델에 따라 `board = esp32dev` 변경
+- 사용하는 ESP32의 모델에 따라 `board = esp32doit-devkit-v1` 변경
 - 이 단계는 USB 업로드로 진행, OTA 실습은 Step 08부터
 
 ## 실습 순서
