@@ -1,13 +1,16 @@
-# Step 01 — ESP32 내장 LED 점멸 (완성 코드)
+# Step 01 — ESP32 내장 LED 점멸
 
-2주차 실습의 LED 점멸 예제입니다.
+**완성 코드:** 2주차 70쪽의 500ms 내장 LED 점멸 예제입니다.
 
-- [전체 Step 01 안내](docs/step-01.md)
-- [LED 출력 설정](docs/step-01-01.md)
-- [LED 점멸 구현](docs/step-01-02.md)
+## 순서
+1. [시리얼 모니터](docs/step-01-01.md): `step-01-01-serial`
+2. [LED 출력 설정](docs/step-01-02.md): `step-01-02-led-output`
+3. [내장 LED 500ms 점멸](docs/step-01-03.md): `step-01-03-led-blink`
+
+- [Step 01 안내](docs/step-01.md)
 - 빌드: `pio run -e esp32dev_usb`
-- 내장 LED가 500ms 간격으로 켜지고 꺼지는지 확인하세요.
 - 시작 브랜치: `step-01-onboard-led`
+- 완성 브랜치: `step-01-onboard-led-done`
 
 ```bash
 git diff step-01-onboard-led..step-01-onboard-led-done -- src/main.cpp
