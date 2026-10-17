@@ -1,14 +1,12 @@
-# Step 01 — ESP32 내장 LED 점멸 (완성 코드)
+# Step 01-03 — 내장 LED 500ms 점멸
 
-2주차 실습의 LED 점멸 예제입니다.
+**완성 코드**입니다. `loop()`에 `delay(500)`과 `digitalWrite()`가 강의 예제 순서대로 구현되어 있습니다.
 
-- [전체 Step 01 안내](docs/step-01.md)
-- [LED 출력 설정](docs/step-01-01.md)
-- [LED 점멸 구현](docs/step-01-02.md)
+- [실습 방법](docs/step-01-03.md)
+- 시작: `step-01-03-led-blink`
+- 완료: `step-01-03-led-blink-done`
 - 빌드: `pio run -e esp32dev_usb`
-- 내장 LED가 500ms 간격으로 켜지고 꺼지는지 확인하세요.
-- 시작 브랜치: `step-01-onboard-led`
 
 ```bash
-git diff step-01-onboard-led..step-01-onboard-led-done -- src/main.cpp
+git diff step-01-03-led-blink..step-01-03-led-blink-done -- src/main.cpp
 ```

@@ -1,41 +1,22 @@
-# Step 01 — ESP32 내장 LED 점멸
+# Step 01 — 시리얼 모니터와 내장 LED
 
-## 학습 목표
-- ESP32 내장 LED에 연결된 GPIO 2를 출력으로 사용합니다.
-- `setup()`에서 LED 출력 핀을 초기화합니다.
-- `loop()`에서 500ms 간격으로 LED를 켜고 끕니다.
+2주차 강의노트의 시리얼 모니터 실습(20~22쪽)과 내장 LED 예제(70쪽)를 순서대로 진행합니다.
 
-## 단계별 실습
-| 순서 | 시작 브랜치 | 완성 브랜치 | 구현할 내용 |
+| 순서 | 실습 | 시작 브랜치 | 완료 브랜치 |
 |---|---|---|---|
-| 01-01 | `step-01-01-led-output` | `step-01-01-led-output-done` | `#define LED 2`, `pinMode(LED, OUTPUT)` |
-| 01-02 | `step-01-02-led-blink` | `step-01-02-led-blink-done` | `delay(500)`, `digitalWrite(LED, HIGH/LOW)` |
+| 01-01 | 시리얼 출력 | `step-01-01-serial` | `step-01-01-serial-done` |
+| 01-02 | LED 출력 핀 설정 | `step-01-02-led-output` | `step-01-02-led-output-done` |
+| 01-03 | 내장 LED 500ms 점멸 | `step-01-03-led-blink` | `step-01-03-led-blink-done` |
 
-전체 단계의 시작 브랜치는 `step-01-onboard-led`, 완성 브랜치는 `step-01-onboard-led-done`입니다.
+시리얼 출력과 내장 LED는 강의노트의 서로 다른 예제입니다. LED 실습에서는 LED 코드로 전환하며, 앞서 배운 시리얼 예제의 반복 출력 코드를 억지로 합치지 않습니다.
 
-## 실습 순서
-1. ESP32 DevKit V1을 USB 케이블로 연결합니다.
-2. `platformio.ini`에서 `board = esp32doit-devkit-v1`을 확인합니다.
-3. 첫 서브스텝에서 출력 핀을 설정합니다.
-4. 다음 서브스텝에서 `loop()`의 LED 점멸 코드를 작성합니다.
-5. `pio run -e esp32dev_usb`로 빌드하고 업로드합니다.
-6. 내장 LED가 약 0.5초마다 켜졌다 꺼지는지 확인합니다.
+## 실습 전 준비
+- ESP32 DOIT DevKit V1을 USB로 연결합니다.
+- `platformio.ini`에서 `board = esp32doit-devkit-v1`, `default_envs = esp32dev_usb`을 확인합니다.
+- 빌드: `pio run -e esp32dev_usb`; 모니터: `pio device monitor -b 115200`.
 
-## 학습한 코드
-```cpp
-#include <Arduino.h>
-#define LED 2
-
-void setup() {
-    pinMode(LED, OUTPUT);
-}
-
-void loop() {
-    delay(500);
-    digitalWrite(LED, HIGH);
-    delay(500);
-    digitalWrite(LED, LOW);
-}
-```
-
-> 보드에 따라 내장 LED의 위치나 연결 여부가 다를 수 있습니다.
+## 완료 코드
+- `step-01-onboard-led`: LED 실습 시작 코드
+- `step-01-onboard-led-done`: 70쪽의 내장 LED 예제 완료 코드
+- LED GPIO 번호는 `#define LED 2`입니다.
+- `setup()`, `loop()`만 사용합니다. Wi-Fi/OTA와 애플리케이션 분리 함수는 사용하지 않습니다.
